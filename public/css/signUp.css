@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 body {
-    font-family: "Roboto";
+    font-family: "Roboto", sans-serif;
     font-size: 14px;
     background-size: 200% 100% !important;
     animation: move 10s ease infinite;
