@@ -4,6 +4,9 @@ const Hapi = require('@hapi/hapi');
 const FS = require('fs');
 const Http2 = require('http2');
 const Path = require('path');
+const Vision = require('@hapi/vision');
+const Handlebars = require('handlebars');
+const Inert = require('@hapi/inert');
 
 const routes = require('./routes');
 
@@ -23,7 +26,23 @@ const init = async () => {
         port: 3000,
         host: 'localhost',
         tls: true,
-        listener
+        listener,
+        routes: {
+            files: {
+                relativeTo: Path.join(__dirname, 'public')
+            }
+        }
+    });
+
+    // Register plugins
+    await server.register(Vision);
+    await server.register(Inert);
+
+    // Set views engine
+    server.views({
+        engines: { html: Handlebars },
+        relativeTo: __dirname,
+        path: 'views'
     });
 
     server.route(routes);

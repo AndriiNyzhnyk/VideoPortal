@@ -1,3 +1,4 @@
 const common = require('./common');
+const signUp = require('./signUp');
 
-module.exports = [...common];
+module.exports = [...signUp, ...common];
