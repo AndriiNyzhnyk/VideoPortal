@@ -5,6 +5,8 @@ const FS = require('fs');
 const Http2 = require('http2');
 const Path = require('path');
 
+const routes = require('./routes');
+
 // read certificate and private key
 const serverOptions = {
     key: FS.readFileSync(Path.resolve(__dirname, 'certs/myKey.key')),
@@ -24,14 +26,7 @@ const init = async () => {
         listener
     });
 
-    server.route({
-        method: 'GET',
-        path:'/',
-        handler: (request, h) => {
-
-            return 'Hello World!';
-        }
-    });
+    server.route(routes);
 
     await server.start();
     console.log('Server running on %s', server.info.uri);
