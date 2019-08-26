@@ -8,7 +8,7 @@ const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
 
-const routes = require('./routes');
+const routes = require('./api/router');
 
 // read certificate and private key
 const serverOptions = {
@@ -52,7 +52,6 @@ const init = async () => {
 };
 
 process.on('unhandledRejection', (err) => {
-
     console.log(err);
     process.exit(1);
 });

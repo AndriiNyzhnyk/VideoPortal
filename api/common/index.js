@@ -1,8 +1,10 @@
+'use strict';
+
 module.exports = [
     {
         method: 'GET',
         path: '/',
-        handler: (request, h) => {
+        handler: (req, h) => {
             return 'Hello World!';
         }
     },
