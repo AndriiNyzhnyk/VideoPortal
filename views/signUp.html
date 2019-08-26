@@ -13,11 +13,12 @@
             <h1 class="user__title">Sign Up</h1>
         </header>
 
-        <form class="form" autocomplete="off">
+        <form class="form" id="form" autocomplete="off" action="" method="">
             <div class="form__group">
                 <input
                     type="text"
                     placeholder="Username"
+                    name="userName"
                     class="form__input"
                     required="required"
                     autocomplete="off"
@@ -29,6 +30,7 @@
                 <input
                     type="email"
                     placeholder="Email"
+                    name="email"
                     class="form__input"
                     required="required"
                     autocomplete="off"
@@ -40,6 +42,7 @@
                 <input
                     type="password"
                     placeholder="Password"
+                    name="password"
                     class="form__input"
                     required="required"
                     autocomplete="off"
@@ -51,6 +54,7 @@
                 <input
                     type="password"
                     placeholder="Confirm Password"
+                    name="confirmPassword"
                     class="form__input"
                     required="required"
                     autocomplete="off"
@@ -58,7 +62,8 @@
                 />
             </div>
 
-            <button class="btn" type="button">Register</button>
+<!--            <button id="submit" class="btn" type="button">Register</button>-->
+            <input type="submit" class="btn" value="Register">
         </form>
     </div>
 
