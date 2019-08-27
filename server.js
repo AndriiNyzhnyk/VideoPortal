@@ -7,6 +7,18 @@ const Path = require('path');
 const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
+const Mongoose = require('mongoose');
+
+// Set connection with DB
+Mongoose.connect('mongodb://localhost:27017/video-portal', {
+    useNewUrlParser: true
+});
+
+const DB = Mongoose.connection;
+DB.on('error', console.error.bind(console, 'connection error:'));
+DB.once('open', function() {
+    console.log('We\'re connected to DB')
+});
 
 const routes = require('./api/router');
 

@@ -1,4 +1,5 @@
 'use strict';
+const User = require('../../../models/User');
 
 module.exports = {
     getSignUpPage: async (req, h) => {
@@ -9,12 +10,12 @@ module.exports = {
     },
 
     registration: async (req, h) => {
-        const name = req.payload.userName;
-        const email = req.payload.email;
-        const password = req.payload.password;
+        let user = await User.create({
+            name: req.payload.userName,
+            email: req.payload.email,
+            password: req.payload.password
+        });
 
-        console.log(name, email, password);
-
-        return 'OK';
+        return user;
     }
 };
