@@ -16,11 +16,9 @@ module.exports = [
         options: {
             validate: {
                 payload: {
-                    userName: Joi.string().min(1).max(140),
-                    email: Joi.string().email(),
-                    password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
-                    confirmPassword: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/),
-
+                    userName: Joi.string().min(1).max(140).required(),
+                    email: Joi.string().email({ minDomainSegments: 1 }).required(),
+                    password: Joi.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).required(),
                 }
             }
         }
