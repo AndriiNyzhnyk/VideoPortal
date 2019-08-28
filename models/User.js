@@ -2,14 +2,28 @@ const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
 const user = new Schema({
-    name:  String,
-    email: String,
-    password: String,
+    name:  {
+        type: String,
+        required: true,
+        minlength:3,
+        maxlength:20
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
     active: {
         type: Boolean,
         default: false
     },
-    activateCode: String
+    activateCode: {
+        type: String,
+        default: 'qwerty'
+    }
 });
 
 module.exports = Mongoose.model('User', user);
