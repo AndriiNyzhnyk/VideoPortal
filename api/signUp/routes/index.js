@@ -1,7 +1,7 @@
 'use strict';
 
 const Joi = require('@hapi/joi');
-const controllers = require('../controllers');
+const controllers = require('../controllers/SignUp');
 
 module.exports = [
     {
