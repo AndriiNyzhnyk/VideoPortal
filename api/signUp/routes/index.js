@@ -6,7 +6,7 @@ const controllers = require('../controllers/SignUp');
 module.exports = [
     {
         method: 'GET',
-        path: '/sign-up-form',
+        path: '/sign-up',
         handler: controllers.getSignUpPage
     },
     {
@@ -22,6 +22,11 @@ module.exports = [
                 }
             }
         }
-    }
+    },
+    {
+        method: 'GET',
+        path: '/activate-user/{code}',
+        handler: controllers.activateUser
+    },
 
 ];

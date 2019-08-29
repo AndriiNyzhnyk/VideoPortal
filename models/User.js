@@ -5,8 +5,8 @@ const user = new Schema({
     name:  {
         type: String,
         required: true,
-        minlength:3,
-        maxlength:20
+        minlength: 3,
+        maxlength: 20
     },
     email: {
         type: String,
@@ -19,10 +19,6 @@ const user = new Schema({
     active: {
         type: Boolean,
         default: false
-    },
-    activateCode: {
-        type: String,
-        default: 'qwerty'
     }
 });
 
