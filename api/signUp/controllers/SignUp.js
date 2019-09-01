@@ -2,6 +2,7 @@
 
 const User = require('../../../models/User');
 const ActivateUser = require('../../../models/ActivateUsers');
+const Service = require('../services/signUp');
 
 const Crypto = require('crypto');
 
@@ -28,7 +29,10 @@ const self = module.exports = {
                 activateCode
             });
 
-            return await self.generateLinkForActivateUser(activateCode);
+            const link = await self.generateLinkForActivateUser(activateCode);
+            const data = await Service.sendEmail(link);
+
+            return data;
 
         } catch (e) {
             console.log(e);

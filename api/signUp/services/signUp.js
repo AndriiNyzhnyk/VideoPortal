@@ -2,10 +2,14 @@
 
 const NodeMailer = require('nodemailer');
 const credetials = require('../../../credentials').email;
+const emailTemplate = require('./emailTemplate');
 
-module.exports = {
-    sendEmail: async (text = 'Hello') => {
+
+const self = module.exports = {
+    sendEmail: async (link) => {
         try {
+            const html = await emailTemplate.init({'link': link});
+
             const transporter = NodeMailer.createTransport({
                 service: 'gmail',
                 auth: {
@@ -16,13 +20,14 @@ module.exports = {
 
             const mailOptions = {
                 from: credetials.user,
-                to: credetials.pass,
-                subject: 'Sending Email using Node.js',
-                text: text
+                to: credetials.receiver,
+                subject: 'Activate User',
+                html
             };
 
             const result = await transporter.sendMail(mailOptions);
             console.log(result);
+            return result;
         } catch (e) {
             console.log(e);
         }
