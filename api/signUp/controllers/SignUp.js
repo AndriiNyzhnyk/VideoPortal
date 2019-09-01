@@ -30,7 +30,7 @@ const self = module.exports = {
             });
 
             const link = await self.generateLinkForActivateUser(activateCode);
-            const data = await Service.sendEmail(link);
+            const data = await Service.sendEmail(user.email, link);
 
             return data;
 
@@ -54,13 +54,17 @@ const self = module.exports = {
                 activateCode
             });
 
-            await User.findByIdAndUpdate(pendingUser.userId, {
-                active: true
-            });
+            if (pendingUser) {
+                await User.findByIdAndUpdate(pendingUser.userId, {
+                    active: true
+                });
 
-            await ActivateUser.findByIdAndRemove(pendingUser._id.toString());
+                await ActivateUser.findByIdAndRemove(pendingUser._id.toString());
 
-            return 'OK';
+                return 'OK';
+            } else {
+                return 'This user is already active or does not exist';
+            }
 
         } catch (e) {
             console.log(e);

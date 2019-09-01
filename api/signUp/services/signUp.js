@@ -6,7 +6,7 @@ const emailTemplate = require('./emailTemplate');
 
 
 const self = module.exports = {
-    sendEmail: async (link) => {
+    sendEmail: async (email, link) => {
         try {
             const html = await emailTemplate.init({'link': link});
 
@@ -20,7 +20,7 @@ const self = module.exports = {
 
             const mailOptions = {
                 from: credetials.user,
-                to: credetials.receiver,
+                to: email,
                 subject: 'Activate User',
                 html
             };
