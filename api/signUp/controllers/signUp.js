@@ -3,25 +3,24 @@
 const User = require('../../../models/User');
 const ActivateUser = require('../../../models/ActivateUsers');
 const Service = require('../services/signUp');
+const Hashing = require('../services/hashing');
 
 const Crypto = require('crypto');
 
 const self = module.exports = {
     getSignUpPage: async (req, h) => {
-        return h.view('signUp', {
-            title: 'examples/handlebars/templates/basic | hapi ' + req.server.version,
-            message: 'Hello Handlebars!'
-        });
+        return h.view('signUp', {});
     },
 
     registration: async (req, h) => {
         try {
             const activateCode = Crypto.randomBytes(20).toString('hex');
+            const pass = await Hashing.hashPassword(req.payload.password);
 
             let user = await User.create({
                 name: req.payload.userName,
                 email: req.payload.email,
-                password: req.payload.password,
+                password: pass,
             });
 
             await ActivateUser.create({
