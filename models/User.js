@@ -19,6 +19,14 @@ const user = new Schema({
     active: {
         type: Boolean,
         default: false
+    },
+    registrationDate: {
+        type: Date,
+        default: new Date()
+    },
+    lastLogin: {
+        type: String,
+        default: ''
     }
 });
 
