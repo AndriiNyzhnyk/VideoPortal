@@ -3,5 +3,6 @@
 const common = require('../common');
 const signUp = require('../signUp/routes');
 const signIn = require('../signIn/routes');
+const forgotPass = require('../forgotPassword/routes');
 
-module.exports = [...signUp, ...common, ...signIn];
+module.exports = [...signUp, ...common, ...signIn, ...forgotPass];
