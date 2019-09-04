@@ -25,13 +25,13 @@
 
 
         #text {
-            margin: 150px 0 0 0;
+            margin: 100px 0 0 0;
             color: #929292;
         }
 
         #title {
             color: #3EAA79;
-            margin-top: 50px;
+            margin-top: 40px;
         }
 
         #form {
@@ -43,6 +43,23 @@
             height: 50px;
             width: 400px;
             margin: 10px auto;
+        }
+
+        #button {
+            width: 200px;
+            background-color: #00E482;
+            border-radius: 7px;
+            text-align: center;
+            padding: 25px;
+            margin: 15px auto;
+            color: white;
+            font-weight: 600;
+        }
+
+        #button:hover {
+            cursor: pointer;
+            border-bottom: 3px solid #ccc;
+            color: black;
         }
     </style>
 </head>
@@ -59,8 +76,11 @@
 
             <form id="form" action="">
                 <input type="email" required id="input">
+                <div id="button">Reset My Password</div>
             </form>
         </div>
     </div>
+
+    <script src="/scripts/forgotPass.js"></script>
 </body>
 </html>
