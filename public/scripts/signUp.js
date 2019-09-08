@@ -1,18 +1,29 @@
 'use strict';
 
-console.log('Hello World');
-
 const form = document.getElementById('form');
 form.addEventListener('submit', submitForm);
+const confirmPassword = document.getElementById('confirmPassword');
+confirmPassword.addEventListener('input', realTimeValidation);
+confirmPassword.addEventListener('change', realTimeValidation);
+
+function realTimeValidation(e) {
+    const confirmPass = e.target.value;
+    const password = document.getElementById('password');
+
+    if (confirmPass === '' || (confirmPass !== '' && password.value === confirmPass)) {
+        e.target.style.border = '1px solid #FFFFFF';
+    } else {
+        e.target.style.border = '2px solid #E34234';
+    }
+}
 
 function submitForm(e) {
     e.preventDefault();
 
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
-    console.log(password, confirmPassword);
 
-    if (password.value !== '' && (password.value === confirmPassword.value)) {
+    if (password.value !== '' && confirmPassword.value !== '' && (password.value === confirmPassword.value)) {
         sendForm();
     } else {
         // alert('Passwords Don\'t Match');
@@ -36,16 +47,13 @@ function sendForm() {
         .catch((err) => {
             console.error('Request failed', err)
     });
-
-
-    console.log(formData);
 }
 
 /*!
  * Serialize all form data into a query string
  * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
  * @param  {Node}   form The form to serialize
- * @return {String}      The serialized form data
+ * @return {Object}      The object with form data and data into object
  */
 function serialize (form) {
 
@@ -55,7 +63,6 @@ function serialize (form) {
 
     // Loop through each field in the form
     for (let i = 0; i < form.elements.length; ++i) {
-
         let field = form.elements[i];
 
         // Don't serialize fields without a name, submits, buttons, file and reset inputs, and disabled fields
