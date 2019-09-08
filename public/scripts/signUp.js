@@ -3,11 +3,25 @@
 console.log('Hello World');
 
 const form = document.getElementById('form');
-form.addEventListener('submit', sendForm);
+form.addEventListener('submit', submitForm);
 
-function sendForm(e) {
+function submitForm(e) {
     e.preventDefault();
 
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    console.log(password, confirmPassword);
+
+    if (password.value !== '' && (password.value === confirmPassword.value)) {
+        sendForm();
+    } else {
+        // alert('Passwords Don\'t Match');
+        confirmPassword.setCustomValidity("Passwords Don't Match");
+        confirmPassword.reportValidity();
+    }
+}
+
+function sendForm() {
     const url = '/registration';
     const formData = serialize(form);
 
@@ -75,6 +89,3 @@ function serialize (form) {
         response
     };
 }
-
-
-
