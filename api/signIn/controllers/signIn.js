@@ -9,4 +9,8 @@ const self = module.exports = {
     signIn: async (req, h) => {
         return h.view('signIn', {});
     },
+
+    testRoutes: async (req, h) => {
+        h.response('Hi');
+    }
 };

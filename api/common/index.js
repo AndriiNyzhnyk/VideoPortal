@@ -4,6 +4,7 @@ module.exports = [
     {
         method: 'GET',
         path: '/',
+        config: { auth: false },
         handler: (req, h) => {
             return 'Hello World!';
         }
@@ -11,6 +12,7 @@ module.exports = [
     {
         method: 'GET',
         path: '/{param*}',
+        config: { auth: false },
         handler: {
             directory: {
                 path: '.',

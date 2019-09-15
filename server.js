@@ -8,6 +8,9 @@ const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
 const Mongoose = require('mongoose');
+const credentials = require('./credentials');
+const serverMethods = require('./serverMethods');
+const func = require('./functions');
 
 // Set connection with DB
 Mongoose.connect('mongodb://localhost:27017/video-portal', {
@@ -46,9 +49,19 @@ const init = async () => {
         }
     });
 
+    server.method(serverMethods);
+
     // Register plugins
+    await server.register(require('hapi-auth-jwt2'));
     await server.register(Vision);
     await server.register(Inert);
+
+    server.auth.strategy('jwt', 'jwt', {
+        key: credentials.jwt2,
+        validate: func.validate,
+        verifyOptions: { algorithms: ['HS256'] }
+    });
+    server.auth.default('jwt');
 
     // Set views engine
     server.views({
