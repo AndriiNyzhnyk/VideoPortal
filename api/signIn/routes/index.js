@@ -10,6 +10,12 @@ module.exports = [
         handler: controllers.signIn
     },
     {
+        method: 'POST',
+        path: '/login',
+        config: { auth: false },
+        handler: controllers.login
+    },
+    {
         method: 'GET',
         path: '/test',
         config: {auth: 'jwt'},

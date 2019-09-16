@@ -18,7 +18,7 @@ function submitForm(e) {
 
 function sendForm(data) {
     const url = '/login';
-    const queryString = `userName=${data.userName}&Password=${data.password}`;
+    const queryString = `userName=${data.userName}&password=${data.password}`;
 
     const options = {
         method: 'post',

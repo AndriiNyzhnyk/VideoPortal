@@ -4,7 +4,7 @@ module.exports = [
     {
         method: 'GET',
         path: '/',
-        config: { auth: false },
+        config: { auth: 'jwt' },
         handler: (req, h) => {
             return 'Hello World!';
         }
