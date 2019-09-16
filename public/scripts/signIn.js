@@ -18,12 +18,13 @@ function submitForm(e) {
 
 function sendForm(data) {
     const url = '/login';
+    const queryString = `userName=${data.userName}&Password=${data.password}`;
 
     const options = {
         method: 'post',
         headers: {
             "Content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-        body: `userName=${data.userName}&Password=${data.password}`
+        body: queryString
     };
 
     fetch(url, options)
