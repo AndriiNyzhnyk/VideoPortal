@@ -30,4 +30,11 @@ module.exports = [
         handler: controllers.signIn,
         options: {auth: 'jwt'}
     },
+    {
+        method: 'GET',
+        path: '/activate-user-page',
+        handler: controllers.getActivateUserPage,
+        options: {auth: false}
+    },
+
 ];

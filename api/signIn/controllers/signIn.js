@@ -20,27 +20,31 @@ const self = module.exports = {
                 $or: [{name: userName}, {email: userName}]
             });
 
-            if (!user) {
+            if (user) {
+                const isValidPassword = await Service.verifyPassword(password, user.password);
+
+                if (!isValidPassword) {
+                    return Boom.badRequest('Wrong user name(email) or password');
+                }
+            } else {
                 return Boom.badRequest('Wrong user name(email) or password');
             }
 
             if (!user.active) {
-                return Boom.badRequest('User is still not verified');
+                return h.redirect('/activate-user-page').temporary();
             }
-
-            const isValidPassword = await Service.verifyPassword(password, user.password);
-
-
-
-
 
         } catch (e) {
             console.log(e);
-            h.response('Internall server errors!');
+            h.response('Internal server errors!');
         }
     },
 
     testRoutes: async (req, h) => {
         h.response('Hi');
+    },
+
+    getActivateUserPage: async (req, h) => {
+        return h.view('activateUserPage', {});
     }
 };

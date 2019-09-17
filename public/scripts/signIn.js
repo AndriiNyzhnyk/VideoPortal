@@ -16,19 +16,24 @@ function submitForm(e) {
     }
 }
 
-function sendForm(data) {
-    const url = '/login';
-    const queryString = `userName=${data.userName}&password=${data.password}`;
+async function sendForm(data) {
+    try {
+        const url = '/login';
+        const queryString = `userName=${data.userName}&password=${data.password}`;
 
-    const options = {
-        method: 'post',
-        headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-        body: queryString
-    };
+        const options = {
+            method: 'post',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            body: queryString
+        };
 
-    fetch(url, options)
-        .catch((err) => {
-            console.error('Request failed', err)
-        });
+        const response = await fetch(url, options);
+
+        if (response.redirected) {
+            window.location.replace(response.url)
+        }
+    } catch (err) {
+        console.error('Request failed', err)
+    }
 }
