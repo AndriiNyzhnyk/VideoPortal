@@ -19,15 +19,20 @@ const self = module.exports = {
             const user = await User.findOne({
                 $or: [{name: userName}, {email: userName}]
             });
-            const isValidPassword = await Service.verifyPassword(password, user.password);
+
+            if (!user) {
+                return Boom.badRequest('Wrong user name(email) or password');
+            }
 
             if (!user.active) {
                 return Boom.badRequest('User is still not verified');
             }
 
-            if (!user || !isValidPassword) {
-                return Boom.badRequest('Wrong user name(email) or password');
-            }
+            const isValidPassword = await Service.verifyPassword(password, user.password);
+
+
+
+
 
         } catch (e) {
             console.log(e);
