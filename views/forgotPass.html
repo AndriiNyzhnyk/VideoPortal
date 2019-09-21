@@ -16,20 +16,20 @@
             background-color: white;
             margin: 0 auto;
             width: 600px;
-            height: 400px;
-            padding: 50px 10px 0 10px;
+            height: 500px;
+            padding: 10px 10px 0 10px;
             text-align: center;
             font-family: SansSerif Arial;
         }
 
         #text {
-            margin: 100px 0 0 0;
+            margin: 40px 0 0 0;
             color: #929292;
         }
 
         #title {
             color: #3EAA79;
-            margin-top: 40px;
+            margin-top: 0px;
         }
 
         #form {
@@ -37,7 +37,7 @@
             padding: 20px;
         }
 
-        #input {
+        #input, #pass, #confirmPass {
             height: 50px;
             width: 400px;
             margin: 10px auto;
@@ -74,6 +74,10 @@
 
             <form id="form" action="">
                 <input type="email" placeholder="Your email" id="input" required>
+
+                <input type="password" placeholder="Enter new password" id="pass" required>
+
+                <input type="password" placeholder="Confirm your password" id="confirmPass" required>
                 <div id="button">Reset My Password</div>
             </form>
         </div>
