@@ -14,7 +14,7 @@
 
         #container-form {
             background-color: white;
-            margin: 50px auto;
+            margin: 0 auto;
             width: 600px;
             height: 400px;
             padding: 10px 10px 0 10px;
@@ -22,9 +22,14 @@
             font-family: SansSerif Arial;
         }
 
+        #text {
+            margin: 40px 0 0 0;
+            color: #929292;
+        }
+
         #title {
             color: #3EAA79;
-            margin-top: 0;
+            margin-top: 0px;
         }
 
         #form {
@@ -32,7 +37,7 @@
             padding: 20px;
         }
 
-        #pass, #confirmPass {
+        #email {
             height: 50px;
             width: 400px;
             margin: 10px auto;
@@ -63,17 +68,18 @@
                 <h1>Forgot Password</h1>
             </div>
 
+            <div id="text">
+                Please Enter your email for reset password!
+            </div>
+
             <form id="form" action="">
-
-                <input type="password" placeholder="Enter new password" id="pass" required>
-
-                <input type="password" placeholder="Confirm your password" id="confirmPass" required>
+                <input type="email" placeholder="Your email" id="email" required>
 
                 <input type="submit" id="submit" value="Reset My Password">
             </form>
         </div>
     </div>
 
-    <script src="/scripts/forgotPass.js"></script>
+    <script src="/scripts/initForgotPass.js"></script>
 </body>
 </html>
