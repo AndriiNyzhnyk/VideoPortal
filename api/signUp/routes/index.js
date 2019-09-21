@@ -7,13 +7,15 @@ module.exports = [
     {
         method: 'GET',
         path: '/sign-up',
-        handler: controllers.getSignUpPage
+        handler: controllers.getSignUpPage,
+        options: { auth: false }
     },
     {
         method: 'POST',
         path: '/registration',
         handler: controllers.registration,
         options: {
+            auth: false,
             validate: {
                 payload:  Joi.object({
                     userName: Joi.string().min(3).max(20).required(),
@@ -26,7 +28,10 @@ module.exports = [
     {
         method: 'GET',
         path: '/activate-user/{code}',
-        handler: controllers.activateUser
+        handler: controllers.activateUser,
+        options: {
+            auth: false
+        }
     },
 
 ];

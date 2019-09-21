@@ -6,7 +6,7 @@ const self = module.exports = [
     {
         method: 'GET',
         path: '/forgot-pass',
-        config: { auth: false },
-        handler: controllers.getPage
+        handler: controllers.getPage,
+        options: { auth: false }
     },
 ];
