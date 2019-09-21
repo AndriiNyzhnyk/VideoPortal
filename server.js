@@ -14,7 +14,8 @@ const func = require('./functions');
 
 // Set connection with DB
 Mongoose.connect('mongodb://localhost:27017/video-portal', {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 });
 
 const DB = Mongoose.connection;

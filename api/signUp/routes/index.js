@@ -15,11 +15,11 @@ module.exports = [
         handler: controllers.registration,
         options: {
             validate: {
-                payload: {
+                payload:  Joi.object({
                     userName: Joi.string().min(3).max(20).required(),
                     email: Joi.string().email({ minDomainSegments: 1 }).required(),
                     password: Joi.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).required(),
-                }
+                })
             }
         }
     },
