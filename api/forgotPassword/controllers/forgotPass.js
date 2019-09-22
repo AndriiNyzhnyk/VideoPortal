@@ -1,7 +1,9 @@
 'use strict';
 
 const Hoek = require('@hapi/hoek');
+const Boom = require('@hapi/boom');
 const User = require('../../../models/User');
+const ForgotPassword = require('../../../models/ForgotPasswords');
 const Service = require('../services/forgotPass');
 
 const self = module.exports = {
@@ -12,14 +14,23 @@ const self = module.exports = {
     forgotPassord: async (req, h) => {
         try {
             const email = req.payload.email;
+            const user = await User.findOne({email});
 
-            const html = await Service.sendEmailToUser(email);
+            if (!user) {
+                return Boom.notFound('This email not found');
+            }
 
+            const {result, verifyCode} = await Service.sendEmailToUser(email);
 
-            console.log(html);
-            return html;
+            let forgotPasswordEntry = await ForgotPassword.create({
+                userId: user._id.toString(),
+                verifyCode,
+            });
+
+            return 'OK';
         } catch (e) {
             console.log(e);
+            h.response('Some Error');
         }
     },
 

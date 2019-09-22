@@ -17,6 +17,7 @@ const self = module.exports = {
             const source = Handlebars.compile(template);
             const html = await self.addDataToTemplate(source, {link});
 
+            // Send Email
             const options = {
                 email,
                 subject: 'Reset Password',
@@ -25,9 +26,8 @@ const self = module.exports = {
             const mailOptions = await func.createMailOptions(options);
             const transporter = await func.getTransporter();
             const result = await transporter.sendMail(mailOptions);
-            console.log(result);
 
-            return html;
+            return {result, verifyCode};
         } catch (e) {
             console.log(e);
         }
