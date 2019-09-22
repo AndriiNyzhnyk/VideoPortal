@@ -1,5 +1,6 @@
 'use strict';
 
+const Joi = require('@hapi/joi');
 const controllers = require('../controllers/forgotPass');
 
 const self = module.exports = [
@@ -13,11 +14,18 @@ const self = module.exports = [
         method: 'POST',
         path: '/forgot-pass',
         handler: controllers.forgotPassord,
-        options: { auth: false }
+        options: {
+            auth: false,
+            validate: {
+                payload:  Joi.object({
+                    email: Joi.string().email({ minDomainSegments: 1 }).required(),
+                })
+            }
+        }
     },
     {
         method: 'GET',
-        path: '/reset-password',
+        path: '/reset-password/{verifyCode}',
         handler: controllers.getResetPasswordPage,
         options: { auth: false }
     },

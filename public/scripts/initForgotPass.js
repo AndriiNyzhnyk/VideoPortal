@@ -18,19 +18,21 @@ async function submitForm(e) {
     }
 }
 
-function sendForm(email) {
-    const url = '/init-forgot-password';
-    const formData = `email=${email}`;
+async function sendForm(email) {
+    try {
+        const url = '/forgot-pass';
+        const formData = `email=${email}`;
 
-    const options = {
-        method: 'post',
-        headers: {
-            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-        body: formData
-    };
+        const options = {
+            method: 'post',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            body: formData
+        };
 
-    fetch(url, options)
-        .catch((err) => {
-            console.error('Request failed', err)
-        });
+        const response = await fetch(url, options);
+
+    } catch (err) {
+        console.error(err);
+    }
 }
