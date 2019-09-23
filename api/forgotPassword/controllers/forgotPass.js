@@ -76,7 +76,6 @@ const self = module.exports = {
             }
 
             return 'The password was successfully updated';
-
         } catch (err) {
             console.log(err);
         }

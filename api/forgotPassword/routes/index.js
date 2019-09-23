@@ -38,6 +38,7 @@ const self = module.exports = [
             validate: {
                 payload: Joi.object({
                     password: Joi.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).required(),
+                    verifyCode: Joi.string().min(10).max(100).required(),
                 })
             }
         }
