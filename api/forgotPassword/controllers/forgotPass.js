@@ -71,7 +71,7 @@ const self = module.exports = {
             });
 
             // Check if operations of update password was successful
-            if (!user) {
+            if (user) {
                 await ForgotPassword.findByIdAndRemove(forgotPasswordEntry._id);
             }
 

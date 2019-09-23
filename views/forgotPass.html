@@ -32,7 +32,7 @@
             padding: 20px;
         }
 
-        #pass, #confirmPass {
+        #password, #confirmPassword {
             height: 50px;
             width: 400px;
             margin: 10px auto;
@@ -64,11 +64,11 @@
             </div>
 
             <form id="form" action="">
-                <input type="hidden" value="{{verifyCode}}">
+                <input type="hidden" value="{{verifyCode}}" id="verifyCode">
 
-                <input type="password" placeholder="Enter new password" id="pass" required>
+                <input type="password" placeholder="Enter new password" id="password" required>
 
-                <input type="password" placeholder="Confirm your password" id="confirmPass" required>
+                <input type="password" placeholder="Confirm your password" id="confirmPassword" required>
 
                 <input type="submit" id="submit" value="Reset My Password">
             </form>

@@ -2,7 +2,7 @@
 
 const form = document.getElementById('form');
 form.addEventListener('submit', submitForm);
-const confirmPassword = document.getElementById('confirmPass');
+const confirmPassword = document.getElementById('confirmPassword');
 confirmPassword.addEventListener('input', realTimeValidation);
 confirmPassword.addEventListener('change', realTimeValidation);
 
@@ -22,11 +22,13 @@ async function submitForm(e) {
         e.preventDefault();
 
         const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPass').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const verifyCode =  document.getElementById('verifyCode').value;
 
         if (password !== '' &&
+            verifyCode !== '' &&
             password === confirmPassword) {
-            await sendForm(password);
+            await sendForm(password, verifyCode);
         } else {
             confirmPassword.setCustomValidity("Invalid input data");
             confirmPassword.reportValidity();
@@ -36,9 +38,9 @@ async function submitForm(e) {
     }
 }
 
-async function sendForm(password) {
-    const url = '/forgot-password';
-    const formData = `password=${password}`;
+async function sendForm(password, verifyCode) {
+    const url = '/reset-password';
+    const formData = `password=${password}&verifyCode=${verifyCode}`;
 
     const options = {
         method: 'post',
