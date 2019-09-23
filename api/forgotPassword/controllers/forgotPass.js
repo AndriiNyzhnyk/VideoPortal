@@ -13,7 +13,7 @@ const self = module.exports = {
 
     forgotPassord: async (req, h) => {
         try {
-            const email = req.payload.email;
+            const email = Hoek.escapeHtml(req.payload.email);
             const user = await User.findOne({email});
 
             if (!user) {
@@ -22,7 +22,7 @@ const self = module.exports = {
 
             const {result, verifyCode} = await Service.sendEmailToUser(email);
 
-            let forgotPasswordEntry = await ForgotPassword.create({
+            const forgotPasswordEntry = await ForgotPassword.create({
                 userId: user._id.toString(),
                 verifyCode,
             });
@@ -35,14 +35,25 @@ const self = module.exports = {
     },
 
     getResetPasswordPage: async (req, h) => {
-        const code = Hoek.escapeHtml(req.params.verifyCode);
+        try {
+            const verifyCode = Hoek.escapeHtml(req.params.verifyCode);
 
-        return h.view('forgotPass', {
-            code
-        });
+            const forgotPasswordEntry = await ForgotPassword.findOne({verifyCode});
+
+            if (!forgotPasswordEntry) {
+                return Boom.badRequest('This link is not valid');
+            }
+
+            return h.view('forgotPass', {
+                verifyCode
+            });
+        } catch (e) {
+            console.log(e);
+        }
     },
 
     resetPassword: async (req, h) => {
+        //await ForgotPassword.findByIdAndRemove();
         return 'test';
     }
 };
