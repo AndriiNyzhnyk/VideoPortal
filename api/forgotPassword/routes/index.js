@@ -33,6 +33,13 @@ const self = module.exports = [
         method: 'POST',
         path: '/reset-password',
         handler: controllers.resetPassword,
-        options: { auth: false }
+        options: {
+            auth: false,
+            validate: {
+                payload: Joi.object({
+                    password: Joi.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).required(),
+                })
+            }
+        }
     }
 ];

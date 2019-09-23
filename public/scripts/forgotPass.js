@@ -18,21 +18,25 @@ function realTimeValidation(e) {
 }
 
 async function submitForm(e) {
-    e.preventDefault();
+    try {
+        e.preventDefault();
 
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPass').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPass').value;
 
-    if (password !== '' &&
-        password === confirmPassword) {
-        await sendForm(password);
-    } else {
-        confirmPassword.setCustomValidity("Invalid input data");
-        confirmPassword.reportValidity();
+        if (password !== '' &&
+            password === confirmPassword) {
+            await sendForm(password);
+        } else {
+            confirmPassword.setCustomValidity("Invalid input data");
+            confirmPassword.reportValidity();
+        }
+    } catch (err) {
+        console.log(err);
     }
 }
 
-function sendForm(password) {
+async function sendForm(password) {
     const url = '/forgot-password';
     const formData = `password=${password}`;
 
@@ -43,8 +47,5 @@ function sendForm(password) {
         body: formData
     };
 
-    fetch(url, options)
-        .catch((err) => {
-            console.error('Request failed', err)
-        });
+    return fetch(url, options);
 }

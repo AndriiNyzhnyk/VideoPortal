@@ -5,6 +5,7 @@ const Boom = require('@hapi/boom');
 const User = require('../../../models/User');
 const ForgotPassword = require('../../../models/ForgotPasswords');
 const Service = require('../services/forgotPass');
+const Hashing = require('../../signUp/services/hashing');
 
 const self = module.exports = {
     getForgotPage: async (req, h) => {
@@ -37,7 +38,6 @@ const self = module.exports = {
     getResetPasswordPage: async (req, h) => {
         try {
             const verifyCode = Hoek.escapeHtml(req.params.verifyCode);
-
             const forgotPasswordEntry = await ForgotPassword.findOne({verifyCode});
 
             if (!forgotPasswordEntry) {
@@ -53,7 +53,32 @@ const self = module.exports = {
     },
 
     resetPassword: async (req, h) => {
-        //await ForgotPassword.findByIdAndRemove();
-        return 'test';
+        try {
+            const password = Hoek.escapeHtml(req.payload.password);
+            const verifyCode = Hoek.escapeHtml(req.payload.verifyCode);
+
+            // Find entry into DB
+            const forgotPasswordEntry = await ForgotPassword.findOne({verifyCode});
+
+            if (!forgotPasswordEntry) {
+                return Boom.badRequest('This link is not valid');
+            }
+
+            const newPassword = await Hashing.hashPassword(password);
+
+            const user = await User.findByIdAndUpdate(forgotPasswordEntry.userId, {
+                password: newPassword
+            });
+
+            // Check if operations of update password was successful
+            if (!user) {
+                await ForgotPassword.findByIdAndRemove(forgotPasswordEntry._id);
+            }
+
+            return 'The password was successfully updated';
+
+        } catch (err) {
+            console.log(err);
+        }
     }
 };
