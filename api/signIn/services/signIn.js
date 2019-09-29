@@ -1,6 +1,7 @@
 'use strict';
 
 const Crypto = require('crypto');
+const User = require('../../../models/User');
 
 const self = module.exports = {
     // Checking the password hash
@@ -12,5 +13,22 @@ const self = module.exports = {
 
             resolve( hash === originalHash);
         });
+    },
+
+    findUser: async (userName) => {
+        const nameOrEmail = Hoek.escapeHtml(userName);
+
+        const user = await User.findOne({
+            $or: [
+                {
+                    name: nameOrEmail
+                },
+                {
+                    email: nameOrEmail
+                }
+            ]
+        });
+
+        return user;
     }
 };

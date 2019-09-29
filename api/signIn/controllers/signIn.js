@@ -1,6 +1,7 @@
 'use strict';
 
 const Crypto = require('crypto');
+const Hoek = require('@hapi/hoek');
 const User = require('../../../models/User');
 const Boom = require('@hapi/boom');
 const JWT = require('jsonwebtoken');
@@ -16,9 +17,7 @@ const self = module.exports = {
     login: async (req, h) => {
         try {
             const { userName, password } = req.payload;
-            const user = await User.findOne({
-                $or: [{name: userName}, {email: userName}]
-            });
+            const user = await Service.findUser(userName);
 
             if (user) {
                 const isValidPassword = await Service.verifyPassword(password, user.password);
@@ -36,12 +35,8 @@ const self = module.exports = {
 
         } catch (e) {
             console.log(e);
-            h.response('Internal server errors!');
+            h.response('Internal server error!');
         }
-    },
-
-    testRoutes: async (req, h) => {
-        h.response('Hi');
     },
 
     getActivateUserPage: async (req, h) => {
