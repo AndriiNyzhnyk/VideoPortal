@@ -7,7 +7,7 @@ module.exports = [
         handler: (req, h) => {
             return 'Hello World!';
         },
-        options: { auth: 'jwt' },
+        options: { auth: false },
     },
     {
         method: 'GET',
