@@ -1,5 +1,6 @@
 'use strict';
 
+const Hoek = require('@hapi/hoek');
 const NodeMailer = require('nodemailer');
 const credetials = require('./credentials').email;
 
@@ -13,6 +14,23 @@ const self = module.exports = {
         } else {
             return { isValid: false };
         }
+    },
+
+    securityParamsFilter: (input, primitive = true) => {
+        return new Promise( (resolve) => {
+            if (primitive) {
+                const result = Hoek.escapeHtml(input);
+                resolve(result);
+            } else {
+                let result = Object.create(null);
+
+                for (let key in input) {
+                    result[key] = Hoek.escapeHtml(input[key]);
+                }
+
+                resolve(result);
+            }
+        })
     },
 
     getTransporter: async (service = 'gmail') => {
