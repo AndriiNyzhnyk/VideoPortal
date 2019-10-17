@@ -1,5 +1,6 @@
 'use strict';
 
+const Hoek = require('@hapi/hoek');
 const Crypto = require('crypto');
 const User = require('../../../models/User');
 

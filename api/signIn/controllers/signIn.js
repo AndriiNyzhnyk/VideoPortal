@@ -5,7 +5,8 @@ const Hoek = require('@hapi/hoek');
 const User = require('../../../models/User');
 const Boom = require('@hapi/boom');
 const JWT = require('jsonwebtoken');
-const Service = require('../services/signIn');
+const Helpers = require('../helpers/signIn');
+const func = require('../../../functions');
 
 const credentialsJwt = require('../../../credentials').jwt;
 
@@ -16,26 +17,53 @@ const self = module.exports = {
 
     login: async (req, h) => {
         try {
-            const { userName, password } = req.payload;
-            const user = await Service.findUser(userName);
+            const {userName, password} = await func.securityParamsFilter(req.payload, false);
+            const user = await Helpers.findUser(userName);
 
-            if (user) {
-                const isValidPassword = await Service.verifyPassword(password, user.password);
+            const {isValid, isActivate} = await self.checkUserCredentials(user, password);
 
-                if (!isValidPassword) {
-                    return Boom.badRequest('Wrong user name(email) or password');
-                }
-            } else {
+            if (!isValid) {
                 return Boom.badRequest('Wrong user name(email) or password');
             }
 
-            if (!user.active) {
+            if (isActivate) {
                 return h.redirect('/activate-user-page').temporary();
             }
+
 
         } catch (e) {
             console.log(e);
             h.response('Internal server error!');
+        }
+    },
+
+    checkUserCredentials: async (user, password) => {
+        // Preparing response object
+        const invalidUser = {
+            isValid: false,
+            isActivate: 'Does not matter'
+        };
+
+        const unactivatedUser = {
+            isValid: true,
+            isActivate: false
+        };
+
+        // Check if user exist
+        if (!user) {
+            return invalidUser;
+        }
+
+        const isValidPassword = await Helpers.verifyPassword(password, user.password);
+
+        // Check if user input valid password
+        if (!isValidPassword) {
+            return invalidUser;
+        }
+
+        // Check if user is activated
+        if (!user.active) {
+            return unactivatedUser;
         }
     },
 
