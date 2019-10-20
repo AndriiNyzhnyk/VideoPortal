@@ -27,6 +27,10 @@ const user = new Schema({
     lastLogin: {
         type: String,
         default: ''
+    },
+    token: {
+        type: String,
+        default: ''
     }
 });
 

@@ -30,7 +30,11 @@ const self = module.exports = {
                 return h.redirect('/activate-user-page').temporary();
             }
 
-            return await Helpers.createCredentials(user);
+            const {accessToken, refreshToken} = await Helpers.createCredentials(user);
+
+            await User.findByIdAndUpdate(user._id, {token: refreshToken});
+
+            return {accessToken, refreshToken};
 
         } catch (e) {
             console.log(e);
