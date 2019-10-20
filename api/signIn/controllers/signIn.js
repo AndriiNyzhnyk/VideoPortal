@@ -26,10 +26,11 @@ const self = module.exports = {
                 return Boom.badRequest('Wrong user name(email) or password');
             }
 
-            if (isActivate) {
+            if (!isActivate) {
                 return h.redirect('/activate-user-page').temporary();
             }
 
+            return await Helpers.createCredentials(user);
 
         } catch (e) {
             console.log(e);
@@ -65,6 +66,11 @@ const self = module.exports = {
         if (!user.active) {
             return unactivatedUser;
         }
+
+        return {
+            isValid: true,
+            isActivate: true
+        };
     },
 
     getActivateUserPage: async (req, h) => {
