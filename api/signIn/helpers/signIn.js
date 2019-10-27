@@ -55,7 +55,7 @@ const self = module.exports = {
                 type: 'access'
             };
 
-            const token = JWT.sign(dataForToken, jsonWebToken.key);
+            const token = JWT.sign(dataForToken, jsonWebToken.key, {expiresIn: '1h'});
 
             resolve(token);
         });
@@ -69,7 +69,7 @@ const self = module.exports = {
                 type: 'refresh'
             };
 
-            const token = JWT.sign(dataForToken, jsonWebToken.key);
+            const token = JWT.sign(dataForToken, jsonWebToken.key, {expiresIn: '72h'});
 
             resolve(token);
         });
