@@ -10,11 +10,11 @@ const func = require('../../../functions');
 
 
 const self = module.exports = {
-    signIn: async (req, h) => {
-        return h.view('signIn', {});
+    adminControlPanel: async (req, h) => {
+        return h.view('adminControlPanel', {});
     },
 
-    login: async (req, h) => {
+    tmp: async (req, h) => {
         try {
             const {userName, password} = await func.securityParamsFilter(req.payload, false);
             const user = await Helpers.findUser(userName);

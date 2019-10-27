@@ -7,13 +7,13 @@ module.exports = [
     {
         method: 'GET',
         path: '/admin',
-        handler: controllers.signIn,
+        handler: controllers.adminControlPanel,
         options: { auth: false }
     },
     {
         method: 'POST',
-        path: '/login',
-        handler: controllers.login,
+        path: '/tmp',
+        handler: controllers.tmp,
         options: {
             auth: false,
             validate: {
@@ -23,11 +23,5 @@ module.exports = [
                 })
             }
         }
-    },
-    {
-        method: 'GET',
-        path: '/activate-user-page',
-        handler: controllers.getActivateUserPage,
-        options: {auth: false}
     },
 ];
