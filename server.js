@@ -64,11 +64,13 @@ const init = async () => {
     });
     server.auth.default('jwt');
 
-    // Set views engine
+    // Set templates engine
     server.views({
-        engines: { html: Handlebars },
+        engines: {
+            hbs: Handlebars
+        },
         relativeTo: __dirname,
-        path: 'views'
+        path: 'templates'
     });
 
     server.route(routes);
