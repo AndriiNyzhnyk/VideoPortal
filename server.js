@@ -70,7 +70,10 @@ const init = async () => {
             hbs: Handlebars
         },
         relativeTo: __dirname,
-        path: 'templates'
+        path: 'templates',
+        layoutPath: './templates/layout',
+        helpersPath: './templates/helpers',
+        partialsPath: './templates/partials'
     });
 
     server.route(routes);
