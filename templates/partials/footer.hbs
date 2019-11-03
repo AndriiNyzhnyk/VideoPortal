@@ -1,0 +1,32 @@
+<footer>
+    <ul>
+        <li>Користувачеві</li>
+        <li><a href="#"><label title="feedback" for="modal-2">Не працює кіно ?</label></a></li>
+        <li><a href="#">Мобільна версія </a></li>
+        <li><a href="#">Контакти</a></li>
+        <li><a href="#">Право власникам</a></li>
+    </ul>
+
+    <div class="share42init"></div>
+
+    <div class="modal" id="modalWindow">
+        <input class="modal-open" id="modal-2" type="checkbox" hidden>
+        <div class="modal-wrap" aria-hidden="true" role="dialog">
+            <label class="modal-overlay" for="modal-2"></label>
+            <div class="modal-dialog">
+                <div class="modal-header">
+                    <h2>Напишіть нам, що пішло не так !</h2>
+                    <label class="btn-close" for="modal-2" aria-hidden="true">x</label>
+                </div>
+                <div class="modal-body">
+                    <form id="feedback" method="">
+                        <input name="name" placeholder="* Вкажіть Ваше ім'я" class="textbox" required />
+                        <input name="email" placeholder="* Вкажіть Ваш Email" class="textbox" type="email" required />
+                        <textarea rows="4" cols="50" name="subject" placeholder="* Введіть ваше повідомлення:" class="message" required></textarea>
+                        <input name="submit" class="btn btn-form" type="submit" value="Надіслати" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -5,7 +5,7 @@ module.exports = [
         method: 'GET',
         path: '/',
         handler: (req, h) => {
-            return 'Hello World!';
+            return h.view('home', {});
         },
         options: { auth: false },
     },
