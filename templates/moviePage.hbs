@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <title>{{nameUa}}</title>
+    <link href="/style/normalize.css" rel="stylesheet">
+    <link href="/style/pageFilm.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+</head>
+<body>
+    <div id="wrapper">
+        {{> search}}
+
+        <div id="content">
+            <div id="backgroundImg"></div>
+
+            {{> menu}}
+
+            <div id="filmName">
+                <h3>{{nameUa}} дивитись українською онлайн</h3>
+                <p>{{nameEn}}</p>
+            </div>
+
+
+            <div id="leftSidebar">
+                <div id="contentLeftSideBar">
+                    <div id="imgFilm">
+                        <img src={{sourseImg}} alt={{nameEn}}>
+                    </div>
+
+                    <div id="downloadFilm">
+                        Скачати фільм
+                    </div>
+
+                    <div id="textInfoLeftSidebar">
+                        <div>
+                            <ul id="infoLeftUl1">
+                                <li class="">Якість</li>
+                                <li class="even">Переклад</li>
+                                <li class="">Гасло</li>
+                                <li class="even">Рік</li>
+                                <li class="">Країна</li>
+                                <li class="even">Жанр</li>
+                                <li class="">Категорія</li>
+                                <li class="even">Режисер</li>
+                                <li class="">Тривалість</li>
+                                <li class="even">Обмеження</li>
+                                <li class="">Прем'єра</li>
+                            </ul>
+
+                            <ul id="infoLeftUl2">
+                                <li class="">{{qualityVideo}}</li>
+                                <li class="even">{{translation}}</li>
+                                <li class="">{{motto}}</li>
+                                <li class="even">{{year}}</li>
+                                <li class="">{{country}}</li>
+                                <li class="even">{{genre}}</li>
+                                <li class="">{{category}}</li>
+                                <li class="even">{{producer}}</li>
+                                <li class="">{{duration}}</li>
+                                <li class="even">{{age}}+</li>
+                                <li class="">{{firstRun}}</li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="rightSidebar">
+                <h4>Скоро на сайті</h4>
+                <div id="contentRightSidebar">
+                    <div id="newFilm1" class="newFilm">
+                        <img src="/img/hmarochos.jpg" alt="">
+                        <div class="textNewFilm"><p>Хмарочос</p></div>
+                    </div>
+
+                    <div id="newFilm2" class="newFilm">
+                        <img src="/img/poxmilla.jpg" alt="">
+                        <div class="textNewFilm"><p>Похмілля у Європі</p></div>
+                    </div>
+
+                    <div id="newFilm3" class="newFilm">
+                        <img src="/img/zachariwaniy.jpg" alt="">
+                        <div class="textNewFilm"><p>Зачарований Принц</p></div>
+                    </div>
+
+                    <div id="newFilm4" class="newFilm">
+                        <img src="/img/monstr.jpg" alt="">
+                        <div class="textNewFilm"><p>Монстри на канкулах 3</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="descriptionFilm">
+                <h3>Про фільм {{nameUa}} {{year}} українською мовою: </h3>
+
+                <p>Коли планеті загрожує серйозна небезпека, людству необхідна серйозна підтримка.
+                    Власними силами впоратися з могутніми істотами неможливо, тому слід звертатися
+                    за допомогою до супергероїв. Титан Танос здійснив зловісний план: він знайшов
+                    відомі камені нескінченності, щоб створити унікальний артефакт. Володар Рукавички
+                    Нескінченності вважається найсильнішою істотою на світі, а здобути перемогу над
+                    ним практично неможливо. Опоненти Таноса знаходять власну смерть при зустрічі з
+                    ним, а сам титан швидко просувається до захоплення влади.</p>
+
+                <p>Планета знаходиться в небезпеці, людство може потрапити в рабство до безумця
+                    або загинути. Люди звертаються за допомогою до Месників, які не раз допомагали
+                    у вирішенні складних завдань. Проте в команді відбулися серйозні зміни, а колишні
+                    дружні зв'язки зруйновані. Супергерої конфліктують між собою, не можуть прийти
+                    до єдиної точки зору, намагаються діяти індивідуально. Людина-Павук і Доктор
+                    Стрендж приєдналися до команди, але чи зможуть вони налагодити взаємини в колективі?
+                    Танос володіє руйнівною силою, протистояти їй можливо тільки спільними зусиллями.
+                    Готові герої забути про минулі розбіжності і стати справжньою командою? </p>
+            </div>
+
+            <div id="starring">
+                <h4>У ролях :</h4>
+                <div>
+                    <div class="itemStarring">Роберт Дауні мл.</div>
+                    <div class="itemStarring">Карен Гіллан</div>
+                    <div class="itemStarring">Кріс Претт</div>
+                    <div class="itemStarring">Елізабет Олсен</div>
+                    <div class="itemStarring">Кріс Еванс</div>
+                    <div class="itemStarring">Бенедикт Камбербетч</div>
+                    <div class="itemStarring">Скарлетт Йоханссон</div>
+                    <div class="itemStarring">Кріс Хемсворт</div>
+                    <div class="itemStarring">Він Дизель</div>
+                    <div class="itemStarring">Себастьян Стен</div>
+                    <div class="itemStarring">Кобі Смолдерс</div>
+                    <div class="itemStarring">Зої Салдана</div>
+                    <div class="itemStarring">Бенедикт Вонг</div>
+                    <div class="itemStarring">Брі Ларсон</div>
+                </div>
+            </div>
+
+            <div id="interestingFacts">
+                <div>
+                    <h4>Цікаві факти, Чи знаєте ви, що...</h4>
+                    <p>У кожній з трьох фаз кінематографічноого всесвіту Marvel є відсилання або Каменю до
+                        Нескінченності, або до Рукавички Нескінченності.</p>
+                    <hr/>
+                    <p>Дати виходу на екрани дилогії «Месники: Війна нескінченності» були оголошені ще під
+                        час виробництва картини «Месники: Ера Альтрона» (2015).</p>
+                    <hr/>
+                    <p>Роберт Дауні млолодший вів окремі від своїх колег по кінематографічної всесвіту Marvel
+                        переговори щодо своєї участі у дилогії «Месники: Війна нескінченності» і картині
+                        «Перший месник: Протистояння» (2016) після того, як виконав всі свої контрактні
+                        зобов'язання з трилогії «Залізна людина».</p>
+                    <hr/>
+                    <p>Цей фільм є 7-ою главою 3-ої фази кінематографічного всесвіту Marvel.</p>
+                    <hr/>
+                </div>
+            </div>
+
+            <div id="gallery">
+                <h4>Месники: Війна нескінченності (2018) дивитися онлайн безкоштовно в хорошій якості</h4>
+
+                <p>Для всіх шанувальнів даної кінострічки пропонуємо переглянути декілька кадрів із кіно
+                    Месники: Війна Нескінченності (2018) онлайн безплатно, після перегляду всіх фото Ви
+                    зможете зробити свій вибір чи дивитися кіно онлайн, чи ні. Нижче Ви побачите плеєр за
+                    допомогою якого трансюється стрічка, обирайте який плєєр вам більше сподобався, натискайте
+                    плей та насолоджуйтесь переглядом.</p>
+
+                <div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                    <div class="itemGallary"><img src="" alt=""></div>
+                </div>
+            </div>
+
+            <div id="videoPlayer">
+                <video id="windowVideoPlayer" controls>
+                    <source src="/video{{sourseVideo}}" type="video/mp4">
+                </video>
+            </div>
+
+
+        </div>
+
+        {{> footer}}
+
+    </div>
+
+    <script>
+        let a = document.getElementById('linkMainPage');
+        a.href = '/';
+    </script>
+    <script src="/js/pageFilm.js"></script>
+    <script type="text/javascript" src="/js/share42/share42.js"></script>
+</body>
+</html>
