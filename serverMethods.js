@@ -7,28 +7,33 @@ module.exports = [
     {
         name: 'encrypt',
         method: (text) => {
-            const iv = crypto.randomBytes(credentials.ivLength);
-            let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(credentials.encryptionKey), iv);
-            let encrypted = cipher.update(text);
+            return new Promise( (resolve) => {
+                const iv = crypto.randomBytes(credentials.ivLength);
+                let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(credentials.encryptionKey), iv);
+                let encrypted = cipher.update(text);
 
-            encrypted = Buffer.concat([encrypted, cipher.final()]);
+                encrypted = Buffer.concat([encrypted, cipher.final()]);
+                const cryptoText = iv.toString('hex') + ':' + encrypted.toString('hex');
 
-            return iv.toString('hex') + ':' + encrypted.toString('hex');
+                resolve(cryptoText);
+            });
         },
         options: {}
     },
     {
         name: 'decrypt',
         method: (text) => {
-            const textParts = text.split(':');
-            const iv = Buffer.from(textParts.shift(), 'hex');
-            let encryptedText = Buffer.from(textParts.join(':'), 'hex');
-            let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(credentials.encryptionKey), iv);
-            let decrypted = decipher.update(encryptedText);
+            return new Promise( (resolve) => {
+                const textParts = text.split(':');
+                const iv = Buffer.from(textParts.shift(), 'hex');
+                let encryptedText = Buffer.from(textParts.join(':'), 'hex');
+                let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(credentials.encryptionKey), iv);
+                let decrypted = decipher.update(encryptedText);
 
-            decrypted = Buffer.concat([decrypted, decipher.final()]);
+                decrypted = Buffer.concat([decrypted, decipher.final()]);
 
-            return decrypted.toString();
+                resolve(decrypted.toString());
+            });
         },
         options: {}
     },
