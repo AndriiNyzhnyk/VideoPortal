@@ -16,6 +16,8 @@ const self = module.exports = {
 
     tmp: async (req, h) => {
         try {
+            const SM = req.server.methods;
+
             const {userName, password} = await func.securityParamsFilter(req.payload, false);
             const user = await Helpers.findUser(userName);
 
@@ -29,7 +31,7 @@ const self = module.exports = {
                 return h.redirect('/activate-user-page').temporary();
             }
 
-            const {accessToken, refreshToken} = await Helpers.createCredentials(user);
+            const {accessToken, refreshToken} = await Helpers.createCredentials(SM, user);
 
             await User.findByIdAndUpdate(user._id, {token: refreshToken});
 

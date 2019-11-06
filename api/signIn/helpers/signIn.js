@@ -6,7 +6,7 @@ const _ = require('lodash');
 const User = require('../../../models/User');
 const func = require('../../../functions');
 const jsonWebToken = require('../../../credentials').jsonwebtoken;
-const {decrypt, encrypt} = require('../../../crypto');
+// const {decrypt, encrypt} = require('../../../crypto');
 
 const self = module.exports = {
     // Check the password hash
@@ -37,9 +37,9 @@ const self = module.exports = {
         return user;
     },
 
-    createCredentials: async (user) => {
+    createCredentials: async (SM, user) => {
         const tokenId = Crypto.randomBytes(16).toString('hex');
-        const encryptedUserId = encrypt(user._id.toString());
+        const encryptedUserId = SM.encrypt(user._id.toString());
 
         const accessToken = await self.createAccessToken(tokenId, encryptedUserId);
         const refreshToken = await self.createRefreshToken(tokenId, encryptedUserId);
