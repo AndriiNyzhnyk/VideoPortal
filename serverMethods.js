@@ -17,7 +17,6 @@ module.exports = [
         },
         options: {}
     },
-
     {
         name: 'decrypt',
         method: (text) => {
@@ -30,6 +29,26 @@ module.exports = [
             decrypted = Buffer.concat([decrypted, decipher.final()]);
 
             return decrypted.toString();
+        },
+        options: {}
+    },
+    {
+        name: 'securityParamsFilter',
+        method: (input, primitive = true) => {
+            return new Promise( (resolve) => {
+                if (primitive) {
+                    const result = Hoek.escapeHtml(input);
+                    resolve(result);
+                } else {
+                    let result = Object.create(null);
+
+                    for (let key in input) {
+                        result[key] = Hoek.escapeHtml(input[key]);
+                    }
+
+                    resolve(result);
+                }
+            });
         },
         options: {}
     }

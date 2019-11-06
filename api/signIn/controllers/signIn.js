@@ -6,7 +6,6 @@ const User = require('../../../models/User');
 const Boom = require('@hapi/boom');
 const JWT = require('jsonwebtoken');
 const Helpers = require('../helpers/signIn');
-const func = require('../../../functions');
 
 const credentialsJwt = require('../../../credentials').jwt;
 
@@ -19,8 +18,8 @@ const self = module.exports = {
         try {
             const SM = req.server.methods;
 
-            const {userName, password} = await func.securityParamsFilter(req.payload, false);
-            const user = await Helpers.findUser(userName);
+            const {userName, password} = await SM.securityParamsFilter(req.payload, false);
+            const user = await Helpers.findUser(SM, userName);
 
             const {isValid, isActivate} = await self.checkUserCredentials(user, password);
 

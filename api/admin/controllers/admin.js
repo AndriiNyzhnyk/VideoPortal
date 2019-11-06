@@ -18,8 +18,8 @@ const self = module.exports = {
         try {
             const SM = req.server.methods;
 
-            const {userName, password} = await func.securityParamsFilter(req.payload, false);
-            const user = await Helpers.findUser(userName);
+            const {userName, password} = await SM.securityParamsFilter(req.payload, false);
+            const user = await Helpers.findUser(SM, userName);
 
             const {isValid, isActivate} = await self.checkUserCredentials(user, password);
 

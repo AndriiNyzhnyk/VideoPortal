@@ -20,17 +20,13 @@ const self = module.exports = {
         });
     },
 
-    findUser: async (userName) => {
-        const nameOrEmail = await func.securityParamsFilter(userName, true);
+    findUser: async (SM, userName) => {
+        const nameOrEmail = await SM.securityParamsFilter(userName, true);
 
         const user = await User.findOne({
             $or: [
-                {
-                    name: nameOrEmail
-                },
-                {
-                    email: nameOrEmail
-                }
+                { name: nameOrEmail },
+                { email: nameOrEmail }
             ]
         });
 
