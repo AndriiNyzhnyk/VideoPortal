@@ -1,6 +1,7 @@
 'use strict';
 
 const crypto = require('crypto');
+const Path = require('path');
 const credentials = require('./credentials').crypto;
 
 module.exports = [
@@ -53,6 +54,16 @@ module.exports = [
 
                     resolve(result);
                 }
+            });
+        },
+        options: {}
+    },
+    {
+        name: 'createMoviePath',
+        method: (movieName) => {
+            return new Promise( (resolve) => {
+                const path = Path.join(__dirname, './public/movies', movieName);
+                resolve(path);
             });
         },
         options: {}
