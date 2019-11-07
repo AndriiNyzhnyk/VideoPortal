@@ -1,4 +1,5 @@
 'use strict';
+const FS = require('fs');
 
 const self = module.exports = {
     videoStream: (pathToMovie, range) => {
@@ -24,14 +25,6 @@ const self = module.exports = {
             ];
 
             return {file, headers, httpCode};
-
-            // const response = h.response(file);
-            // response.statusCode = 206;
-            // response.header('Content-Range', `bytes ${start}-${end}/${fileSize}`);
-            // response.header('Accept-Ranges', 'bytes');
-            // response.header('Content-Length', chunkSize);
-            // response.header('Content-Type', 'video/mp4');
-            // return response;
         } else {
             const file = FS.createReadStream(pathToMovie);
             const httpCode = 206;
@@ -40,13 +33,7 @@ const self = module.exports = {
                 ['Content-Type', 'video/mp4']
             ];
 
-
             return {file, headers, httpCode}
-            // h.response(FS.createReadStream(pathToMovie));
-            // response.statusCode = 206;
-            // response.header('Content-Length', fileSize);
-            // response.header('Content-Type', 'video/mp4');
-            // return response;
         }
     },
 

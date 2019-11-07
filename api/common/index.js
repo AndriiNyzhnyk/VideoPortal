@@ -19,6 +19,14 @@ module.exports = [
     },
     {
         method: 'GET',
+        path: '/video-test',
+        handler: (req, h) => {
+            return h.file('TestStream.html');
+        },
+        options: { auth: false },
+    },
+    {
+        method: 'GET',
         path: '/{param*}',
         handler: {
             directory: {

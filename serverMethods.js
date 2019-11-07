@@ -2,6 +2,7 @@
 
 const crypto = require('crypto');
 const Path = require('path');
+const Hoek = require('@hapi/hoek');
 const credentials = require('./credentials').crypto;
 
 module.exports = [

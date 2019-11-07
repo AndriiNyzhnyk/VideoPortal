@@ -9,10 +9,10 @@ module.exports = [
         handler: controllers.watchMovie,
         options: { auth: false }
     },
-    {
-        method: 'POST',
-        path: '/',
-        handler: '',
-        options: {auth: false}
-    },
+    // {
+    //     method: 'POST',
+    //     path: '/',
+    //     handler: '',
+    //     options: {auth: false}
+    // },
 ];
