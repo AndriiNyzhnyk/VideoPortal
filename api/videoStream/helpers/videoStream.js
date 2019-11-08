@@ -1,9 +1,12 @@
 'use strict';
+
 const FS = require('fs');
+const {promisify: Promisify} = require('util');
+const statAsync = Promisify(FS.stat);
 
 const self = module.exports = {
-    videoStream: (pathToMovie, range) => {
-        const stat = FS.statSync(pathToMovie);
+    videoStream: async (pathToMovie, range) => {
+        const stat = await statAsync(pathToMovie);
         const fileSize = stat.size;
 
         if (range) {
@@ -33,7 +36,7 @@ const self = module.exports = {
                 ['Content-Type', 'video/mp4']
             ];
 
-            return {file, headers, httpCode}
+            return {file, headers, httpCode};
         }
     },
 

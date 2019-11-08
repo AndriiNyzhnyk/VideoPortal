@@ -14,7 +14,7 @@ const self = module.exports = {
         const pathToMovie = await SM.createMoviePath(movieName + '.mp4');
         const range = req.headers.range;
 
-        const result = Helpers.videoStream(pathToMovie, range);
+        const result = await Helpers.videoStream(pathToMovie, range);
         const response = h.response(result.file);
         response.statusCode = result.httpCode;
 
