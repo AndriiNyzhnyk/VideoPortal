@@ -29,6 +29,7 @@ module.exports = [
         method: 'POST',
         handler: controllers.movieFileUpload,
         options: {
+            auth: false,
             payload: {
                 output: 'stream'
             }
