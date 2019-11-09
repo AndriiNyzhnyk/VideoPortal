@@ -1,12 +1,14 @@
 'use strict';
 
-const Crypto = require('crypto');
-const JWT = require('jsonwebtoken');
-const _ = require('lodash');
-const User = require('../../../models/User');
-const func = require('../../../functions');
-const jsonWebToken = require('../../../credentials').jsonwebtoken;
+const FS = require('fs');
+const {promisify: Promisify} = require('util');
+const writeFileAsync = Promisify(FS.writeFile);
+
+
+
 
 const self = module.exports = {
-
+    handleFileUpload: async (path, data) => {
+        return writeFileAsync(path, data)
+    }
 };

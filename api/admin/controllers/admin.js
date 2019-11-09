@@ -1,12 +1,15 @@
 'use strict';
 
 const Crypto = require('crypto');
+const Path = require('path');
 const Hoek = require('@hapi/hoek');
 const User = require('../../../models/User');
 const Boom = require('@hapi/boom');
 const JWT = require('jsonwebtoken');
 const Helpers = require('../helpers/admin');
 const func = require('../../../functions');
+
+const pathToPlaceForUploadedMovies = Path.join(__dirname, '../../../public/movies');
 
 
 const self = module.exports = {
@@ -42,4 +45,21 @@ const self = module.exports = {
             h.response('Internal server error!');
         }
     },
+
+    movieFileUpload: async (req, h) => {
+        try {
+            const {file, newFileName} = req.payload;
+
+            const filename = newFileName || file.hapi.filename;
+            const path = Path.join(pathToPlaceForUploadedMovies, filename);
+            const data = file._data;
+
+            await Helpers.handleFileUpload(path, data);
+
+
+            return {success: true};
+        } catch (err) {
+            console.error(err);
+        }
+    }
 };

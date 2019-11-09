@@ -24,4 +24,14 @@ module.exports = [
             }
         }
     },
+    {
+        path: '/upload/movie',
+        method: 'POST',
+        handler: controllers.movieFileUpload,
+        options: {
+            payload: {
+                output: 'stream'
+            }
+        }
+    }
 ];
