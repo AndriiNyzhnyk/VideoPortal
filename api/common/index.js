@@ -27,6 +27,14 @@ module.exports = [
     },
     {
         method: 'GET',
+        path: '/test-file-upload',
+        handler: (req, h) => {
+            return h.file('fileUpload.html');
+        },
+        options: { auth: false },
+    },
+    {
+        method: 'GET',
         path: '/{param*}',
         handler: {
             directory: {
