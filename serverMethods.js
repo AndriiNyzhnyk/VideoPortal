@@ -60,7 +60,7 @@ module.exports = [
         options: {}
     },
     {
-        name: 'createMoviePath',
+        name: 'createPathToMovie',
         method: (movieName) => {
             return new Promise( (resolve) => {
                 const path = Path.join(__dirname, './public/movies', movieName);

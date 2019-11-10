@@ -19,7 +19,7 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/video-test',
+        path: '/test-video',
         handler: (req, h) => {
             return h.file('TestStream.html');
         },
