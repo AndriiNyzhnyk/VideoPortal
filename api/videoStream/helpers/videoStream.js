@@ -19,24 +19,19 @@ const self = module.exports = {
 
             const chunkSize = (end - start) + 1;
             const file = FS.createReadStream(pathToMovie, {start, end});
-            const httpCode = 206;
-            const headers = [
-                ['Content-Range', `bytes ${start}-${end}/${fileSize}`],
-                ['Accept-Ranges', 'bytes'],
-                ['Content-Length', chunkSize],
-                ['Content-Type', 'video/mp4']
-            ];
+            const data = {
+                start,
+                end,
+                chunkSize,
+                fileSize
+            };
 
-            return {file, headers, httpCode};
+            return {file, isRange: true, data};
         } else {
             const file = FS.createReadStream(pathToMovie);
-            const httpCode = 206;
-            const headers = [
-                ['Content-Length', fileSize],
-                ['Content-Type', 'video/mp4']
-            ];
+            const data = {fileSize};
 
-            return {file, headers, httpCode};
+            return {file, isRange: false, data};
         }
     },
 
