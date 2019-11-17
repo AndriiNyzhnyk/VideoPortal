@@ -1,5 +1,6 @@
 'use strict';
 
+require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const FS = require('fs');
 const Http2 = require('http2');
