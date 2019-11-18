@@ -1,6 +1,7 @@
 'use strict';
 
-require('dotenv').config();
+require('dotenv').config({path: `${__dirname}/.env`});
+
 const Hapi = require('@hapi/hapi');
 const FS = require('fs');
 const Http2 = require('http2');
@@ -8,21 +9,29 @@ const Path = require('path');
 const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
+const Jwt2 = require('hapi-auth-jwt2');
 const Mongoose = require('mongoose');
 const credentials = require('./credentials');
 const serverMethods = require('./serverMethods');
 const func = require('./functions');
 
+const {DB_URL, DB_NAME, HTTP_PORT, HTTP_HOST} = process.env;
+
 // Set connection with DB
-Mongoose.connect('mongodb://localhost:27017/video-portal', {
+Mongoose.connect(`${DB_URL}/${DB_NAME}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
+// Register error handler for DB connection
 const DB = Mongoose.connection;
-DB.on('error', console.error.bind(console, 'connection error:'));
-DB.once('open', function() {
-    console.log('We\'re connected to DB')
+DB.on('error', (err) => {
+    console.error(err);
+    console.error('connection error');
+});
+
+DB.once('open', () => {
+    console.log(`We're connected to DB`)
 });
 
 const routes = require('./api/router');
@@ -37,11 +46,12 @@ const serverOptions = {
 // create http2 secure server listener
 const listener = Http2.createSecureServer(serverOptions);
 
-const init = async () => {
+const launch = async () => {
 
+    // Settings web server
     const server = Hapi.server({
-        port: 3000,
-        host: 'localhost',
+        port: HTTP_PORT,
+        host: HTTP_HOST,
         tls: true,
         listener,
         routes: {
@@ -51,13 +61,15 @@ const init = async () => {
         }
     });
 
+    // Register all server methods
     server.method(serverMethods);
 
     // Register plugins
-    await server.register(require('hapi-auth-jwt2'));
+    await server.register(Jwt2);
     await server.register(Vision);
     await server.register(Inert);
 
+    // Setting default auth strategy
     server.auth.strategy('jwt', 'jwt', {
         key: credentials.jwt2,
         validate: func.validate,
@@ -77,8 +89,10 @@ const init = async () => {
         partialsPath: './templates/partials'
     });
 
+    // Attach all routes
     server.route(routes);
 
+    // Start server
     await server.start();
     console.log('Server running on %s', server.info.uri);
 };
@@ -88,4 +102,4 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 
-init();
+launch();
