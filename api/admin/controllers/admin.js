@@ -61,5 +61,18 @@ const self = module.exports = {
         } catch (err) {
             console.error(err);
         }
+    },
+
+    addNewMovie: async (req, h) => {
+        try {
+            const SM = req.server.methods;
+
+            const payload = await SM.securityParamsFilter(req.payload, false);
+            console.log(payload);
+
+            return 'Done';
+        } catch (err) {
+            console.log(err)
+        }
     }
 };
