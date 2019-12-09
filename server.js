@@ -14,7 +14,10 @@ const Mongoose = require('mongoose');
 const credentials = require('./credentials');
 const serverMethods = require('./serverMethods');
 const func = require('./functions');
+const cpuNums = require('os').cpus().length;
 
+// tuning the UV_THREADPOOL_SIZE
+process.env.UV_THREADPOOL_SIZE = cpuNums;
 const {DB_URL, DB_NAME, HTTP_PORT, HTTP_HOST} = process.env;
 
 // Set connection with DB
