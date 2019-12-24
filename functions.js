@@ -3,17 +3,30 @@
 const Hoek = require('@hapi/hoek');
 const NodeMailer = require('nodemailer');
 const credetials = require('./credentials').email;
+const User = require('./models/User');
+const _ = require('lodash');
 
 const self = module.exports = {
-    validate: async (decoded, req) => {
-        console.log(decoded, req);
-        let user = await User.findOne({ _id: decoded.id });
-        if (user) {
-            req.user = user;
-            return { isValid: true };
-        } else {
+    validate: async (decoded, req, h) => {
+        const SM = req.server.methods;
+
+        const decryptedUserId = await SM.decrypt(decoded.userId);
+        const user = await User.findOne({ _id: decryptedUserId });
+
+        if(!user || decoded.type !== 'access') {
             return { isValid: false };
         }
+
+        const encodedRefreshTokenData = user.token.split('.')[1];
+        const refreshTokenData = JSON.parse(Buffer.from(encodedRefreshTokenData, "base64"));
+
+        if (refreshTokenData.tokenId !== decoded.tokenId) {
+            return { isValid: false };
+        }
+
+
+        req.info.userClient = _.omit(user._doc, ['password', 'token', '__v']);
+        return { isValid: true };
     },
 
     securityParamsFilter: (input, primitive = true) => {
