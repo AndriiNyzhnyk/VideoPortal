@@ -20,6 +20,41 @@ const self = module.exports = {
         });
     },
 
+    checkUserCredentials: async (user, password) => {
+        // Preparing response object
+        const invalidUser = {
+            isValid: false,
+            isActivate: 'Does not matter'
+        };
+
+        const unactivatedUser = {
+            isValid: true,
+            isActivate: false
+        };
+
+        // Check if user exist
+        if (!user) {
+            return invalidUser;
+        }
+
+        const isValidPassword = await self.verifyPassword(password, user.password);
+
+        // Check if user input valid password
+        if (!isValidPassword) {
+            return invalidUser;
+        }
+
+        // Check if user is activated
+        if (!user.active) {
+            return unactivatedUser;
+        }
+
+        return {
+            isValid: true,
+            isActivate: true
+        };
+    },
+
     findUser: async (nameOrEmail) => {
          return User.findOne({
             $or: [

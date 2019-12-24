@@ -21,7 +21,7 @@ const self = module.exports = {
             const {userName, password} = req.payload;
             const user = await Helpers.findUser(userName);
 
-            const {isValid, isActivate} = await self.checkUserCredentials(user, password);
+            const {isValid, isActivate} = await Helpers.checkUserCredentials(user, password);
 
             if (!isValid) {
                 return Boom.badRequest('Wrong user name(email) or password');
@@ -39,43 +39,8 @@ const self = module.exports = {
 
         } catch (e) {
             console.log(e);
-            h.response('Internal server error!');
+            return Boom.badImplementation('don\'t worry we are working on that');
         }
-    },
-
-    checkUserCredentials: async (user, password) => {
-        // Preparing response object
-        const invalidUser = {
-            isValid: false,
-            isActivate: 'Does not matter'
-        };
-
-        const unactivatedUser = {
-            isValid: true,
-            isActivate: false
-        };
-
-        // Check if user exist
-        if (!user) {
-            return invalidUser;
-        }
-
-        const isValidPassword = await Helpers.verifyPassword(password, user.password);
-
-        // Check if user input valid password
-        if (!isValidPassword) {
-            return invalidUser;
-        }
-
-        // Check if user is activated
-        if (!user.active) {
-            return unactivatedUser;
-        }
-
-        return {
-            isValid: true,
-            isActivate: true
-        };
     },
 
     getActivateUserPage: async (req, h) => {
