@@ -18,7 +18,7 @@ const self = module.exports = {
             const activateCode = Crypto.randomBytes(20).toString('hex');
             const pass = await Hashing.hashPassword(req.payload.password);
 
-            let user = await User.create({
+            const user = await User.create({
                 name: req.payload.userName,
                 email: req.payload.email,
                 password: pass,
@@ -29,7 +29,7 @@ const self = module.exports = {
                 activateCode
             });
 
-            const link = await self.generateLinkForActivateUser(activateCode);
+            const link = await Service.generateLinkForActivateUser(activateCode);
             const data = await Service.sendEmail(user.email, link);
 
             if (data.error) {
@@ -43,16 +43,9 @@ const self = module.exports = {
         }
     },
 
-    generateLinkForActivateUser: (activateCode) => {
-        return new Promise((resolve) => {
-            resolve(`https://localhost:3000/activate-user/${activateCode}`)
-        });
-    },
-
     activateUser: async (req, h) => {
         try {
             const activateCode = req.params.code;
-            console.log(activateCode);
 
             const pendingUser = await ActivateUser.findOne({
                 activateCode
