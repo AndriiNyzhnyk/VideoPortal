@@ -21,6 +21,13 @@ module.exports = [
                     userName: Joi.string().min(3).max(20).required(),
                     password: Joi.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).required(),
                 })
+            },
+            response: {
+                schema: Joi.object({
+                    accessToken: Joi.string().required(),
+                    refreshToken: Joi.string().required()
+                }),
+                failAction: 'error'
             }
         }
     },
