@@ -45,23 +45,21 @@ const self = module.exports = {
 
     activateUser: async (req, h) => {
         try {
-            const activateCode = req.params.code;
-
             const pendingUser = await ActivateUser.findOne({
-                activateCode
+                activateCode: req.params.code
             });
 
-            if (pendingUser) {
-                await User.findByIdAndUpdate(pendingUser.userId, {
-                    active: true
-                });
-
-                await ActivateUser.findByIdAndRemove(pendingUser._id.toString());
-
-                return 'OK';
-            } else {
+            if (!pendingUser) {
                 return 'This user is already active or does not exist';
             }
+
+            await User.findByIdAndUpdate(pendingUser.userId, {
+                active: true
+            });
+
+            await ActivateUser.findByIdAndRemove(pendingUser._id.toString());
+
+            return h.response();
 
         } catch (e) {
             console.log(e);
