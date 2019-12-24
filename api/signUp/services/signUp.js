@@ -26,8 +26,12 @@ const self = module.exports = {
             };
 
             const result = await transporter.sendMail(mailOptions);
-            console.log(result);
-            return result;
+
+            if (!result || !result.accepted.length || result.rejected.length) {
+                return {error: true, result};
+            }
+
+            return {error: false, result};
         } catch (e) {
             console.log(e);
         }

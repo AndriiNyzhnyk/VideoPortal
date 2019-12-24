@@ -1,5 +1,6 @@
 'use strict';
 
+const Boom = require('@hapi/boom');
 const User = require('../../../models/User');
 const ActivateUser = require('../../../models/ActivateUsers');
 const Service = require('../services/signUp');
@@ -31,7 +32,11 @@ const self = module.exports = {
             const link = await self.generateLinkForActivateUser(activateCode);
             const data = await Service.sendEmail(user.email, link);
 
-            return data;
+            if (data.error) {
+                return Boom.badImplementation('Terrible implementation');
+            }
+
+            return h.response();
 
         } catch (e) {
             console.log(e);
