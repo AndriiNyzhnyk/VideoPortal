@@ -31,7 +31,7 @@ const self = module.exports = {
 
     createCredentials: async (SM, user) => {
         const tokenId = Crypto.randomBytes(16).toString('hex');
-        const encryptedUserId = SM.encrypt(user._id.toString());
+        const encryptedUserId = await SM.encrypt(user._id.toString());
 
         const accessToken = await self.createAccessToken(tokenId, encryptedUserId);
         const refreshToken = await self.createRefreshToken(tokenId, encryptedUserId);
@@ -47,7 +47,12 @@ const self = module.exports = {
                 type: 'access'
             };
 
-            const token = JWT.sign(dataForToken, jsonWebToken.key, {expiresIn: '1h'});
+            const token = JWT.sign(dataForToken,
+                jsonWebToken.key,
+                {
+                    expiresIn: '1h',
+                    algorithm: 'HS256'
+                });
 
             resolve(token);
         });
