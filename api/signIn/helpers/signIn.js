@@ -20,17 +20,13 @@ const self = module.exports = {
         });
     },
 
-    findUser: async (SM, userName) => {
-        const nameOrEmail = await SM.securityParamsFilter(userName, true);
-
-        const user = await User.findOne({
+    findUser: async (nameOrEmail) => {
+         return User.findOne({
             $or: [
                 { name: nameOrEmail },
                 { email: nameOrEmail }
             ]
         });
-
-        return user;
     },
 
     createCredentials: async (SM, user) => {
