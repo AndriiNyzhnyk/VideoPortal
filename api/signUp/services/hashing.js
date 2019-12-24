@@ -1,26 +1,26 @@
 'use strict';
 
 const Crypto = require('crypto');
+const {promisify: Promisify} = require('util');
+const createHash = Promisify(Crypto.pbkdf2);
+
+const iterations = 2048;
+const keyLen = 32;
+const digest = 'sha512';
 
 const self = module.exports = {
     // Create password hash using Password based key
-    hashPassword: (password) => {
-        return new Promise((resolve) => {
-            const salt = Crypto.randomBytes(32).toString('hex');
-            const hash = Crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512').toString('hex');
-            resolve( [salt, hash].join('$') );
-        });
-
+    hashPassword: async (password) => {
+        const salt = Crypto.randomBytes(32).toString('hex');
+        const hash = (await createHash(password, salt, iterations, keyLen, digest)).toString('hex');
+        return [salt, hash].join('$');
     },
 
     // Checking the password hash
-    verifyPassword: (password, original) => {
-        return new Promise((resolve) => {
-            const salt = original.split('$')[0];
-            const originalHash = original.split('$')[1];
-            const hash = Crypto.pbkdf2Sync(password, salt, 2048, 32, 'sha512').toString('hex');
+    verifyPassword: async (password, original) => {
+        const [salt, originalHash] = original.split('$');
+        const hash = (await createHash(password, salt, iterations, keyLen, digest)).toString('hex');
 
-            resolve( hash === originalHash);
-        });
+        return (hash === originalHash);
     }
 };
