@@ -23,7 +23,8 @@ const {DB_URL, DB_NAME, HTTP_PORT, HTTP_HOST} = process.env;
 // Set connection with DB
 Mongoose.connect(`${DB_URL}/${DB_NAME}`, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 });
 
 // Register error handler for DB connection
