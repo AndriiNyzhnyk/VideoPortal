@@ -74,7 +74,7 @@ const launch = async () => {
 
     // Setting default auth strategy
     server.auth.strategy('jwt', 'jwt', {
-        key: credentials.jwt2,
+        key: credentials.jwt2.key,
         validate: func.validate,
         verifyOptions: { algorithms: ['HS256'] }
     });
