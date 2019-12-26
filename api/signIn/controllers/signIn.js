@@ -1,13 +1,8 @@
 'use strict';
 
-const Crypto = require('crypto');
-const Hoek = require('@hapi/hoek');
-const User = require('../../../models/User');
+const { User } = require('../../../models');
 const Boom = require('@hapi/boom');
-const JWT = require('jsonwebtoken');
 const Helpers = require('../helpers/signIn');
-
-const credentialsJwt = require('../../../credentials').jwt;
 
 const self = module.exports = {
     signIn: async (req, h) => {
@@ -18,8 +13,8 @@ const self = module.exports = {
         try {
             const SM = req.server.methods;
 
-            const {userName, password} = req.payload;
-            const user = await Helpers.findUser(userName);
+            const { userName, password } = req.payload;
+            const user = await User.fetchUserByNameOrEmail(userName);
 
             const {isValid, isActivate} = await Helpers.checkUserCredentials(user, password);
 
@@ -31,7 +26,7 @@ const self = module.exports = {
                 return h.redirect('/activate-user-page').temporary();
             }
 
-            const {accessToken, refreshToken} = await Helpers.createCredentials(SM, user);
+            const { accessToken, refreshToken } = await Helpers.createCredentials(SM, user);
 
             await User.findByIdAndUpdate(user._id, {token: refreshToken});
 

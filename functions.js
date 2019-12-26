@@ -3,7 +3,7 @@
 const Hoek = require('@hapi/hoek');
 const NodeMailer = require('nodemailer');
 const credetials = require('./credentials').email;
-const User = require('./models/User');
+const User = require('./models/user/User');
 const _ = require('lodash');
 
 const self = module.exports = {

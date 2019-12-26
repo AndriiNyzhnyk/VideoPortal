@@ -2,7 +2,7 @@
 
 const Hoek = require('@hapi/hoek');
 const Boom = require('@hapi/boom');
-const User = require('../../../models/User');
+const User = require('../../../models/user/User');
 const ForgotPassword = require('../../../models/ForgotPasswords');
 const Service = require('../services/forgotPass');
 const Hashing = require('../../signUp/services/hashing');

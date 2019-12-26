@@ -1,8 +1,7 @@
 'use strict';
 
 const Boom = require('@hapi/boom');
-const User = require('../../../models/User');
-const ActivateUser = require('../../../models/ActivateUsers');
+const { User, ActivateUser } = require('../../../models');
 const Service = require('../services/signUp');
 const Hashing = require('../services/hashing');
 
@@ -15,13 +14,14 @@ const self = module.exports = {
 
     registration: async (req, h) => {
         try {
+            const { userName:name, email, password } = req.payload;
             const activateCode = Crypto.randomBytes(20).toString('hex');
-            const pass = await Hashing.hashPassword(req.payload.password);
+            const hashedPassword = await Hashing.hashPassword(password);
 
-            const user = await User.create({
-                name: req.payload.userName,
-                email: req.payload.email,
-                password: pass,
+            const user = await User.createNewUser({
+                name,
+                email,
+                password: hashedPassword,
             });
 
             await ActivateUser.create({
@@ -30,7 +30,7 @@ const self = module.exports = {
             });
 
             const link = await Service.generateLinkForActivateUser(activateCode);
-            const data = await Service.sendEmail(user.email, link);
+            const data = await Service.sendEmail(email, link);
 
             if (data.error) {
                 return Boom.badImplementation('Terrible implementation');

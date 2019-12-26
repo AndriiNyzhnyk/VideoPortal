@@ -3,11 +3,9 @@
 const Crypto = require('crypto');
 const Path = require('path');
 const Hoek = require('@hapi/hoek');
-const User = require('../../../models/User');
+const { User } = require('../../../models');
 const Boom = require('@hapi/boom');
-const JWT = require('jsonwebtoken');
 const Helpers = require('../helpers/admin');
-const func = require('../../../functions');
 
 const pathToPlaceForUploadedMovies = Path.join(__dirname, '../../../public/movies');
 
@@ -22,7 +20,8 @@ const self = module.exports = {
             const SM = req.server.methods;
 
             const {userName, password} = await SM.securityParamsFilter(req.payload, false);
-            const user = await Helpers.findUser(SM, userName);
+            // const user = await Helpers.findUser(SM, userName);
+            const user = await User.fetchUserByNameOrEmail()
 
             const {isValid, isActivate} = await self.checkUserCredentials(user, password);
 
