@@ -2,31 +2,30 @@
 
 const Hoek = require('@hapi/hoek');
 const Boom = require('@hapi/boom');
-const User = require('../../../models/user/User');
-const ForgotPassword = require('../../../models/ForgotPasswords');
+const { User, ForgotPassword } = require('../../../models');
 const Service = require('../services/forgotPass');
 const Hashing = require('../../signUp/services/hashing');
 
 const self = module.exports = {
     getForgotPage: async (req, h) => {
-        return h.view('initForgotPass', {});
+        try {
+            return h.view('initForgotPass', {});
+        } catch (err) {
+            console.error(err);
+        }
     },
 
-    forgotPassord: async (req, h) => {
+    forgotPassword: async (req, h) => {
         try {
             const email = Hoek.escapeHtml(req.payload.email);
-            const user = await User.findOne({email});
+            const user = await User.findOne({ email });
 
             if (!user) {
                 return Boom.notFound('This email not found');
             }
 
             const {result, verifyCode} = await Service.sendEmailToUser(email);
-
-            const forgotPasswordEntry = await ForgotPassword.create({
-                userId: user._id.toString(),
-                verifyCode,
-            });
+            await ForgotPassword.createForgotPasswordEntry(user._id.toString(), verifyCode);
 
             return 'OK';
         } catch (e) {
@@ -38,7 +37,7 @@ const self = module.exports = {
     getResetPasswordPage: async (req, h) => {
         try {
             const verifyCode = Hoek.escapeHtml(req.params.verifyCode);
-            const forgotPasswordEntry = await ForgotPassword.findOne({verifyCode});
+            const forgotPasswordEntry = await ForgotPassword.findOne({ verifyCode });
 
             if (!forgotPasswordEntry) {
                 return Boom.badRequest('This link is not valid');
@@ -58,7 +57,7 @@ const self = module.exports = {
             const verifyCode = Hoek.escapeHtml(req.payload.verifyCode);
 
             // Find entry into DB
-            const forgotPasswordEntry = await ForgotPassword.findOne({verifyCode});
+            const forgotPasswordEntry = await ForgotPassword.findOne({ verifyCode });
 
             if (!forgotPasswordEntry) {
                 return Boom.badRequest('This link is not valid');

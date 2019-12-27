@@ -13,7 +13,7 @@ const self = module.exports = [
     {
         method: 'POST',
         path: '/forgot-pass',
-        handler: controllers.forgotPassord,
+        handler: controllers.forgotPassword,
         options: {
             auth: false,
             validate: {
