@@ -11,6 +11,16 @@ module.exports = [
     },
     {
         method: 'GET',
+        path: '/token-test',
+        handler: (req, h) => {
+
+            console.log(req.info);
+            return 'Well Done';
+        },
+        options: { auth: 'jwt' },
+    },
+    {
+        method: 'GET',
         path: '/movie',
         handler: (req, h) => {
             return h.view('moviePage', {});
