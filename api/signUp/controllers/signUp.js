@@ -1,15 +1,18 @@
 'use strict';
 
+const Crypto = require('crypto');
 const Boom = require('@hapi/boom');
-const { User, ActivateUser } = require('../../../models');
+const { User, PendingUser } = require('../../../models');
 const Service = require('../services/signUp');
 const Hashing = require('../services/hashing');
 
-const Crypto = require('crypto');
-
 const self = module.exports = {
     getSignUpPage: async (req, h) => {
-        return h.view('signUp', {});
+        try {
+            return h.view('signUp', {});
+        } catch (err) {
+            console.error(err);
+        }
     },
 
     registration: async (req, h) => {
@@ -24,45 +27,37 @@ const self = module.exports = {
                 password: hashedPassword,
             });
 
-            await ActivateUser.create({
-                userId: user._id.toString(),
-                activateCode
-            });
+            await PendingUser.createPendingUser(user._id.toString(), activateCode);
 
             const link = await Service.generateLinkForActivateUser(activateCode);
             const data = await Service.sendEmail(email, link);
 
             if (data.error) {
-                return Boom.badImplementation('Terrible implementation');
+                return Boom.badImplementation();
             }
 
             return h.response();
 
-        } catch (e) {
-            console.log(e);
+        } catch (err) {
+            console.error(err);
         }
     },
 
     activateUser: async (req, h) => {
         try {
-            const pendingUser = await ActivateUser.findOne({
-                activateCode: req.params.code
-            });
+            const pendingUser = PendingUser.fetchOne({ activateCode: req.params.code });
 
             if (!pendingUser) {
                 return 'This user is already active or does not exist';
             }
 
-            await User.findByIdAndUpdate(pendingUser.userId, {
-                active: true
-            });
-
-            await ActivateUser.findByIdAndRemove(pendingUser._id.toString());
+            await User.findByIdAndUpdate(pendingUser.userId, { active: true });
+            await PendingUser.findByIdAndRemove(pendingUser._id.toString());
 
             return h.response();
 
-        } catch (e) {
-            console.log(e);
+        } catch (err) {
+            console.error(err);
         }
     }
 };

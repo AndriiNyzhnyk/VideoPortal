@@ -1,7 +1,9 @@
+'use strict';
+
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
 
-const activateUser = new Schema({
+const pendingUser = new Schema({
     userId:  {
         type: String,
         required: true,
@@ -16,4 +18,4 @@ const activateUser = new Schema({
     }
 });
 
-module.exports = Mongoose.model('ActivateUser', activateUser);
+module.exports = Mongoose.model('PendingUser', pendingUser);
