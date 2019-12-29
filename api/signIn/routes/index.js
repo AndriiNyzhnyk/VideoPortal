@@ -23,11 +23,13 @@ module.exports = [
                 })
             },
             response: {
-                schema: Joi.object({
-                    accessToken: Joi.string().required(),
-                    refreshToken: Joi.string().required()
-                }),
-                failAction: 'ignore'
+                status: {
+                    200: Joi.object({
+                        accessToken: Joi.string().min(1).required(),
+                        refreshToken: Joi.string().min(1).required()
+                    }),
+                },
+                failAction: 'error',
             }
         }
     },
