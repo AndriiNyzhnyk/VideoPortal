@@ -53,7 +53,7 @@ const self = module.exports = {
             const filename = newFileName || file.hapi.filename;
             const path = Path.join(directoryForUploadedMovies, filename);
 
-            await Helpers.handleFileUpload(path, file._data);
+            await Helpers.handleStreamFileUpload(path, file);
 
             return { success: true };
         } catch (err) {
@@ -67,7 +67,7 @@ const self = module.exports = {
             const filename = newFileName || file.hapi.filename;
             const path = Path.join(directoryForUploadedImages, filename);
 
-            await Helpers.handleFileUpload(path, file._data);
+            await Helpers.handleStreamFileUpload(path, file._data);
 
             return { success: true };
         } catch (err) {
