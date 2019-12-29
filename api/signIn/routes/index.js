@@ -18,7 +18,7 @@ module.exports = [
             auth: false,
             validate: {
                 payload: Joi.object({
-                    userName: Joi.string().min(3).max(20).required(),
+                    userName: Joi.string().min(3).max(320).required(),
                     password: Joi.string().regex(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/).required(),
                 })
             },
