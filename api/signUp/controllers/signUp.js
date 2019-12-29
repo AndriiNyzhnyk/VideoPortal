@@ -56,7 +56,7 @@ const self = module.exports = {
             await User.findByIdAndUpdate(pendingUser.userId, { active: true });
             await PendingUser.findByIdAndRemove(pendingUser._id.toString());
 
-            return h.response();
+            return h.response('User was successfully activated');
 
         } catch (err) {
             console.error(err);
