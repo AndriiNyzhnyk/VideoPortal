@@ -35,7 +35,9 @@ const self = module.exports = {
 
     generateLinkForActivateUser: (activateCode) => {
         return new Promise((resolve) => {
-            resolve(`https://localhost:3000/activate-user/${activateCode}`)
+            const { HTTP_HOST, HTTP_PORT } = process.env;
+
+            resolve(`https://${HTTP_HOST}:${HTTP_PORT}/activate-user/${activateCode}`)
         });
     },
 };
