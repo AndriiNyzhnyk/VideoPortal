@@ -7,7 +7,8 @@ const { User } = require('../../../models');
 const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/admin');
 
-const pathToPlaceForUploadedMovies = Path.join(__dirname, '../../../public/movies');
+const directoryForUploadedMovies = Path.join(__dirname, '../../../public/movies');
+const directoryForUploadedImages = Path.join(__dirname, '../../../public/images');
 
 
 const self = module.exports = {
@@ -21,7 +22,7 @@ const self = module.exports = {
 
             const {userName, password} = await SM.securityParamsFilter(req.payload, false);
             // const user = await Helpers.findUser(SM, userName);
-            const user = await User.fetchUserByNameOrEmail()
+            const user = await User.fetchUserByNameOrEmail();
 
             const {isValid, isActivate} = await self.checkUserCredentials(user, password);
 
@@ -47,16 +48,28 @@ const self = module.exports = {
 
     movieFileUpload: async (req, h) => {
         try {
+            const { file, newFileName } = req.payload;
+
+            const filename = newFileName || file.hapi.filename;
+            const path = Path.join(directoryForUploadedMovies, filename);
+
+            await Helpers.handleFileUpload(path, file._data);
+
+            return { success: true };
+        } catch (err) {
+            console.error(err);
+        }
+    },
+    imageFileUpload: async (req, h) => {
+        try {
             const {file, newFileName} = req.payload;
 
             const filename = newFileName || file.hapi.filename;
-            const path = Path.join(pathToPlaceForUploadedMovies, filename);
-            const data = file._data;
+            const path = Path.join(directoryForUploadedImages, filename);
 
-            await Helpers.handleFileUpload(path, data);
+            await Helpers.handleFileUpload(path, file._data);
 
-
-            return {success: true};
+            return { success: true };
         } catch (err) {
             console.error(err);
         }

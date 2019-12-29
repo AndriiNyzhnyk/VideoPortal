@@ -37,6 +37,18 @@ module.exports = [
         }
     },
     {
+        path: '/upload/image',
+        method: 'POST',
+        handler: controllers.imageFileUpload,
+        options: {
+            auth: false,
+            payload: {
+                output: 'stream',
+                maxBytes: 10737418240 // 10 Gb
+            }
+        }
+    },
+    {
         path: '/new-movies',
         method: 'POST',
         handler: controllers.addNewMovie,
