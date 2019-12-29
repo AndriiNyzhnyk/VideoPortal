@@ -16,7 +16,7 @@ const self = module.exports = {
             const { userName, password } = req.payload;
             const user = await User.fetchUserByNameOrEmail(userName);
 
-            const {isValid, isActivate} = await Helpers.checkUserCredentials(user, password);
+            const { isValid, isActivate } = await Helpers.checkUserCredentials(user, password);
 
             if (!isValid) {
                 return Boom.badRequest('Wrong user name(email) or password');
@@ -28,13 +28,13 @@ const self = module.exports = {
 
             const { accessToken, refreshToken } = await Helpers.createCredentials(SM, user);
 
-            await User.findByIdAndUpdate(user._id, {token: refreshToken});
+            await User.findByIdAndUpdate(user._id, { token: refreshToken });
 
-            return {accessToken, refreshToken};
+            return { accessToken, refreshToken };
 
         } catch (e) {
             console.log(e);
-            return Boom.badImplementation('don\'t worry we are working on that');
+            return Boom.badImplementation('Don\'t worry we are working on that');
         }
     },
 
