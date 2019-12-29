@@ -2,6 +2,7 @@
 
 const Crypto = require('crypto');
 const Boom = require('@hapi/boom');
+const Hoek = require('@hapi/hoek');
 const { User, PendingUser } = require('../../../models');
 const Service = require('../services/signUp');
 const Hashing = require('../services/hashing');
@@ -45,7 +46,8 @@ const self = module.exports = {
 
     activateUser: async (req, h) => {
         try {
-            const pendingUser = PendingUser.fetchOne({ activateCode: req.params.code });
+            const activateCode = Hoek.escapeHtml(req.params.code);
+            const pendingUser = await PendingUser.fetchOne({ activateCode });
 
             if (!pendingUser) {
                 return 'This user is already active or does not exist';
