@@ -27,7 +27,7 @@ module.exports = [
                     accessToken: Joi.string().required(),
                     refreshToken: Joi.string().required()
                 }),
-                failAction: 'error'
+                failAction: 'ignore'
             }
         }
     },
