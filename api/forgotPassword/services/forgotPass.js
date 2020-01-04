@@ -2,7 +2,7 @@
 
 const Crypto = require('crypto');
 const Handlebars = require('handlebars');
-const func = require('../../../functions');
+const utils = require('../../../utils');
 
 const self = module.exports = {
     sendEmailToUser: async (email) => {
@@ -23,8 +23,8 @@ const self = module.exports = {
                 subject: 'Reset Password',
                 html
             };
-            const mailOptions = await func.createMailOptions(options);
-            const transporter = await func.getTransporter();
+            const mailOptions = await utils.createMailOptions(options);
+            const transporter = await utils.getTransporter();
             const result = await transporter.sendMail(mailOptions);
 
             return {result, verifyCode};

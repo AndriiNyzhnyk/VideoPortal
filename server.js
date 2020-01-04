@@ -11,7 +11,7 @@ const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
 const Jwt2 = require('hapi-auth-jwt2');
 const credentials = require('./credentials');
-const func = require('./functions');
+const utils = require('./utils');
 const {HTTP_PORT, HTTP_HOST} = process.env;
 const cpuNums = require('os').cpus().length;
 const routes = require('./api/router');
@@ -58,7 +58,7 @@ const launch = async () => {
     // Setting default auth strategy
     server.auth.strategy('jwt', 'jwt', {
         key: credentials.jwt2.key,
-        validate: func.validate,
+        validate: utils.validate,
         verifyOptions: { algorithms: ['HS256'] }
     });
     server.auth.default('jwt');
