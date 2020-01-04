@@ -1,20 +1,22 @@
 'use strict';
 
-const crypto = require('crypto');
+const Crypto = require('crypto');
 const Path = require('path');
 const Hoek = require('@hapi/hoek');
+
 const credentials = require('./credentials').crypto;
+const encryptDecryptAlgorithm = 'aes-256-cbc';
 
 module.exports = (server) => {
     /**
-     *
-     * @param text
-     * @returns {Promise<unknown>}
+     * Encrypt any text
+     * @param {string} text Input text
+     * @returns {Promise<string>}
      */
     const encrypt = (text) => {
         return new Promise( (resolve) => {
-            const iv = crypto.randomBytes(credentials.ivLength);
-            let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(credentials.encryptionKey), iv);
+            const iv = Crypto.randomBytes(credentials.ivLength);
+            let cipher = Crypto.createCipheriv(encryptDecryptAlgorithm, Buffer.from(credentials.encryptionKey), iv);
             let encrypted = cipher.update(text);
 
             encrypted = Buffer.concat([encrypted, cipher.final()]);
@@ -27,16 +29,16 @@ module.exports = (server) => {
 
 
     /**
-     *
-     * @param text
-     * @returns {Promise<unknown>}
+     * Decrypt any text
+     * @param {string} text
+     * @returns {Promise<string>}
      */
     const decrypt = (text) => {
         return new Promise( (resolve) => {
             const textParts = text.split(':');
             const iv = Buffer.from(textParts.shift(), 'hex');
             let encryptedText = Buffer.from(textParts.join(':'), 'hex');
-            let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(credentials.encryptionKey), iv);
+            let decipher = Crypto.createDecipheriv(encryptDecryptAlgorithm, Buffer.from(credentials.encryptionKey), iv);
             let decrypted = decipher.update(encryptedText);
 
             decrypted = Buffer.concat([decrypted, decipher.final()]);
@@ -48,9 +50,9 @@ module.exports = (server) => {
 
 
     /**
-     *
-     * @param input
-     * @param primitive
+     * Check any params, escape HTML and other stuff
+     * @param {primitive|| object} input
+     * @param {boolean} primitive
      * @returns {Promise<unknown>}
      */
     const securityParamsFilter = (input, primitive = true) => {
@@ -73,9 +75,9 @@ module.exports = (server) => {
 
 
     /**
-     *
-     * @param movieName
-     * @returns {Promise<unknown>}
+     * Create specific path to movie
+     * @param {string} movieName
+     * @returns {Promise<string>}
      */
     const createPathToMovie = (movieName) => {
         return new Promise( (resolve) => {
