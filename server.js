@@ -10,34 +10,17 @@ const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
 const Jwt2 = require('hapi-auth-jwt2');
-const Mongoose = require('mongoose');
 const credentials = require('./credentials');
 const func = require('./functions');
+const {HTTP_PORT, HTTP_HOST} = process.env;
 const cpuNums = require('os').cpus().length;
+const routes = require('./api/router');
 
 // tuning the UV_THREADPOOL_SIZE
 process.env.UV_THREADPOOL_SIZE = cpuNums;
-const {DB_URL, DB_NAME, HTTP_PORT, HTTP_HOST} = process.env;
 
 // Set connection with DB
-Mongoose.connect(`${DB_URL}/${DB_NAME}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-});
-
-// Register error handler for DB connection
-const DB = Mongoose.connection;
-DB.on('error', (err) => {
-    console.error(err);
-    console.error('connection error');
-});
-
-DB.once('open', () => {
-    console.log(`We're connected to DB`)
-});
-
-const routes = require('./api/router');
+require('./db')();
 
 // read certificate and private key
 const serverOptions = {
