@@ -12,7 +12,6 @@ const Inert = require('@hapi/inert');
 const Jwt2 = require('hapi-auth-jwt2');
 const Mongoose = require('mongoose');
 const credentials = require('./credentials');
-const serverMethods = require('./serverMethods');
 const func = require('./functions');
 const cpuNums = require('os').cpus().length;
 
@@ -66,7 +65,7 @@ const launch = async () => {
     });
 
     // Register all server methods
-    server.method(serverMethods);
+    require('./serverMethods')(server);
 
     // Register plugins
     await server.register(Jwt2);
