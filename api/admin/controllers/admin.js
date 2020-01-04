@@ -1,14 +1,12 @@
 'use strict';
 
-const Crypto = require('crypto');
 const Path = require('path');
-const Hoek = require('@hapi/hoek');
 const { User } = require('../../../models');
 const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/admin');
 
-const directoryForUploadedMovies = Path.join(__dirname, '../../../public/movies');
-const directoryForUploadedImages = Path.join(__dirname, '../../../public/images');
+const directoryForUploadedMovies = Path.join(__dirname, '../../../uploads/movies');
+const directoryForUploadedImages = Path.join(__dirname, '../../../uploads/images');
 
 
 const self = module.exports = {

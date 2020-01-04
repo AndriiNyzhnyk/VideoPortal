@@ -81,7 +81,7 @@ module.exports = (server) => {
      */
     const createPathToMovie = (movieName) => {
         return new Promise( (resolve) => {
-            const path = Path.join(__dirname, './public/movies', movieName);
+            const path = Path.join(__dirname, './uploads/movies', movieName);
             resolve(path);
         });
     };
