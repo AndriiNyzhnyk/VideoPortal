@@ -20,5 +20,14 @@ const self = module.exports = {
      */
     addNewCommentToMovie: async (movieId, commentId) => {
         return Movie.findByIdAndUpdate(movieId, { $push: { comments: commentId }});
+    },
+
+    /**
+     * Fetch all movies from DB
+     * @param {Number} limit
+     * @returns {Promise<Object>}
+     */
+    getAllMovies: async (limit = 100) => {
+        return Movie.find({}, null, {limit});
     }
 };
