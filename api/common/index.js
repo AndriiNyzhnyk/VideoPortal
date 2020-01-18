@@ -1,5 +1,7 @@
 'use strict';
 
+const { Movie, Comment } = require('../../models');
+
 module.exports = [
     {
         method: 'GET',
@@ -40,6 +42,25 @@ module.exports = [
         path: '/test-file-upload',
         handler: (req, h) => {
             return h.file('fileUpload.html');
+        },
+        options: { auth: false },
+    },
+    {
+        method: 'POST',
+        path: '/comment',
+        handler: async (req, h) => {
+            try {
+                console.log(req.payload);
+
+                const comment = await Comment.addNewComment(req.payload);
+                console.log(comment);
+                const ttt = await Movie.addNewCommentToMovie(comment.movie, comment._id);
+                console.log(ttt);
+
+                return h.response();
+            } catch (err) {
+                console.error(err);
+            }
         },
         options: { auth: false },
     },

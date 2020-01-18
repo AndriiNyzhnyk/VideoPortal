@@ -81,7 +81,8 @@ const movie = new Schema({
     firstRun: {
         type: Date,
         required: true
-    }
+    },
+    comments: [ {type: Schema.Types.ObjectId, ref: 'Comment'} ]
 });
 
 module.exports = Mongoose.model('Movie', movie);
