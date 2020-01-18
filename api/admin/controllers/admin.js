@@ -1,7 +1,7 @@
 'use strict';
 
 const Path = require('path');
-const { User } = require('../../../models');
+const { User, Movie } = require('../../../models');
 const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/admin');
 
@@ -75,14 +75,13 @@ const self = module.exports = {
 
     addNewMovie: async (req, h) => {
         try {
-            const SM = req.server.methods;
+            const movie = await Movie.addNewMovieToDb(req.payload);
+            console.log(movie);
 
-            const payload = await SM.securityParamsFilter(req.payload, false);
-            console.log(payload);
-
-            return 'Done';
+            return h.response();
         } catch (err) {
-            console.log(err)
+            console.log(err);
+            return Boom.badImplementation('Internal server error!');
         }
     }
 };

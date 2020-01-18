@@ -20,13 +20,13 @@ const movie = new Schema({
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 50
+        maxlength: 100
     },
     sourceVideo: {
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 50
+        maxlength: 100
     },
     qualityVideo:  {
         type: Number,
@@ -38,13 +38,13 @@ const movie = new Schema({
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 50
+        maxlength: 100
     },
     motto: {
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 50
+        maxlength: 100
     },
     year: {
         type: Number,
@@ -56,7 +56,7 @@ const movie = new Schema({
         type: String,
         required: true,
         minlength: 1,
-        maxlength: 50
+        maxlength: 100
     },
     genre: [String],
     category: [String],
