@@ -47,20 +47,7 @@ module.exports = [
     {
         method: 'POST',
         path: '/comment',
-        handler: async (req, h) => {
-            try {
-                console.log(req.payload);
-
-                const comment = await Comment.addNewComment(req.payload);
-                console.log(comment);
-                const ttt = await Movie.addNewCommentToMovie(comment.movie, comment._id);
-                console.log(ttt);
-
-                return h.response();
-            } catch (err) {
-                console.error(err);
-            }
-        },
+        handler: controllers.addNewComment,
         options: { auth: false },
     },
 ];
