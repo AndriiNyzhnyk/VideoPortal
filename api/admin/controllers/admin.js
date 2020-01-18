@@ -71,17 +71,5 @@ const self = module.exports = {
         } catch (err) {
             console.error(err);
         }
-    },
-
-    addNewMovie: async (req, h) => {
-        try {
-            const movie = await Movie.addNewMovieToDb(req.payload);
-            console.log(movie);
-
-            return h.response();
-        } catch (err) {
-            console.log(err);
-            return Boom.badImplementation('Internal server error!');
-        }
     }
 };
