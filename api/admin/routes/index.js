@@ -49,7 +49,7 @@ module.exports = [
         }
     },
     {
-        path: '/new-movies',
+        path: '/new-movie',
         method: 'POST',
         handler: controllers.addNewMovie,
         options: {
@@ -60,25 +60,25 @@ module.exports = [
                     nameEn: Joi.string().min(1).max(100).required(),
                     sourceImg: Joi.string().min(1).max(100).required(),
                     sourceVideo: Joi.string().min(1).max(100).required(),
-                    qualityVideo: Joi.string().min(1).max(100).required(),
+                    qualityVideo: Joi.number().integer().min(144).max(4320).required(),
                     translation: Joi.string().min(1).max(100).required(),
                     motto: Joi.string().min(1).max(100).required(),
-                    // year: Joi.number().integer().min(1).max(3000).required(), // number
-                    year: Joi.string().min(1).max(3000).required(), // test
+                    year: Joi.number().integer().min(1).max(3000).required(), // number
+                    // year: Joi.string().min(1).max(4).required(), // test
                     country: Joi.string().min(1).max(100).required(),
-                    genre: Joi.string().min(1).max(100).required(),
-                    category: Joi.string().min(1).max(100).required(),
+                    genre: Joi.array().items(Joi.string()),
+                    category: Joi.array().items(Joi.string()),
                     producer: Joi.string().min(1).max(100).required(),
-                    // duration: Joi.number().integer().min(1).max(100).required(), // number
-                    // age: Joi.number().integer().min(1).max(100).required(), // number
-                    duration: Joi.string().min(1).max(1000).required(), // test
-                    age: Joi.string().min(1).max(100).required(), // test
-                    firstRun: Joi.string().min(1).max(100).required(),
+                    duration: Joi.number().integer().min(1).max(100).required(),
+                    age: Joi.number().integer().min(1).max(100).required(),
+                    // duration: Joi.string().min(1).max(1000).required(), // test
+                    // age: Joi.string().min(1).max(100).required(), // test
+                    firstRun: Joi.date().required(),
                 }),
                 options: {
                     allowUnknown: false
                 }
-        }
+            }
         }
     }
 ];
