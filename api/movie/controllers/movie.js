@@ -49,4 +49,23 @@ const self = module.exports = {
             return Boom.badImplementation('Internal server error!');
         }
     },
+
+    /**
+     * Get movies pagination list
+     * @param {Object} req
+     * @param {Object} h
+     * @returns {Promise<Boom<unknown>|*>}
+     */
+    moviePagination: async (req, h) => {
+        try {
+            console.log(req.query);
+            const { start, limit, sort } = req.query;
+            const result = await Helpers.getMoviePaginationList(start, limit, sort);
+
+            return h.response(result);
+        } catch (err) {
+            console.error(err);
+            return Boom.badImplementation('Internal server error!');
+        }
+    }
 };

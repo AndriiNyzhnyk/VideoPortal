@@ -24,10 +24,31 @@ const self = module.exports = {
 
     /**
      * Fetch all movies from DB
+     * @param {Object} filter
      * @param {Number} limit
      * @returns {Promise<Object>}
      */
-    getAllMovies: async (limit = 100) => {
-        return Movie.find({}, null, {limit});
+    getAllMovies: async (filter = {}, limit = 100) => {
+        return Movie.find(filter, null, {limit});
+    },
+
+    /**
+     * Fetch all movies filtered by pagination condition
+     * @param {Number} start
+     * @param {Number} limit
+     * @param {String} order
+     * @returns {Promise<Array>}
+     */
+    getAllMoviesPagination: async (start, limit, order) => {
+        const [fieldName, value] = order.split(':');
+        const sort = {
+            [`${fieldName}`]: value === 'asc' ? 1 : -1
+        };
+
+        return Movie.find({}, null, {
+            skip: start,
+            limit,
+            sort
+        });
     }
 };

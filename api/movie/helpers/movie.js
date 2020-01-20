@@ -14,5 +14,10 @@ const self = module.exports = {
         console.log(movie);
 
         return movie;
+    },
+
+
+    getMoviePaginationList: async (start, limit, order) => {
+        return Movie.getAllMoviesPagination(start, limit, order);
     }
 };

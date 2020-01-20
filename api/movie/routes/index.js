@@ -50,4 +50,22 @@ module.exports = [
         handler: controllers.addNewComment,
         options: { auth: false },
     },
+    {
+        method: 'GET',
+        path: '/movies/pagination',
+        handler: controllers.moviePagination,
+        options: {
+            auth: false,
+            validate: {
+                query: Joi.object({
+                    start: Joi.number().integer().min(0).max(100).required(),
+                    limit: Joi.number().integer().min(1).max(1000).required(),
+                    sort: Joi.string().min(1).max(100).required()
+                }),
+                options: {
+                    allowUnknown: false
+                }
+            }
+        }
+    }
 ];
