@@ -65,7 +65,11 @@ module.exports = [
                 options: {
                     allowUnknown: false
                 }
-            }
+            },
+            response: {
+                schema: Joi.array().items().min(0).max(1000).required(),
+                failAction: 'log'
+            },
         }
     }
 ];
