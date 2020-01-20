@@ -4,10 +4,22 @@ const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/movie');
 
 const self = module.exports = {
+    /**
+     * Test route
+     * @param {Object} req
+     * @param {Object} h
+     * @returns {Promise<Boom<unknown>|*>}
+     */
     test: async (req, h) => {
         return h.response('test');
     },
 
+    /**
+     * Create a new entry (movie) into DB
+     * @param {Object} req
+     * @param {Object} h
+     * @returns {Promise<Boom<unknown>|*>}
+     */
     addNewMovie: async (req, h) => {
         try {
             const movie = await Helpers.createNewMovie(req.payload);
@@ -20,6 +32,12 @@ const self = module.exports = {
         }
     },
 
+    /**
+     * Create a new entry (comment) into DB and attach to movie
+     * @param {Object} req
+     * @param {Object} h
+     * @returns {Promise<Boom<unknown>|*>}
+     */
     addNewComment: async (req, h) => {
         try {
             console.log(req.payload);
