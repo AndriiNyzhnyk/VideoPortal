@@ -10,9 +10,11 @@ const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
 const Jwt2 = require('hapi-auth-jwt2');
+const Qs = require('qs');
+const {HTTP_PORT, HTTP_HOST} = process.env;
+
 const credentials = require('./credentials');
 const utils = require('./utils');
-const {HTTP_PORT, HTTP_HOST} = process.env;
 const cpuNums = require('os').cpus().length;
 const routes = require('./api/router');
 
@@ -44,6 +46,9 @@ const launch = async () => {
             files: {
                 relativeTo: Path.join(__dirname, 'public')
             }
+        },
+        query: {
+            parser: (query) => Qs.parse(query)
         }
     });
 
