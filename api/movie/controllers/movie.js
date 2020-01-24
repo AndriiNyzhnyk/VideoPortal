@@ -59,8 +59,7 @@ const self = module.exports = {
     moviePagination: async (req, h) => {
         try {
             console.log(req.query);
-            const { start, limit, sort } = req.query;
-            const result = await Helpers.getMoviePaginationList(start, limit, sort);
+            const result = await Helpers.getMoviePaginationList(req.query);
 
             return h.response(result);
         } catch (err) {

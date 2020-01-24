@@ -17,7 +17,9 @@ const self = module.exports = {
     },
 
 
-    getMoviePaginationList: async (start, limit, order) => {
-        return Movie.getAllMoviesPagination(start, limit, order);
+    getMoviePaginationList: async (query) => {
+        const populateCollections = ['comments'];
+
+        return Movie.getAllMoviesPagination(query, populateCollections);
     }
 };

@@ -34,21 +34,25 @@ const self = module.exports = {
 
     /**
      * Fetch all movies filtered by pagination condition
-     * @param {Number} start
-     * @param {Number} limit
-     * @param {String} order
+     * @param {Object} query
+     * @param {Array} populateCollections
      * @returns {Promise<Array>}
      */
-    getAllMoviesPagination: async (start, limit, order) => {
-        const [fieldName, value] = order.split(':');
-        const sort = {
+    getAllMoviesPagination: async (query, populateCollections = []) => {
+        const { start, limit, sort } = query;
+
+        const populate = populateCollections.join(' ');
+        const [fieldName, value] = sort.split(':');
+        const sortCondition = {
             [`${fieldName}`]: value === 'asc' ? 1 : -1
         };
 
-        return Movie.find({}, null, {
+        return Movie
+        .find({}, null, {
             skip: start,
             limit,
-            sort
-        });
+            sort: sortCondition
+        })
+        .populate(populate);
     }
 };
