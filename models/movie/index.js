@@ -19,7 +19,16 @@ const self = module.exports = {
      * @returns {Promise<Object>}
      */
     attachNewCommentToMovie: async (movieId, commentId) => {
-        return Movie.findByIdAndUpdate(movieId, { $push: { comments: commentId }});
+        // Attach new comment to movie if movie.comments.length < 30
+        return Movie.findByIdAndUpdate(movieId, {
+            $push: {
+                comments: {
+                    $each: [ commentId ],
+                    $sort: 1,
+                    $slice: 30
+                }
+            }
+        });
     },
 
     /**
