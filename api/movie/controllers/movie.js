@@ -38,7 +38,7 @@ const self = module.exports = {
      * @param {Object} h
      * @returns {Promise<Boom<unknown>|*>}
      */
-    addNewComment: async (req, h) => {
+    addNewCommentToMovie: async (req, h) => {
         try {
             console.log(req.payload);
             await Helpers.createNewCommentAndAttachToMovie(req.payload);

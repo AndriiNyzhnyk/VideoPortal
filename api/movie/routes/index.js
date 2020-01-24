@@ -47,7 +47,7 @@ module.exports = [
     {
         method: 'POST',
         path: '/comment',
-        handler: controllers.addNewComment,
+        handler: controllers.addNewCommentToMovie,
         options: { auth: false },
     },
     {

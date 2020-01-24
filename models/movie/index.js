@@ -18,7 +18,7 @@ const self = module.exports = {
      * @param {String} commentId
      * @returns {Promise<Object>}
      */
-    addNewCommentToMovie: async (movieId, commentId) => {
+    attachNewCommentToMovie: async (movieId, commentId) => {
         return Movie.findByIdAndUpdate(movieId, { $push: { comments: commentId }});
     },
 
