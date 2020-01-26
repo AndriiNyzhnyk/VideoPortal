@@ -77,11 +77,12 @@ const launch = async () => {
         partialsPath: './templates/partials'
     });
 
-    // Set connection with DB
-    await createConnectionToDB();
-
     // Attach all routes
     server.route(routes);
+
+    // Set connection with DB
+    const db = await createConnectionToDB();
+    console.log(`Mongoose connected - ${db.connection.host}:${db.connection.port}`);
 
     // Start server
     await server.start();
