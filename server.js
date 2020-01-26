@@ -82,10 +82,14 @@ const launch = async () => {
 
     // Set connection with DB
     const db = await createConnectionToDB();
-    console.log(`Mongoose connected - ${db.connection.host}:${db.connection.port}`);
 
     // Start server
     await server.start();
+
+    // Place for log some info
+    if (require.main === module) {
+        console.log(`Mongoose connected - ${db.connection.host}:${db.connection.port}`);
+    }
 
     return server;
 };
