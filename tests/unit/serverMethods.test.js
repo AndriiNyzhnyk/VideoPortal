@@ -20,7 +20,7 @@ afterAll(async (done) => {
     });
 
     await Mongoose.connection.close();
-    await server.stop({ timeout: 0 });
+    await server.stop();
 });
 
 
