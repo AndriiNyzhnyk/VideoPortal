@@ -1,26 +1,26 @@
-const server = require('../../server.js'); // Import Server/Application
-
-module.exports = {
-    testEnvironment: 'node'
-};
+const { server, launch } = require('../../server.js'); // Import Server/Application
+const Mongoose = require('mongoose');
 
 // Start application before running the test case
-beforeAll((done) => {
+beforeAll(async (done) => {
     server.events.on('start', () => {
         done();
     });
+
+    await launch();
 });
 
 // Stop application after running the test case
-afterAll((done) => {
+afterAll(async (done) => {
     server.events.on('stop', () => {
         done();
     });
 
-    server.stop();
+    await Mongoose.connection.close();
+    await server.stop({ timeout: 60 * 1000 });
 });
 
-test('should success with server connection', async function () {
+test('should success with server connection', async  () => {
     const options = {
         method: 'GET',
         url: '/'
