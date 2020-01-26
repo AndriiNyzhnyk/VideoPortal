@@ -80,7 +80,11 @@ module.exports = (server) => {
      * @returns {Promise<string>}
      */
     const createPathToMovie = (movieName) => {
-        return new Promise( (resolve) => {
+        return new Promise( (resolve,reject) => {
+            if (typeof movieName !== 'string' || movieName.trim() === '') {
+                reject('Bad argument');
+            }
+
             const path = Path.join(__dirname, './uploads/movies', movieName);
             resolve(path);
         });

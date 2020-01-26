@@ -49,11 +49,23 @@ describe('Test serverMethods', () => {
         expect(decryptedText).toBe(inputText);
     });
 
-    test('Should return path to uploaded movie', async  () => {
+    test('Should return path to uploaded movie with valid arguments', async  () => {
         const { createPathToMovie } = server.methods;
         const expectedPath = Path.join(__dirname, '../../uploads/movies/', 'it.mp4');
         const createdPath = await createPathToMovie('it.mp4');
 
         expect(createdPath).toMatch(`${expectedPath}`);
+    });
+
+    test('Should return path to uploaded movie with no valid arguments "empty string"', async  () => {
+        const { createPathToMovie } = server.methods;
+
+        return expect(createPathToMovie('   ')).rejects.toMatch('Bad argument')
+    });
+
+    test('Should return path to uploaded movie with no valid arguments "number instead of string"', async  () => {
+        const { createPathToMovie } = server.methods;
+
+        return expect(createPathToMovie(15)).rejects.toMatch('Bad argument')
     });
 });
