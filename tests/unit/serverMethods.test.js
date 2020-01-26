@@ -19,16 +19,32 @@ afterAll(async (done) => {
     });
 
     await Mongoose.connection.close();
-    await server.stop({ timeout: 60 * 1000 });
+    await server.stop({ timeout: 0 });
 });
 
-test('Should encrypt and decrypt any text', async  () => {
-    const { encrypt, decrypt } = server.methods;
-    const inputText = 'Test test test 123';
 
-    const encryptedText = await encrypt(inputText);
+describe('Test server.js', () => {
+    test('should success with server connection', async  () => {
+        const options = {
+            method: 'GET',
+            url: '/'
+        };
+        const response = await server.inject(options);
+        expect(response.statusCode).toBe(200);
+    });
+});
 
-    const decryptedText = await decrypt(encryptedText);
 
-    expect(decryptedText).toBe(inputText);
+describe('Test server methods', () => {
+
+    test('Should encrypt and decrypt any text', async  () => {
+        const { encrypt, decrypt } = server.methods;
+        const inputText = 'Test test test 123';
+
+        const encryptedText = await encrypt(inputText);
+
+        const decryptedText = await decrypt(encryptedText);
+
+        expect(decryptedText).toBe(inputText);
+    });
 });
