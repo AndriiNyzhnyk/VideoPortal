@@ -17,12 +17,10 @@ const credentials = require('./credentials');
 const utils = require('./utils');
 const cpuNums = require('os').cpus().length;
 const routes = require('./api/router');
+const createConnectionToDB = require('./db');
 
 // tuning the UV_THREADPOOL_SIZE
 process.env.UV_THREADPOOL_SIZE = cpuNums;
-
-// Set connection with DB
-require('./db')();
 
 // read certificate and private key
 const serverOptions = {
@@ -34,24 +32,23 @@ const serverOptions = {
 // create http2 secure server listener
 const listener = Http2.createSecureServer(serverOptions);
 
-const launch = async () => {
-
-    // Settings web server
-    const server = Hapi.server({
-        port: HTTP_PORT,
-        host: HTTP_HOST,
-        tls: true,
-        listener,
-        routes: {
-            files: {
-                relativeTo: Path.join(__dirname, 'public')
-            }
-        },
-        query: {
-            parser: (query) => Qs.parse(query)
+// Settings web server
+const server = Hapi.server({
+    port: HTTP_PORT,
+    host: HTTP_HOST,
+    tls: true,
+    listener,
+    routes: {
+        files: {
+            relativeTo: Path.join(__dirname, 'public')
         }
-    });
+    },
+    query: {
+        parser: (query) => Qs.parse(query)
+    }
+});
 
+const launch = async () => {
     // Register all server methods
     require('./serverMethods')(server);
 
@@ -80,12 +77,16 @@ const launch = async () => {
         partialsPath: './templates/partials'
     });
 
+    // Set connection with DB
+    await createConnectionToDB();
+
     // Attach all routes
     server.route(routes);
 
     // Start server
     await server.start();
-    console.log('Server running on %s', server.info.uri);
+
+    return server;
 };
 
 process.on('unhandledRejection', (err) => {
@@ -93,4 +94,12 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 
-launch();
+launch()
+    .then((server) => {
+        console.log('Server running on %s', server.info.uri);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+
+module.exports = server;
