@@ -1,5 +1,6 @@
 'use strict';
 
+const Path = require('path');
 const { server, launch } = require('../../server.js'); // Import Server/Application
 const Mongoose = require('mongoose');
 
@@ -35,7 +36,7 @@ describe('Test server.js', () => {
 });
 
 
-describe('Test server methods', () => {
+describe('Test serverMethods', () => {
 
     test('Should encrypt and decrypt any text', async  () => {
         const { encrypt, decrypt } = server.methods;
@@ -46,5 +47,13 @@ describe('Test server methods', () => {
         const decryptedText = await decrypt(encryptedText);
 
         expect(decryptedText).toBe(inputText);
+    });
+
+    test('Should return path to uploaded movie', async  () => {
+        const { createPathToMovie } = server.methods;
+        const expectedPath = Path.join(__dirname, '../../uploads/movies/', 'it.mp4');
+        const createdPath = await createPathToMovie('it.mp4');
+
+        expect(createdPath).toMatch(`${expectedPath}`);
     });
 });
