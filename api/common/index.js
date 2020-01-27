@@ -7,7 +7,7 @@ module.exports = [
         handler: (req, h) => {
             return h.view('home', {});
         },
-        options: { auth: false },
+        options: { auth: false }
     },
     {
         method: 'GET',
@@ -17,7 +17,7 @@ module.exports = [
             console.log(req.info);
             return 'Well Done';
         },
-        options: { auth: 'jwt' },
+        options: { auth: 'jwt' }
     },
     {
         method: 'GET',
@@ -25,7 +25,7 @@ module.exports = [
         handler: (req, h) => {
             return h.view('moviePage', {});
         },
-        options: { auth: false },
+        options: { auth: false }
     },
     {
         method: 'GET',
@@ -33,7 +33,7 @@ module.exports = [
         handler: (req, h) => {
             return h.file('TestStream.html');
         },
-        options: { auth: false },
+        options: { auth: false }
     },
     {
         method: 'GET',
@@ -41,17 +41,25 @@ module.exports = [
         handler: (req, h) => {
             return h.file('fileUpload.html');
         },
-        options: { auth: false },
+        options: { auth: false }
     },
     {
         method: 'GET',
-        path: '/{param*}',
+        path: '/static/{param*}',
         handler: {
             directory: {
                 path: '.',
                 redirectToSlash: true
             }
         },
-        options: { auth: false },
+        options: { auth: false }
+    },
+    {
+        method: '*',
+        path: '/{any*}',
+        handler: function (request, h) {
+            return h.view('page404', {});
+        },
+        options: { auth: false }
     }
 ];
