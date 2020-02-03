@@ -37,17 +37,6 @@ describe('Test server.js', () => {
 
 
 describe('Test serverMethods', () => {
-
-    test('Should encrypt and decrypt any text', async  () => {
-        const { encrypt, decrypt } = server.methods;
-        const inputText = 'Test test test 123';
-
-        const encryptedText = await encrypt(inputText);
-        const decryptedText = await decrypt(encryptedText);
-
-        expect(decryptedText).toBe(inputText);
-    });
-
     test('Should return path to uploaded movie with valid arguments', async  () => {
         const { createPathToMovie } = server.methods;
         const expectedPath = Path.join(__dirname, '../../uploads/movies/', 'it.mp4');
