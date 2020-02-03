@@ -64,7 +64,9 @@ module.exports = (server) => {
                 let result = Object.create(null);
 
                 for (let key in input) {
-                    result[key] = Hoek.escapeHtml(input[key]);
+                    if ( input.hasOwnProperty(key) ) {
+                        result[key] = Hoek.escapeHtml(input[key]);
+                    }
                 }
 
                 resolve(result);
