@@ -53,18 +53,30 @@ module.exports = (server) => {
      * Check any params, escape HTML and other stuff. This is done to prevent echo or XSS attacks.
      * @param {String|| Object} input
      * @param {Boolean} primitive
+     * @param {Boolean} strict
      * @returns {Promise<String || Object>}
      */
-    const securityParamsFilter = (input, primitive = true) => {
-        return new Promise( (resolve) => {
+    const securityParamsFilter = (input, primitive = true, strict = true) => {
+        return new Promise( (resolve, reject) => {
             if (primitive) {
-                const result = Hoek.escapeHtml(input);
-                resolve(result);
+                if (typeof input !== 'string') {
+                    reject('Argument must be a string');
+                }
+
+                resolve( Hoek.escapeHtml(input) );
             } else {
+                if (!input || typeof input !== 'object') {
+                    reject('Argument must be an object');
+                }
+
                 let result = Object.create(null);
 
                 for (let key in input) {
-                    if ( input.hasOwnProperty(key) ) {
+                    if (strict) {
+                        if (input.hasOwnProperty(key) ) {
+                            result[key] = Hoek.escapeHtml(input[key]);
+                        }
+                    } else {
                         result[key] = Hoek.escapeHtml(input[key]);
                     }
                 }
