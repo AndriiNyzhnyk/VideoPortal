@@ -50,7 +50,7 @@ module.exports = (server) => {
 
 
     /**
-     * Check any params, escape HTML and other stuff
+     * Check any params, escape HTML and other stuff. This is done to prevent echo or XSS attacks.
      * @param {String|| Object} input
      * @param {Boolean} primitive
      * @returns {Promise<String || Object>}

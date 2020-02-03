@@ -43,7 +43,6 @@ describe('Test serverMethods', () => {
         const inputText = 'Test test test 123';
 
         const encryptedText = await encrypt(inputText);
-
         const decryptedText = await decrypt(encryptedText);
 
         expect(decryptedText).toBe(inputText);
@@ -67,5 +66,24 @@ describe('Test serverMethods', () => {
         const { createPathToMovie } = server.methods;
 
         return expect(createPathToMovie(15)).rejects.toMatch('Bad argument')
+    });
+
+    test('Should escaped and validated user inputs such as query/path parameters(save from XSS) for string', async  () => {
+        const { securityParamsFilter } = server.methods;
+        const evilString = '<html> hey </html>';
+        const expectedString = '&lt;html&gt; hey &lt;&#x2f;html&gt;';
+
+        const result = await securityParamsFilter(evilString, true);
+
+        expect(result).toMatch(expectedString);
+    });
+
+    test('Should escaped and validated user inputs such as query/path parameters(save from XSS) for object', async  () => {
+        const { securityParamsFilter } = server.methods;
+        const evilObject = {value: '<html> hey </html>'};
+        const expectedObject = { value: "&lt;html&gt; hey &lt;&#x2f;html&gt;" };
+        const result = await securityParamsFilter(evilObject, false);
+
+        expect(result).toEqual(expectedObject);
     });
 });
