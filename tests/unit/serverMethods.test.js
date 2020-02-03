@@ -23,19 +23,6 @@ afterAll(async (done) => {
     await server.stop();
 });
 
-
-describe('Test server.js', () => {
-    test('should success with server connection', async  () => {
-        const options = {
-            method: 'GET',
-            url: '/'
-        };
-        const response = await server.inject(options);
-        expect(response.statusCode).toBe(200);
-    });
-});
-
-
 describe('Test serverMethods', () => {
     test('Should return path to uploaded movie with valid arguments', async  () => {
         const { createPathToMovie } = server.methods;

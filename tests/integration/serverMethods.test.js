@@ -23,6 +23,18 @@ afterAll(async (done) => {
 });
 
 
+describe('Test server.js', () => {
+    test('should success with server connection', async  () => {
+        const options = {
+            method: 'GET',
+            url: '/'
+        };
+        const response = await server.inject(options);
+        expect(response.statusCode).toBe(200);
+    });
+});
+
+
 describe('Test serverMethods', () => {
     test('Should encrypt and decrypt any text', async  () => {
         const { encrypt, decrypt } = server.methods;
