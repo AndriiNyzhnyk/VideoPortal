@@ -10,8 +10,8 @@ const encryptDecryptAlgorithm = 'aes-256-cbc';
 module.exports = (server) => {
     /**
      * Encrypt any text
-     * @param {string} text Input text
-     * @returns {Promise<string>}
+     * @param {String} text Input text
+     * @returns {Promise<String>}
      */
     const encrypt = (text) => {
         return new Promise( (resolve) => {
@@ -30,8 +30,8 @@ module.exports = (server) => {
 
     /**
      * Decrypt any text
-     * @param {string} text
-     * @returns {Promise<string>}
+     * @param {String} text
+     * @returns {Promise<String>}
      */
     const decrypt = (text) => {
         return new Promise( (resolve) => {
@@ -51,9 +51,9 @@ module.exports = (server) => {
 
     /**
      * Check any params, escape HTML and other stuff
-     * @param {primitive|| object} input
-     * @param {boolean} primitive
-     * @returns {Promise<unknown>}
+     * @param {String|| Object} input
+     * @param {Boolean} primitive
+     * @returns {Promise<String || Object>}
      */
     const securityParamsFilter = (input, primitive = true) => {
         return new Promise( (resolve) => {
@@ -76,8 +76,8 @@ module.exports = (server) => {
 
     /**
      * Create specific path to movie
-     * @param {string} movieName
-     * @returns {Promise<string>}
+     * @param {String} movieName
+     * @returns {Promise<String>}
      */
     const createPathToMovie = (movieName) => {
         return new Promise( (resolve,reject) => {
