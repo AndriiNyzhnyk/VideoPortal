@@ -65,7 +65,7 @@ module.exports = (server) => {
 
                 resolve( Hoek.escapeHtml(input) );
             } else {
-                if (!input || typeof input !== 'object') {
+                if (!input || typeof input !== 'object' || Array.isArray(input)) {
                     reject('Argument must be an object');
                 }
 
