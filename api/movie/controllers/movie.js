@@ -18,14 +18,11 @@ const self = module.exports = {
      * Create a new entry (movie) into DB
      * @param {Object} req
      * @param {Object} h
-     * @returns {Promise<Boom<unknown>|*>}
+     * @returns {Promise<Boom<Object>|| Object*>}
      */
     addNewMovie: async (req, h) => {
         try {
-            const movie = await Helpers.createNewMovie(req.payload);
-            console.log(movie);
-
-            return h.response();
+            return await Helpers.createNewMovie(req.payload);
         } catch (err) {
             console.error(err);
             return Boom.badImplementation('Internal server error!');
@@ -40,10 +37,7 @@ const self = module.exports = {
      */
     addNewCommentToMovie: async (req, h) => {
         try {
-            console.log(req.payload);
-            await Helpers.createNewCommentAndAttachToMovie(req.payload);
-
-            return h.response();
+            return await Helpers.createNewCommentAndAttachToMovie(req.payload);
         } catch (err) {
             console.error(err);
             return Boom.badImplementation('Internal server error!');
@@ -58,10 +52,7 @@ const self = module.exports = {
      */
     moviePagination: async (req, h) => {
         try {
-            console.log(req.query);
-            const result = await Helpers.getMoviePaginationList(req.query);
-
-            return h.response(result);
+            return await Helpers.getMoviePaginationList(req.query);
         } catch (err) {
             console.error(err);
             return Boom.badImplementation('Internal server error!');
