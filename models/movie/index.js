@@ -8,8 +8,27 @@ const self = module.exports = {
      * @param {Object} payload
      * @returns {Promise<Object>}
      */
-    addNewMovieToDb: async (payload) => {
+    addNewMovieToDb: (payload) => {
         return Movie.create(payload);
+    },
+
+    /**
+     * Find movie by _id
+     * @param {String} movieId
+     * @returns {Promise<Object>}
+     */
+    findMovieById: (movieId) => {
+        return Movie.findById(movieId);
+    },
+
+
+    /**
+     * Remove movie by '_id'
+     * @param {Object || Number || String} movieId
+     * @returns {Promise<*>}
+     */
+    removeMovieById: (movieId) => {
+        return Movie.findByIdAndRemove(movieId);
     },
 
     /**

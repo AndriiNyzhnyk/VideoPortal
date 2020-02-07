@@ -4,6 +4,10 @@ const { server, launch } = require('../../server.js'); // Import Server/Applicat
 const Mongoose = require('mongoose');
 const _ = require('lodash');
 
+
+const Movie = require('../../models/movie');
+const Comment = require('../../models/comment');
+
 const localStorage = new Map();
 
 // Start application before running the test case
@@ -104,5 +108,33 @@ describe('Tests for comments', () => {
         const oneMinuteAgo = now - oneMinute;
         expect( new Date(result.posted).getTime() ).toBeGreaterThanOrEqual(oneMinuteAgo);
         expect( new Date(result.posted).getTime() ).toBeLessThanOrEqual(afterOneMinute);
+
+        localStorage.set('commentId', result._id);
+    });
+});
+
+describe('Remove all related data', () => {
+    test('Should remove previously created movie into DB', async  () => {
+        const movieId = localStorage.get('movieId');
+
+        // Remove movie
+        const removedMovie = await Movie.removeMovieById(movieId);
+        expect(typeof removedMovie).toMatch('object');
+
+        // Try to find movie again into DB. Should return null if movie was removed correctly.
+        const movie = await Movie.findMovieById(movieId);
+        expect(movie).toBeNull();
+    });
+
+    test('Should remove previously created comment into DB', async  () => {
+        const commentId = localStorage.get('commentId');
+
+        // Remove movie
+        const removedComment = await Comment.removeCommentById(commentId);
+        expect(typeof removedComment).toMatch('object');
+
+        // Try to find comment again into DB. Should return null if movie was removed correctly.
+        const movie = await Comment.findCommentById(commentId);
+        expect(movie).toBeNull();
     });
 });

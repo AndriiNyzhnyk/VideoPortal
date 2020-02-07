@@ -15,5 +15,23 @@ const self = module.exports = {
             movie,
             text,
         });
+    },
+
+    /**
+     * Find comment by '_id'
+     * @param {Object || Number || String} commentId
+     * @returns {Promise<*>}
+     */
+    findCommentById: (commentId) => {
+        return Comment.findById(commentId);
+    },
+
+    /**
+     * Remove comment by '_id'
+     * @param {Object || Number || String} commentId
+     * @returns {Promise<*>}
+     */
+    removeCommentById: (commentId) => {
+        return Comment.findByIdAndRemove(commentId);
     }
 };
