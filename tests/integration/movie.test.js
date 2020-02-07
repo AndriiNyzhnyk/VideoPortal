@@ -4,6 +4,8 @@ const { server, launch } = require('../../server.js'); // Import Server/Applicat
 const Mongoose = require('mongoose');
 const _ = require('lodash');
 
+const localStorage = new Map();
+
 // Start application before running the test case
 beforeAll(async (done) => {
     server.events.on('start', () => {
@@ -66,6 +68,8 @@ describe('Tests for movie', () => {
         expect(response.statusCode).toBe(200);
         expect(typeof result).toMatch('object');
         expect(bodyComment).toEqual(fakeMovie);
+
+        localStorage.set('movieId', result._id.toString());
     });
 });
 
@@ -76,7 +80,7 @@ describe('Tests for comments', () => {
 
         const fakeComment = {
             author: "5e089aa46d8f4523d64f5215",
-            movie: "5e233addfb18cf5b3c09fd5b",
+            movie: localStorage.get('movieId'),
             text: "TEst test test 888888888888888888888888"
         };
 
