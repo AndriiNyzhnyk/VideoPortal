@@ -19,11 +19,8 @@ const self = module.exports = {
      */
     createNewCommentAndAttachToMovie: async (commentPayload) => {
         const comment = await Comment.addNewComment(commentPayload);
-        console.log(comment);
-        const movie = await Movie.attachNewCommentToMovie(comment.movie, comment._id);
-        console.log(movie);
-
-        return movie;
+        await Movie.attachNewCommentToMovie(comment.movie, comment._id);
+        return comment;
     },
 
     /**
