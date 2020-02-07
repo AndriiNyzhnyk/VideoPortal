@@ -30,13 +30,16 @@ module.exports = [
                     // year: Joi.string().min(1).max(4).required(), // test
                     country: Joi.string().min(1).max(100).required(),
                     genre: Joi.array().items(Joi.string()),
-                    category: Joi.array().items(Joi.string()),
+                    //category: Joi.array().items(Joi.string()),
                     producer: Joi.string().min(1).max(100).required(),
-                    duration: Joi.number().integer().min(1).max(100).required(),
+                    duration: Joi.number().integer().min(1).max(1000).required(),
                     age: Joi.number().integer().min(1).max(100).required(),
-                    // duration: Joi.string().min(1).max(1000).required(), // test
-                    // age: Joi.string().min(1).max(100).required(), // test
+                    // // duration: Joi.string().min(1).max(1000).required(), // test
+                    // // age: Joi.string().min(1).max(100).required(), // test
                     firstRun: Joi.date().required(),
+                    artists: Joi.string().min(1).max(3000).required(),
+                    description: Joi.string().min(1).max(3000).required(),
+                    comments: Joi.array().items(Joi.string()).required()
                 }),
                 options: {
                     allowUnknown: false

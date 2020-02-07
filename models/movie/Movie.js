@@ -81,7 +81,12 @@ const movie = new Schema({
         type: Date,
         required: true
     },
-    artists: [String],
+    artists: {
+        type: String,
+        required: true,
+        minlength: 1,
+        maxlength: 3000
+    },
     description: {
         type: String,
         required: true,
