@@ -103,5 +103,10 @@ module.exports = (server) => {
             resolve(path);
         });
     };
-    server.method('createPathToMovie', createPathToMovie, {});
+    server.method('createPathToMovie', createPathToMovie, {
+        cache: {
+            expiresIn: 60000,
+            generateTimeout: 300
+        }
+    });
 };
