@@ -1,5 +1,7 @@
 'use strict';
 
+const { PATH_TO_MOVIE_DIRECTORY } = process.env;
+
 const Crypto = require('crypto');
 const Path = require('path');
 const Hoek = require('@hapi/hoek');
@@ -99,8 +101,7 @@ module.exports = (server) => {
                 reject('Bad argument');
             }
 
-            const path = Path.join(__dirname, './uploads/movies', movieName);
-            resolve(path);
+            resolve( Path.join(__dirname, PATH_TO_MOVIE_DIRECTORY, movieName) );
         });
     };
     server.method('createPathToMovie', createPathToMovie, {
