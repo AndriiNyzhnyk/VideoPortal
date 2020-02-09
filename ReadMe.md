@@ -7,10 +7,10 @@ VideoPortal is a powerful video streaming system where users can watch many diff
 Use the package manager NPM to install all dependencies VideoPortal.
 
 ```bash
-npm install
+npm i
 ```
 
-##Create .env file
+## Create .env file
 ```dotenv
 # URI mongoDB and DB name
 DB_URL = 'mongodb://localhost:27017'
@@ -25,11 +25,11 @@ HTTP_ADDRESS = '0.0.0.0'
 PATH_TO_MOVIE_DIRECTORY = 'uploads/movies'
 ```
 
-##Tests
+## Tests
 In this project are using [Jest](https://jestjs.io/en/). Use the package manager NPM to run all test.
 
 ```bash
-npm run test
+npm test
 ```
 
 ## Contributing
