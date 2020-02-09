@@ -29,23 +29,6 @@ const self = module.exports = {
         return { isValid: true };
     },
 
-    securityParamsFilter: (input, primitive = true) => {
-        return new Promise( (resolve) => {
-            if (primitive) {
-                const result = Hoek.escapeHtml(input);
-                resolve(result);
-            } else {
-                let result = Object.create(null);
-
-                for (let key in input) {
-                    result[key] = Hoek.escapeHtml(input[key]);
-                }
-
-                resolve(result);
-            }
-        })
-    },
-
     getTransporter: async (service = 'gmail') => {
         return new Promise((resolve) => {
             const transporter = NodeMailer.createTransport({
