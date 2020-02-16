@@ -21,14 +21,6 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/movie',
-        handler: (req, h) => {
-            return h.view('moviePage', {});
-        },
-        options: { auth: false }
-    },
-    {
-        method: 'GET',
         path: '/test-video',
         handler: (req, h) => {
             return h.file('TestStream.html');

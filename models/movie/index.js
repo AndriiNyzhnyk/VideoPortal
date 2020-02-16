@@ -15,10 +15,20 @@ const self = module.exports = {
     /**
      * Find movie by _id
      * @param {String} movieId
+     * @param {Boolean} lean
      * @returns {Promise<Object>}
      */
-    findMovieById: (movieId) => {
-        return Movie.findById(movieId);
+    findMovieById: (movieId, lean = false) => {
+        return Movie.findById(movieId).lean(lean);
+    },
+
+    /**
+     * Check if document exists by id
+     * @param {String} movieId
+     * @returns {Boolean}
+     */
+    checkIfDocExistsById: (movieId) => {
+        return Movie.exists({ _id: movieId });
     },
 
 

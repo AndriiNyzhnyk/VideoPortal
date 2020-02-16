@@ -13,6 +13,15 @@ const self = module.exports = {
     },
 
     /**
+     * Prepare some data for SSR movie page
+     * @param {String} movieId
+     * @returns {Promise<Object>}
+     */
+    prepareDataForMoviePage: async (movieId) => {
+       return Movie.findMovieById(movieId, true);
+    },
+
+    /**
      * Create new comment and add references on comments to movie
      * @param {Object} commentPayload
      * @returns {Promise<Object>}

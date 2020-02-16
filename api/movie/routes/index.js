@@ -12,6 +12,19 @@ module.exports = [
         options: { auth: false }
     },
     {
+        method: 'GET',
+        path: '/movie/page/{movieId}',
+        handler: controllers.prepareMoviePage,
+        options: {
+            auth: false,
+            validate: {
+                params: Joi.object({
+                    movieId: Joi.string().min(24).max(24)
+                })
+            }
+        }
+    },
+    {
         path: '/new-movie',
         method: 'POST',
         handler: controllers.addNewMovie,
