@@ -21,7 +21,11 @@ const self = module.exports = {
        const movie = await Movie.findMovieById(movieId, true);
         let editedMovie = Object.assign(Object.create(null), movie);
 
+        const firstRun = new Date(movie.firstRun);
+
         editedMovie.artist = movie.artist.split(',');
+
+        editedMovie.firstRun = `${firstRun.getDate()}-${firstRun.getMonth()}-${firstRun.getFullYear()}`;
 
         return editedMovie;
     },
