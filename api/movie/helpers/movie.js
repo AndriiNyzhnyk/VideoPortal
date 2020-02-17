@@ -18,7 +18,12 @@ const self = module.exports = {
      * @returns {Promise<Object>}
      */
     prepareDataForMoviePage: async (movieId) => {
-       return Movie.findMovieById(movieId, true);
+       const movie = await Movie.findMovieById(movieId, true);
+        let editedMovie = Object.assign(Object.create(null), movie);
+
+        editedMovie.artist = movie.artist.split(',');
+
+        return editedMovie;
     },
 
     /**
