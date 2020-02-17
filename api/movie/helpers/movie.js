@@ -1,5 +1,7 @@
 'use strict';
 
+const Mongoose = require('mongoose');
+const ObjectId = Mongoose.Types.ObjectId;
 const { Movie, Comment } = require('../../../models');
 
 const self = module.exports = {
@@ -50,5 +52,24 @@ const self = module.exports = {
         const populateCollections = ['comments'];
 
         return Movie.getAllMoviesPagination(query, populateCollections);
+    },
+
+    /**
+     * Validate movieId as MongoDb ObjectId and check if document exists into DB
+     * @param {String} movieId
+     * @returns {Promise<null|void>}
+     */
+    validateMovieId: async (movieId) => {
+        if ( !ObjectId.isValid(movieId) ) {
+            return Boom.badRequest();
+        }
+
+        const exists = await Movie.checkIfDocExistsById(movieId);
+
+        if (!exists) {
+            return Boom.notFound('This movie not found');
+        }
+
+        return null;
     }
 };

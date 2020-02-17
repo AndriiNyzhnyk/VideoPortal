@@ -1,8 +1,7 @@
 'use strict';
 
+const Path = require('path');
 const Boom = require('@hapi/boom');
-const Mongoose = require('mongoose');
-const ObjectId = Mongoose.Types.ObjectId;
 const Helpers = require('../helpers/movie');
 const { Movie } = require('../../../models');
 
@@ -26,15 +25,10 @@ const self = module.exports = {
     prepareMoviePage: async (req, h) => {
         try {
             const movieId = req.params.movieId;
+            const movieIdError = await Helpers.validateMovieId(movieId);
 
-            if ( !ObjectId.isValid(movieId) ) {
-                return Boom.badRequest();
-            }
-
-            const exists = await Movie.checkIfDocExistsById(movieId);
-
-            if (!exists) {
-                return Boom.notFound('This movie not found');
+            if (movieIdError) {
+                return movieIdError;
             }
 
             const movieData = await Helpers.prepareDataForMoviePage(movieId);
@@ -42,6 +36,27 @@ const self = module.exports = {
             return h.view('moviePage', movieData);
         } catch (err) {
             console.log(err);
+            return Boom.badImplementation('Internal server error!');
+        }
+    },
+
+    downloadMovie: async (req, h) => {
+        try {
+            const movieId = req.params.movieId;
+            const movieIdError = await Helpers.validateMovieId(movieId);
+
+            if (movieIdError) {
+                return movieIdError;
+            }
+
+            const pathToMovie = Path.resolve(__dirname, '../../../uploads/movies/it.mp4');
+
+            return h.file(pathToMovie, {
+                confine: false,
+                mode: 'attachment'
+            });
+        } catch (err) {
+            console.error(err);
             return Boom.badImplementation('Internal server error!');
         }
     },

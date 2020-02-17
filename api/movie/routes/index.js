@@ -1,5 +1,6 @@
 'use strict';
 
+const Path = require('path');
 const Joi = require('@hapi/joi');
 const { Movie, Comment } = require('../../../models');
 const controllers = require('../controllers/movie');
@@ -15,6 +16,19 @@ module.exports = [
         method: 'GET',
         path: '/movie/page/{movieId}',
         handler: controllers.prepareMoviePage,
+        options: {
+            auth: false,
+            validate: {
+                params: Joi.object({
+                    movieId: Joi.string().min(24).max(24)
+                })
+            }
+        }
+    },
+    {
+        method: 'GET',
+        path: '/movie/download/{movieId}',
+        handler:  controllers.downloadMovie,
         options: {
             auth: false,
             validate: {
