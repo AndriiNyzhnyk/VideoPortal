@@ -1,6 +1,8 @@
 'use strict';
 
 const Boom = require('@hapi/boom');
+const Mongoose = require('mongoose');
+const ObjectId = Mongoose.Types.ObjectId;
 const Helpers = require('../helpers/movie');
 const { Movie } = require('../../../models');
 
@@ -24,6 +26,11 @@ const self = module.exports = {
     prepareMoviePage: async (req, h) => {
         try {
             const movieId = req.params.movieId;
+
+            if ( !ObjectId.isValid(movieId) ) {
+                return Boom.badRequest();
+            }
+
             const exists = await Movie.checkIfDocExistsById(movieId);
 
             if (!exists) {
