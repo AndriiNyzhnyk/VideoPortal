@@ -101,5 +101,15 @@ module.exports = [
                 failAction: 'log'
             },
         }
+    },
+    {
+        method: 'GET',
+        path: '/movie/static/{param*}',
+        handler: {
+            directory: {
+                path: Path.resolve(__dirname, '../../../uploads')
+            }
+        },
+        options: { auth: false }
     }
 ];
