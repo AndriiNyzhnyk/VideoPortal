@@ -8,6 +8,10 @@
     <link href="/static/style/normalize.css" rel="stylesheet">
     <link href="/static/style/pageFilm.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Exo+2" rel="stylesheet">
+
+    <link href="https://vjs.zencdn.net/7.6.5/video-js.css" rel="stylesheet">
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    <script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -150,8 +154,14 @@
             </div>
 
             <div id="videoPlayer">
-                <video id="windowVideoPlayer" controls>
-                    <source src="/movie/watch/it" type="video/mp4">
+                <video id='windowVideoPlayer' class='video-js' controls preload='auto' width='640' height='264'
+                       poster='MY_VIDEO_POSTER.jpg' data-setup='{}'>
+                    <source src='/movie/watch/it' type='video/mp4'>
+                    <source src='/movie/watch/it' type='video/webm'>
+                    <p class='vjs-no-js'>
+                        To view this video please enable JavaScript, and consider upgrading to a web browser that
+                        <a href='https://videojs.com/html5-video-support/' target='_blank'>supports HTML5 video</a>
+                    </p>
                 </video>
             </div>
 
@@ -168,5 +178,6 @@
     </script>
     <script src="/static/js/pageFilm.js"></script>
     <script type="text/javascript" src="/static/js/share42/share42.js"></script>
+    <script src='https://vjs.zencdn.net/7.6.5/video.js'></script>
 </body>
 </html>
