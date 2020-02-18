@@ -105,6 +105,12 @@ const self = module.exports = {
         }
     },
 
+    /**
+     * All logic related to watching movie (real-time stream, etc)
+     * @param {Object} req
+     * @param {Object} h
+     * @returns {Promise<*>}
+     */
     watchMovie: async (req, h) => {
         try {
             const SM = req.server.methods;

@@ -2,7 +2,6 @@
 
 const Path = require('path');
 const Joi = require('@hapi/joi');
-const { Movie, Comment } = require('../../../models');
 const controllers = require('../controllers/movie');
 
 module.exports = [
@@ -117,5 +116,5 @@ module.exports = [
         path: '/movie/watch/{name}',
         handler: controllers.watchMovie,
         options: { auth: false }
-    },
+    }
 ];

@@ -77,6 +77,12 @@ const self = module.exports = {
         return null;
     },
 
+    /**
+     * Service for reading some part of the movie and then stream to the client
+     * @param {String} pathToMovie
+     * @param {String} range
+     * @returns {Promise<{file: ReadStream, data: {fileSize: *}, isRange: boolean}|{file: ReadStream, data: {chunkSize: number, fileSize: *, start: number, end: number}, isRange: boolean}>}
+     */
     videoStream: async (pathToMovie, range) => {
         const stat = await statAsync(pathToMovie);
         const fileSize = stat.size;
@@ -107,6 +113,12 @@ const self = module.exports = {
         }
     },
 
+    /**
+     * Set all needed headers for web browser
+     * @param {Object} response
+     * @param {Array} headers
+     * @returns {*}
+     */
     setHeaders: (response, headers) => {
         for(let header of headers) {
             response.header(header[0], header[1]);
