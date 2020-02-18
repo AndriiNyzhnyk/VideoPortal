@@ -111,5 +111,11 @@ module.exports = [
             }
         },
         options: { auth: false }
-    }
+    },
+    {
+        method: 'GET',
+        path: '/movie/watch/{name}',
+        handler: controllers.watchMovie,
+        options: { auth: false }
+    },
 ];
