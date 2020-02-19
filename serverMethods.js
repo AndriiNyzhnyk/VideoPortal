@@ -97,6 +97,11 @@ module.exports = (server) => {
      * @returns {Promise<String>}
      */
     const createPathToMovie = async (movieId) => {
+        if (typeof movieId !== 'string' || movieId.trim() === '') {
+            // return throw new Error('Bad argument');
+            return Promise.reject('Bad argument');
+        }
+
         const { sourceVideo } = await Movie.findMovieById(movieId, true);
 
         return Path.join(__dirname, PATH_TO_MOVIE_DIRECTORY, sourceVideo);

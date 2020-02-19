@@ -4,6 +4,8 @@ const Path = require('path');
 const { server, launch } = require('../../server.js'); // Import Server/Application
 const Mongoose = require('mongoose');
 
+const { Movie } = require('../../models');
+
 // Start application before running the test case
 beforeAll(async (done) => {
     server.events.on('start', () => {
@@ -24,26 +26,31 @@ afterAll(async (done) => {
 });
 
 describe('Test serverMethods', () => {
-    test('Should return path to uploaded movie with valid arguments', async  () => {
-        const { createPathToMovie } = server.methods;
-        const expectedPath = Path.join(__dirname, '../../uploads/movies/', 'it.mp4');
-        const createdPath = await createPathToMovie('it.mp4');
 
-        expect(createdPath).toMatch(`${expectedPath}`);
+    describe('Should return path to uploaded movie', () => {
+        test('with valid arguments', async  () => {
+            const { createPathToMovie } = server.methods;
+
+            const movies = await Movie.getAllMovies({}, 1);
+            const movie = movies[0];
+            const expectedPath = Path.join(__dirname, '../../', 'uploads/movies', movie.sourceVideo);
+            const createdPath = await createPathToMovie(movie._id.toString());
+
+            expect(createdPath).toMatch(`${expectedPath}`);
+        });
+
+        test('with no valid arguments "empty string"', async  () => {
+            const { createPathToMovie } = server.methods;
+
+            return expect(createPathToMovie('   ')).rejects.toMatch('Bad argument')
+        });
+
+        test('with no valid arguments "number instead of string"', async  () => {
+            const { createPathToMovie } = server.methods;
+
+            return expect(createPathToMovie(15)).rejects.toMatch('Bad argument')
+        });
     });
-
-    test('Should return path to uploaded movie with no valid arguments "empty string"', async  () => {
-        const { createPathToMovie } = server.methods;
-
-        return expect(createPathToMovie('   ')).rejects.toMatch('Bad argument')
-    });
-
-    test('Should return path to uploaded movie with no valid arguments "number instead of string"', async  () => {
-        const { createPathToMovie } = server.methods;
-
-        return expect(createPathToMovie(15)).rejects.toMatch('Bad argument')
-    });
-
 
     describe('Should escaped and validated user inputs such as query/path parameters(save from XSS) for string', () => {
         test('Correct string', async  () => {
