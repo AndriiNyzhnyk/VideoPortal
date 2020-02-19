@@ -39,6 +39,12 @@ const self = module.exports = {
         }
     },
 
+    /**
+     * Add ability download movie to client
+     * @param {Object} req
+     * @param {Object} h
+     * @returns {Promise<Boom || *>}
+     */
     downloadMovie: async (req, h) => {
         try {
             const movieId = req.params.movieId;
