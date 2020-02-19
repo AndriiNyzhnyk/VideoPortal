@@ -125,5 +125,38 @@ const self = module.exports = {
         }
 
         return response;
+    },
+
+    /**
+     * Get headers for range mood. When movie is playing
+     * @param {Number} start
+     * @param {Number} end
+     * @param {Number} chunkSize
+     * @param {Number} fileSize
+     * @returns {Promise<Array>}
+     */
+    getHeadersForRangeMood: ({start, end, chunkSize, fileSize}) => {
+        return new Promise((resolve) => {
+            resolve([
+                ['Content-Range', `bytes ${start}-${end}/${fileSize}`],
+                ['Accept-Ranges', 'bytes'],
+                ['Content-Length', chunkSize],
+                ['Content-Type', 'video/mp4']
+            ]);
+        });
+    },
+
+    /**
+     * Get headers for init mood. When movie starting playing.
+     * @param {Number} fileSize
+     * @returns {Promise<Array>}
+     */
+    getHeadersForInitMood: ({fileSize}) => {
+        return new Promise((resolve) => {
+            resolve([
+                ['Content-Length', fileSize],
+                ['Content-Type', 'video/mp4']
+            ]);
+        });
     }
 };

@@ -8,6 +8,7 @@ const Hoek = require('@hapi/hoek');
 
 const credentials = require('./credentials').crypto;
 const encryptDecryptAlgorithm = 'aes-256-cbc';
+const { Movie } = require('./models');
 
 module.exports = (server) => {
     /**
@@ -92,17 +93,13 @@ module.exports = (server) => {
 
     /**
      * Create specific path to movie
-     * @param {String} movieName
+     * @param {String} movieId
      * @returns {Promise<String>}
      */
-    const createPathToMovie = (movieName) => {
-        return new Promise( (resolve,reject) => {
-            if (typeof movieName !== 'string' || movieName.trim() === '') {
-                reject('Bad argument');
-            }
+    const createPathToMovie = async (movieId) => {
+        const { sourceVideo } = await Movie.findMovieById(movieId, true);
 
-            resolve( Path.join(__dirname, PATH_TO_MOVIE_DIRECTORY, movieName) );
-        });
+        return Path.join(__dirname, PATH_TO_MOVIE_DIRECTORY, sourceVideo);
     };
     server.method('createPathToMovie', createPathToMovie, {
         cache: {

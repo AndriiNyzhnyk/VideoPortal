@@ -113,8 +113,15 @@ module.exports = [
     },
     {
         method: 'GET',
-        path: '/movie/watch/{name}',
+        path: '/movie/watch/{movieId}',
         handler: controllers.watchMovie,
-        options: { auth: false }
+        options: {
+            auth: false,
+            validate: {
+                params: Joi.object({
+                    movieId: Joi.string().min(24).max(24)
+                })
+            }
+        }
     }
 ];
