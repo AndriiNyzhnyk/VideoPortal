@@ -102,7 +102,7 @@ module.exports = (server) => {
             return Promise.reject('Bad argument');
         }
 
-        const { sourceVideo } = await Movie.findMovieById(movieId, true);
+        const { sourceVideo } = await Movie.findMovieById(movieId, [], true);
 
         return Path.join(__dirname, PATH_TO_MOVIE_DIRECTORY, sourceVideo);
     };

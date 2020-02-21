@@ -24,7 +24,7 @@ const self = module.exports = {
      * @returns {Promise<Object>}
      */
     prepareDataForMoviePage: async (movieId) => {
-       const movie = await Movie.findMovieById(movieId, true);
+       const movie = await Movie.findMovieById(movieId, ['comments'], true);
         let editedMovie = Object.assign(Object.create(null), movie);
 
         const firstRun = new Date(movie.firstRun);

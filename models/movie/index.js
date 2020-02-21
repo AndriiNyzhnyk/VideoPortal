@@ -15,11 +15,17 @@ const self = module.exports = {
     /**
      * Find movie by _id
      * @param {String} movieId
+     * @param {Array} populateCollections
      * @param {Boolean} lean
      * @returns {Promise<Object>}
      */
-    findMovieById: (movieId, lean = false) => {
-        return Movie.findById(movieId).lean(lean);
+    findMovieById: (movieId, populateCollections = [], lean = false) => {
+        const populate = populateCollections.join(' ');
+
+        return Movie
+            .findById(movieId)
+            .populate(populate)
+            .lean(lean);
     },
 
     /**
