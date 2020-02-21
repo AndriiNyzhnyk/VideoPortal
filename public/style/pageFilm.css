@@ -1176,6 +1176,29 @@ footer ul {
     background: #f2f2f2;
 }
 
+#comments {
+    background-color: #091016;
+    border: 2px solid #494949;
+}
+
+.comment {
+    margin: 10px;
+    padding: 5px;
+    /*border: 2px solid red;*/
+    background-color: #0C151D;
+}
+
+.comment__header {
+    text-align: right;
+    color: silver;
+}
+
+.comment__text {
+    /*border: 1px solid green;*/
+    padding: 5px;
+    color: white;
+}
+
 @media screen and (max-width: 992px) {
     footer ul li {
         font-size: 0.9em;

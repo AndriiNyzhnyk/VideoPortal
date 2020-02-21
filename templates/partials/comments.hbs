@@ -1,3 +1,8 @@
 <div id="comments">
-    <h1>Test comments!</h1>
+    {{#each comments}}
+        <div class="comment" id="{{this._id}}">
+            <div class="comment__header"><span>Posted: {{this.posted}}</span></div>
+            <div class="comment__text">{{this.text}}</div>
+        </div>
+    {{/each}}
 </div>

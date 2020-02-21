@@ -24,14 +24,17 @@ const self = module.exports = {
      * @returns {Promise<Object>}
      */
     prepareDataForMoviePage: async (movieId) => {
-       const movie = await Movie.findMovieById(movieId, ['comments'], true);
+        const movie = await Movie.findMovieById(movieId, ['comments'], true);
         let editedMovie = Object.assign(Object.create(null), movie);
 
         const firstRun = new Date(movie.firstRun);
 
         editedMovie.artist = movie.artist.split(',');
-
         editedMovie.firstRun = `${firstRun.getDate()}-${firstRun.getMonth()}-${firstRun.getFullYear()}`;
+        editedMovie.comments = movie.comments.map((comment) => {
+            comment.posted = new Date(comment.posted).toISOString();
+            return comment;
+        });
 
         return editedMovie;
     },
