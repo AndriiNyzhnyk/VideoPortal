@@ -19,6 +19,22 @@ const self = module.exports = {
     },
 
     /**
+     * Prepare some data for SSR main page
+     * @returns {Promise<Object>}
+     */
+    prepareDataForMainPage: async () => {
+        const query = {
+            start: 0,
+            limit: 15,
+            sort: 'desc'
+        };
+
+        const movies = await Movie.getAllMoviesPagination(query, [], true);
+
+        return { moviesSlider: movies };
+    },
+
+    /**
      * Prepare some data for SSR movie page
      * @param {String} movieId
      * @returns {Promise<Object>}

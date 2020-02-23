@@ -6,7 +6,8 @@ const Helpers = require('../helpers/movie');
 
 const self = module.exports = {
     mainPage: async (req, h) => {
-        return h.view('home', {});
+        const data = await Helpers.prepareDataForMainPage();
+        return h.view('home', data);
     },
 
     /**
