@@ -8,81 +8,12 @@
         <div class="slider js_slider">
             <div class="frame js_frame">
                 <ul class="slides js_slides">
-                    <li class="js_slide">
-                        <img src={{filmSrcImg1}} alt={{filmNameEn1}}>
-                        <div class="nameFilmsSlider"><p>{{filmName1}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg2}} alt={{filmNameEn2}}>
-                        <div class="nameFilmsSlider"><p>{{filmName2}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg3}} alt={{filmNameEn3}}>
-                        <div class="nameFilmsSlider"><p>{{filmName3}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg4}} alt={{filmNameEn4}}>
-                        <div class="nameFilmsSlider"><p>{{filmName4}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg5}} alt={{filmNameEn5}}>
-                        <div class="nameFilmsSlider"><p>{{filmName5}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg6}} alt={{filmNameEn6}}>
-                        <div class="nameFilmsSlider"><p>{{filmName6}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg7}} alt={{filmNameEn7}}>
-                        <div class="nameFilmsSlider"><p>{{filmName7}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg8}} alt={{filmNameEn8}}>
-                        <div class="nameFilmsSlider"><p>{{filmName8}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg9}} alt={{filmNameEn9}}>
-                        <div class="nameFilmsSlider"><p>{{filmName9}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg10}} alt={{filmNameEn10}}>
-                        <div class="nameFilmsSlider"><p>{{filmName10}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg11}} alt={{filmNameEn11}}>
-                        <div class="nameFilmsSlider"><p>{{filmName11}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg12}} alt={{filmNameEn12}}>
-                        <div class="nameFilmsSlider"><p>{{filmName12}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg13}} alt={{filmNameEn13}}>
-                        <div class="nameFilmsSlider"><p>{{filmName13}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg14}} alt={{filmNameEn14}}>
-                        <div class="nameFilmsSlider"><p>{{filmName14}}</p></div>
-                    </li>
-
-                    <li class="js_slide">
-                        <img src={{filmSrcImg15}} alt={{filmNameEn15}}>
-                        <div class="nameFilmsSlider"><p>{{filmName15}}</p></div>
-                    </li>
-
+                    {{#each moviesSlider}}
+                        <li class="js_slide" id={{this._id}}>
+                            <img src=/movie/static/images/{{sourceImg}} alt={{this.nameEn}}>
+                            <div class="nameFilmsSlider"><p>{{this.nameUa}}</p></div>
+                        </li>
+                    {{/each}}
                 </ul>
             </div>
             <span class="js_prev">
