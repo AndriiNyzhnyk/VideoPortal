@@ -3,14 +3,6 @@
 module.exports = [
     {
         method: 'GET',
-        path: '/',
-        handler: (req, h) => {
-            return h.view('home', {});
-        },
-        options: { auth: false }
-    },
-    {
-        method: 'GET',
         path: '/token-test',
         handler: (req, h) => {
 

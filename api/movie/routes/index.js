@@ -7,6 +7,12 @@ const controllers = require('../controllers/movie');
 module.exports = [
     {
         method: 'GET',
+        path: '/',
+        handler: controllers.mainPage,
+        options: { auth: false }
+    },
+    {
+        method: 'GET',
         path: '/movie-test',
         handler: controllers.test,
         options: { auth: false }

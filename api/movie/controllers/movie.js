@@ -5,6 +5,10 @@ const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/movie');
 
 const self = module.exports = {
+    mainPage: async (req, h) => {
+        return h.view('home', {});
+    },
+
     /**
      * Test route
      * @param {Object} req
