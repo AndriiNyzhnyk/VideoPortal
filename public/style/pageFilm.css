@@ -96,7 +96,7 @@ a {
 }
 
 #backgroundImg {
-    background: url(/images/bg1.jpg) no-repeat;
+    background: url('/static/images/bg1.jpg') no-repeat;
     moz-background-size: 100%; /* Firefox 3.6+ */ /* Safari 3.1+ и Chrome 4.0+ */ /* Opera 9.6+ */
     background-size: 100%; /* other */
     -ms-grid-column: 1;
