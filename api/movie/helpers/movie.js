@@ -23,13 +23,19 @@ const self = module.exports = {
      * @returns {Promise<Object>}
      */
     prepareDataForMainPage: async () => {
+        const select = {
+            _id: 1,
+            nameEn: 1,
+            nameUa: 1,
+            sourceImg: 1
+        };
         const query = {
             start: 0,
             limit: 15,
             sort: 'firstRun:desc'
         };
 
-        const movies = await Movie.getAllMoviesPagination(query, [], true);
+        const movies = await Movie.getAllMoviesPagination(query, [], select, true);
 
         return { moviesSlider: movies };
     },

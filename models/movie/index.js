@@ -80,10 +80,11 @@ const self = module.exports = {
      * Fetch all movies filtered by pagination condition
      * @param {Object} query
      * @param {Array} populateCollections
+     * @param {Object} select
      * @param {Boolean} lean
      * @returns {Promise<Array>}
      */
-    getAllMoviesPagination: async (query, populateCollections = [], lean = false) => {
+    getAllMoviesPagination: async (query, populateCollections = [], select = {}, lean = false) => {
         const { start, limit, sort } = query;
 
         const populate = populateCollections.join(' ');
@@ -93,12 +94,13 @@ const self = module.exports = {
         };
 
         return Movie
-        .find({}, null, {
+        .find({}, select, {
             skip: start,
             limit,
             sort: sortCondition
         })
         .populate(populate)
+        // .select(select)
         .lean(lean);
     }
 };
