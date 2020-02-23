@@ -26,7 +26,7 @@ const self = module.exports = {
         const query = {
             start: 0,
             limit: 15,
-            sort: 'desc'
+            sort: 'firstRun:desc'
         };
 
         const movies = await Movie.getAllMoviesPagination(query, [], true);
