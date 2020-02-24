@@ -1,17 +1,23 @@
 'use strict';
 
-const Hoek = require('@hapi/hoek');
 const NodeMailer = require('nodemailer');
-const credetials = require('./credentials').email;
-const User = require('./models/user/User');
+const { email: emailCredetials}  = require('./credentials');
+const { User } = require('./models');
 const _ = require('lodash');
 
 const self = module.exports = {
+    /**
+     * Validation function for 'hapi-auth-jwt2' plugin.
+     * @param {Object} decoded
+     * @param {Object} req
+     * @param {Object} h
+     * @returns {Promise<{isValid: boolean}>}
+     */
     validate: async (decoded, req, h) => {
         const SM = req.server.methods;
 
         const decryptedUserId = await SM.decrypt(decoded.userId);
-        const user = await User.findOne({ _id: decryptedUserId });
+        const user = await User.findUserById(decryptedUserId );
 
         if(!user || decoded.type !== 'access') {
             return { isValid: false };
@@ -24,18 +30,22 @@ const self = module.exports = {
             return { isValid: false };
         }
 
-
         req.info.userClient = _.omit(user._doc, ['password', 'token', '__v']);
         return { isValid: true };
     },
 
-    getTransporter: async (service = 'gmail') => {
+    /**
+     * Create transporter for sending email
+     * @param {String} service
+     * @returns {Promise<*>}
+     */
+    getTransporter: (service = 'gmail') => {
         return new Promise((resolve) => {
             const transporter = NodeMailer.createTransport({
                 service,
                 auth: {
-                    user: credetials.user,
-                    pass: credetials.pass
+                    user: emailCredetials.user,
+                    pass: emailCredetials.pass
                 }
             });
 
@@ -43,12 +53,17 @@ const self = module.exports = {
         });
     },
 
-    createMailOptions: async (options) => {
+    /**
+     * Create mail config
+     * @param {Object} options
+     * @returns {Promise<Object>}
+     */
+    createMailOptions: (options) => {
         return new Promise((resolve) => {
             const {email, subject, html} = options;
 
             const mailOptions = {
-                from: credetials.user,
+                from: emailCredetials.user,
                 to: email,
                 subject,
                 html

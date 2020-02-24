@@ -3,6 +3,15 @@ const User = require('./User');
 const self = module.exports = {
 
     /**
+     * Find user by '_id'
+     * @param {Object || Number || String} userId
+     * @returns {Promise<*>}
+     */
+    findUserById: (userId) => {
+        return User.findById(userId);
+    },
+
+    /**
      * Add new user to DB
      * @param {string} name User name
      * @param {string} email User email
