@@ -117,13 +117,14 @@ window.onload = function () {
     });
 
     // add EventListener on slider for redirect to some movies
-    let sliders = document.getElementsByClassName('js_slide');
+    const sliders = document.getElementsByClassName('js_slide');
 
-    for (let i = 0; i < sliders.length; i++) {
-        sliders[i].addEventListener('click', function (e) {
-            let src = e.target.attributes.src.value;
-            let movie = src.slice(12, -4);
-            window.location.href = `movie/${movie}`;
+    for (let i = 0; i < sliders.length; ++i) {
+        sliders[i].addEventListener('click', (e) => {
+            let movieId = e.target.parentElement.id;
+            console.log(movieId);
+
+            window.location.href = `movie/page/${movieId}`;
         });
     }
 
