@@ -16,12 +16,11 @@ npm i
 DB_URL = 'mongodb://localhost:27017'
 DB_NAME = 'video-portal'
 
-# Server settings
 HTTP_PORT = '8080'
 HTTP_HOST = 'localhost'
 HTTP_ADDRESS = '0.0.0.0'
 
-# Additional
+PATH_TO_IMAGE_DIRECTORY = 'uploads/images'
 PATH_TO_MOVIE_DIRECTORY = 'uploads/movies'
 ```
 
