@@ -4,7 +4,7 @@ const { server, launch } = require('../../server.js'); // Import Server/Applicat
 const Mongoose = require('mongoose');
 const _ = require('lodash');
 
-const { User } = require('../../models');
+const { User, PendingUser } = require('../../models');
 
 const localStorage = new Map();
 
@@ -29,7 +29,6 @@ afterAll(async (done) => {
 
 
 describe('Create new user into DB', () => {
-
 
     test('Check if localStorage for user is empty', () => {
         expect(localStorage.size).toEqual(0);
@@ -73,6 +72,42 @@ describe('Create new user into DB', () => {
     });
 });
 
+
+describe('Activate user', () => {
+    test('Check if user is not active', () => {
+        const user = localStorage.get('dbUser');
+        expect(user.active).toBeFalsy();
+    });
+
+    test('Activate user', async () => {
+        const user = localStorage.get('dbUser');
+
+        const pendingUser = await PendingUser.fetchOne({ userId: user._id });
+        expect(pendingUser).toBeTruthy();
+
+        const { activateCode } = pendingUser;
+        expect(activateCode).toBeTruthy();
+
+        const options = {
+            method: 'GET',
+            url: `/activate-user/${activateCode}`
+        };
+
+        // Make request
+        const response = await server.inject(options);
+        expect(response.statusCode).toBe(200);
+    });
+
+    test('Check if use is active', async () => {
+        const user = localStorage.get('dbUser');
+
+        const dbUser = await User.findUserById(user._id);
+        expect(dbUser).toBeTruthy();
+        expect(dbUser.active).toBeTruthy();
+    });
+});
+
+
 describe('Clear state after adding new user', () => {
     test('Clear DB', async () => {
         const user = localStorage.get('dbUser');
@@ -85,8 +120,8 @@ describe('Clear state after adding new user', () => {
         expect(removedUser).toBeTruthy();
 
 
-        const removedUser1 = await User.findUserById(user._id);
-        expect(removedUser1).toBeFalsy();
+        const nonExistentUser = await User.findUserById(user._id);
+        expect(nonExistentUser).toBeFalsy();
     });
 
 
