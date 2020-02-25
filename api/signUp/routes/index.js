@@ -29,9 +29,7 @@ module.exports = [
         method: 'GET',
         path: '/activate-user/{code}',
         handler: controllers.activateUser,
-        options: {
-            auth: false
-        }
+        options: { auth: false }
     },
 
 ];
