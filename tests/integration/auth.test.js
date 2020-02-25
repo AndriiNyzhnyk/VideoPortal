@@ -65,6 +65,7 @@ describe('Create new user into DB', () => {
     test('Check if user is saved into DB', async () => {
         const user = localStorage.get('user');
 
+        // Add user from DB to cache
         const dbUser = await User.fetchUserByNameOrEmail(user.userName);
         localStorage.set('dbUser', dbUser);
 
@@ -74,6 +75,7 @@ describe('Create new user into DB', () => {
 
 
 describe('Activate user', () => {
+
     test('Check if user is not active', () => {
         const user = localStorage.get('dbUser');
         expect(user.active).toBeFalsy();
@@ -100,6 +102,7 @@ describe('Activate user', () => {
 
     test('Check if use is active', async () => {
         const user = localStorage.get('dbUser');
+        expect(user).toBeTruthy();
 
         const dbUser = await User.findUserById(user._id);
         expect(dbUser).toBeTruthy();
@@ -108,26 +111,30 @@ describe('Activate user', () => {
 });
 
 
-describe('Clear state after adding new user', () => {
-    test('Clear DB', async () => {
-        const user = localStorage.get('dbUser');
+describe('Clear state after tests', () => {
 
+    test('Clear DB', async () => {
+        // Check if the user still exists into cache
+        const user = localStorage.get('dbUser');
+        expect(user).toBeTruthy();
+
+        // Check if the user still exists into DB
         const dbUser = await User.findUserById(user._id);
         expect(dbUser).toBeTruthy();
 
-
+        // Remove this user and return removed object
         const removedUser = await User.removeUserById(user._id);
         expect(removedUser).toBeTruthy();
 
-
+        // Check if the user is completely removed from DB
         const nonExistentUser = await User.findUserById(user._id);
         expect(nonExistentUser).toBeFalsy();
     });
 
 
-    test('Clear localStorage', () => {
+    test('Clear cache', () => {
+        // Clear localStorage
         localStorage.clear();
-
         expect(localStorage.size).toEqual(0);
     });
 });
