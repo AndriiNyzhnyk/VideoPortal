@@ -49,4 +49,13 @@ const self = module.exports = {
             ]
         });
     },
+
+    /**
+     * Remove user by '_id'
+     * @param {Object || Number || String} userId
+     * @returns {*}
+     */
+    removeUserById: (userId) => {
+        return User.findByIdAndRemove(userId);
+    }
 };
