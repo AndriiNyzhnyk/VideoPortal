@@ -1191,6 +1191,17 @@ footer ul {
     color: white;
 }
 
+
+#newComment {
+    padding: 7px;
+    border: 1px solid silver;
+}
+
+#addNewComment {
+    margin: 20px auto;
+    padding: 5px;
+}
+
 @media screen and (max-width: 992px) {
     footer ul li {
         font-size: 0.9em;
