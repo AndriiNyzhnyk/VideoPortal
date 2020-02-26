@@ -93,6 +93,10 @@ const movie = new Schema({
         minlength: 1,
         maxlength: 3000
     },
+    views: {
+        type: Number,
+        default: 0
+    },
     comments: [ {type: Schema.Types.ObjectId, ref: 'Comment'} ]
 });
 
