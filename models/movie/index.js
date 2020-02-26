@@ -13,6 +13,15 @@ const self = module.exports = {
     },
 
     /**
+     * Increment views counter for movie
+     * @param {String} movieId
+     * @returns {Promise<Object>}
+     */
+    incrementViewsCounter: (movieId) => {
+        return Movie.findByIdAndUpdate(movieId, { $inc: { 'views': 1 }});
+    },
+
+    /**
      * Find movie by _id
      * @param {String} movieId
      * @param {Array} populateCollections

@@ -58,6 +58,9 @@ const self = module.exports = {
             return comment;
         });
 
+        // Increment views counter for movie
+        Movie.incrementViewsCounter(movieId).then();
+
         return editedMovie;
     },
 
