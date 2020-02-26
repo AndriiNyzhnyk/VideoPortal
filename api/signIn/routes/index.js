@@ -38,6 +38,5 @@ module.exports = [
         path: '/activate-user-page',
         handler: controllers.getActivateUserPage,
         options: {auth: false}
-    },
-
+    }
 ];

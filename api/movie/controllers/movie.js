@@ -94,7 +94,13 @@ const self = module.exports = {
      */
     addNewCommentToMovie: async (req, h) => {
         try {
-            return await Helpers.createNewCommentAndAttachToMovie(req.payload);
+            const data = {
+                author: req.info.userClient._id.toString(),
+                movie: req.payload.movieId,
+                text: req.payload.comment
+            };
+
+            return await Helpers.createNewCommentAndAttachToMovie(data);
         } catch (err) {
             console.error(err);
             return Boom.badImplementation('Internal server error!');

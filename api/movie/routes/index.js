@@ -83,7 +83,7 @@ module.exports = [
         method: 'POST',
         path: '/comment',
         handler: controllers.addNewCommentToMovie,
-        options: { auth: false },
+        options: { auth: 'jwt' },
     },
     {
         method: 'GET',
