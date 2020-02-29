@@ -22,7 +22,16 @@ async function submitForm(e) {
                     window.location.replace(response.url)
                 }
 
-                window.location.replace('https://localhost:8080/');
+                // Get previous movie page
+                const previousPage = getPreviousPage();
+
+                if (previousPage) {
+                    removeLocaleStorageItem('moviePage');
+
+                    window.location.replace(previousPage);
+                } else {
+                    window.location.replace(window.location.origin);
+                }
             }
 
             alert('Wrong credentials');
@@ -51,6 +60,14 @@ async function sendForm(data) {
 
 async function addTokenToStorage(data) {
     for (let key in data) {
-        localStorage.setItem(key, data[key]);
+        window.localStorage.setItem(key, data[key]);
     }
+}
+
+function getPreviousPage() {
+    return window.localStorage.getItem('moviePage');
+}
+
+function removeLocaleStorageItem(key) {
+    window.localStorage.removeItem(key);
 }

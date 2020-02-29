@@ -24,6 +24,7 @@ async function submitForm(e) {
            const redirectSignIn = confirm("Щоб додати коментар потрібно увійти у систему! Здійснити перехід на сторінку входу");
 
            if (redirectSignIn) {
+               rememberCurrentPage();
                window.location.replace(`${window.location.origin}/sign-in`);
            }
        }
@@ -52,4 +53,8 @@ function sendForm(movieId, comment, token) {
 
 function getAccessToken() {
     return window.localStorage.getItem('accessToken');
+}
+
+function rememberCurrentPage() {
+    window.localStorage.setItem('moviePage', window.location.href);
 }
