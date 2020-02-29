@@ -81,7 +81,7 @@ const self = module.exports = {
      * @returns {Promise<Array>}
      */
     getMoviePaginationList: async (query) => {
-        const populateCollections = ['comments'];
+        const populateCollections = [];
 
         return Movie.getAllMoviesPagination(query, populateCollections);
     },

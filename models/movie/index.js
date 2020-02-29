@@ -93,8 +93,17 @@ const self = module.exports = {
      * @param {Boolean} lean
      * @returns {Promise<Array>}
      */
-    getAllMoviesPagination: async (query, populateCollections = [], select = {}, lean = false) => {
-        const { start, limit, sort } = query;
+    getAllMoviesPagination: (query, populateCollections = [], select = {}, lean = false) => {
+        let { search = '', start, limit, sort } = query;
+
+        const fieldsForSearch = ['nameEn', 'NameUa', 'producer', 'translation', 'description'];
+        const filter = fieldsForSearch.reduce((acc, field) => {
+            const searchKey = new RegExp(search, 'i');
+            acc.$or.push({ [field]: searchKey });
+
+            return acc;
+        }, { $or: [] });
+
 
         const populate = populateCollections.join(' ');
         const [fieldName, value] = sort.split(':');
@@ -102,14 +111,23 @@ const self = module.exports = {
             [`${fieldName}`]: value === 'asc' ? 1 : -1
         };
 
-        return Movie
-        .find({}, select, {
-            skip: start,
-            limit,
-            sort: sortCondition
-        })
-        .populate(populate)
-        // .select(select)
-        .lean(lean);
+        return Movie.
+            find(filter).
+            skip(start).
+            limit(limit).
+            sort(sortCondition).
+            select(select).
+            populate(populate).
+            lean(lean);
     }
+
+
+    // .find({}, select, {
+    //     skip: start,
+    //     limit,
+    //     sort: sortCondition
+    // })
+    //     .populate(populate)
+    //     .select(select)
+    //     .lean(lean);
 };
