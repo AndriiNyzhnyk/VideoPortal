@@ -18,15 +18,17 @@ async function submitForm(e) {
         }
 
         const response = await sendForm(movieId, comment, token);
-        const body = await response.json();
+        // const body = await response.json();
 
-        if (response.status === 200) {
-            console.log('200');
-        }
+       if (response.status === 401) {
+           const redirectSignIn = confirm("Щоб додати коментар потрібно увійти у систему! Здійснити перехід на сторінку входу");
 
-        // alert('Wrong credentials');
-        // form.reset();
+           if (redirectSignIn) {
+               window.location.replace(`${window.location.origin}/sign-in`);
+           }
+       }
 
+        form.reset();
     } catch (err) {
         console.error(err);
     }
