@@ -9,13 +9,13 @@ async function submitForm(e) {
 
         const movieId = document.getElementById('movieId').value;
         const comment = document.getElementById('comment').value;
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbklkIjoiNDJhNWVjYmNkZDRhZWVjNmVjZTE4NDA0Y2IxZDcxMmQiLCJ1c2VySWQiOiIyMGZlNjg4MmM5OTA3OTY4YTFlMDcyYmI4ZTQ0MmI4MzoxNjRiYWI5YzJmNGYwZGYxN2ViOWIyYTAxNDg2ZDNkMWUxZjMxNGNmNzkzNjY2ZDA0MDY4ZDRmMWVmNzVkOTZlIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTU4Mjc0MzA4OCwiZXhwIjoxNTgyNzQ2Njg4fQ.8mdKkVZZ4_G96E2fB6UF_ZaDQ7qv_Cm_e1MgZFbXxuI';
-
+        // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbklkIjoiNDJhNWVjYmNkZDRhZWVjNmVjZTE4NDA0Y2IxZDcxMmQiLCJ1c2VySWQiOiIyMGZlNjg4MmM5OTA3OTY4YTFlMDcyYmI4ZTQ0MmI4MzoxNjRiYWI5YzJmNGYwZGYxN2ViOWIyYTAxNDg2ZDNkMWUxZjMxNGNmNzkzNjY2ZDA0MDY4ZDRmMWVmNzVkOTZlIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTU4Mjc0MzA4OCwiZXhwIjoxNTgyNzQ2Njg4fQ.8mdKkVZZ4_G96E2fB6UF_ZaDQ7qv_Cm_e1MgZFbXxuI';
+        const token = getAccessToken();
+        console.log(token);
 
         if (movieId === '' || comment === '') {
             alert("Wrong comment");
         }
-
 
         const response = await sendForm(movieId, comment, token);
         const body = await response.json();
@@ -46,4 +46,8 @@ function sendForm(movieId, comment, token) {
     };
 
     return fetch(url, options);
+}
+
+function getAccessToken() {
+    return window.localStorage.getItem('accessToken');
 }
