@@ -94,15 +94,17 @@ const self = module.exports = {
      * @returns {Promise<Array>}
      */
     getAllMoviesPagination: (query, populateCollections = [], select = {}, lean = false) => {
-        let { search = '', start, limit, sort = 'nameEn:asc' } = query;
+        let { search, start, limit, sort = 'nameEn:asc' } = query;
 
         const fieldsForSearch = ['nameEn', 'NameUa', 'producer', 'translation', 'description'];
-        const filter = fieldsForSearch.reduce((acc, field) => {
-            const searchKey = new RegExp(search, 'i');
-            acc.$or.push({ [field]: searchKey });
+        const filter = search ?
+            fieldsForSearch.reduce((acc, field) => {
+                const searchKey = new RegExp(search, 'i');
+                acc.$or.push({[field]: searchKey});
 
-            return acc;
-        }, { $or: [] });
+                return acc;
+            }, {$or: []}) :
+            {};
 
 
         const populate = populateCollections.join(' ');
@@ -122,7 +124,7 @@ const self = module.exports = {
     },
 
     moviesPaginationCount: (query) => {
-        let { search = '' } = query;
+        const { search } = query;
 
         const fieldsForSearch = ['nameEn', 'NameUa', 'producer', 'translation', 'description'];
         const filter = fieldsForSearch.reduce((acc, field) => {
