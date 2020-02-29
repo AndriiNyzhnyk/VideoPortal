@@ -86,6 +86,7 @@ const self = module.exports = {
             nameUa: 1,
             sourceImg: 1,
             producer: 1,
+            artist: 1,
             views: 1
         };
 
