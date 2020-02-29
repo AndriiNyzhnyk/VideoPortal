@@ -93,6 +93,7 @@ module.exports = [
             auth: false,
             validate: {
                 query: Joi.object({
+                    search: Joi.string().min(0).max(100),
                     start: Joi.number().integer().min(0).max(100).required(),
                     limit: Joi.number().integer().min(1).max(1000).required(),
                     sort: Joi.string().min(1).max(100).required()
@@ -101,10 +102,14 @@ module.exports = [
                     allowUnknown: false
                 }
             },
-            response: {
-                schema: Joi.array().items().min(0).max(1000).required(),
-                failAction: 'log'
-            },
+            // response: {
+            //     schema: Joi.array().items().min(0).max(1000).required()
+            // },
+
+            // response: Joi.object({
+            //     total: Joi.number().integer().min(0).max(1000).required(),
+            //     data: Joi.array().items().min(0).max(1000).required()
+            // }),
         }
     },
     {

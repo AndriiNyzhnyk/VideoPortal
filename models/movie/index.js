@@ -119,15 +119,20 @@ const self = module.exports = {
             select(select).
             populate(populate).
             lean(lean);
+    },
+
+    moviesPaginationCount: (query) => {
+        let { search = '' } = query;
+
+        const fieldsForSearch = ['nameEn', 'NameUa', 'producer', 'translation', 'description'];
+        const filter = fieldsForSearch.reduce((acc, field) => {
+            const searchKey = new RegExp(search, 'i');
+            acc.$or.push({ [field]: searchKey });
+
+            return acc;
+        }, { $or: [] });
+
+
+        return Movie.find(filter).countDocuments();
     }
-
-
-    // .find({}, select, {
-    //     skip: start,
-    //     limit,
-    //     sort: sortCondition
-    // })
-    //     .populate(populate)
-    //     .select(select)
-    //     .lean(lean);
 };

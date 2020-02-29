@@ -78,12 +78,24 @@ const self = module.exports = {
     /**
      * Return movies list according to query with pagination
      * @param {Object} query
-     * @returns {Promise<Array>}
+     * @returns {Promise<Object>}
      */
     getMoviePaginationList: async (query) => {
-        const populateCollections = [];
+        const select = {
+            nameEn: 1,
+            nameUa: 1,
+            sourceImg: 1,
+            producer: 1,
+            views: 1
+        };
 
-        return Movie.getAllMoviesPagination(query, populateCollections);
+        const movies = await Movie.getAllMoviesPagination(query, [], select);
+        const moviesCount = await Movie.moviesPaginationCount(query);
+
+        return {
+            total: moviesCount,
+            data: movies
+        };
     },
 
     /**
