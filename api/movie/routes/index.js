@@ -130,9 +130,22 @@ module.exports = [
             auth: false,
             validate: {
                 params: Joi.object({
-                    movieId: Joi.string().min(24).max(24)
+                    movieId: Joi.string().min(24).max(24).required()
                 })
             }
         }
-    }
+    },
+    {
+        method: 'GET',
+        path: '/movie/search/{filter}',
+        handler: controllers.searchMovie,
+        options: {
+            auth: false,
+            validate: {
+                params: Joi.object({
+                    filter: Joi.string().allow('').max(360).required()
+                })
+            }
+        }
+    },
 ];

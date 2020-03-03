@@ -156,5 +156,16 @@ const self = module.exports = {
             console.error(err);
             return Boom.badImplementation('Internal server error!');
         }
+    },
+
+    searchMovie: async (req, h) => {
+        try {
+            const filter = req.params.filter;
+
+            return h.view('searchPage', {filter});
+        } catch (err) {
+            console.error(err);
+            return Boom.badImplementation('Internal server error!');
+        }
     }
 };
