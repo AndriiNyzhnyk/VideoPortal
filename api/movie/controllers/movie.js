@@ -5,6 +5,10 @@ const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/movie');
 
 const self = module.exports = {
+    /**
+     * SRR for main page with slider and other important info
+     * @returns {Promise<*>}
+     */
     mainPage: async (req, h) => {
         const data = await Helpers.prepareDataForMainPage();
         return h.view('home', data);
@@ -12,8 +16,6 @@ const self = module.exports = {
 
     /**
      * Test route
-     * @param {Object} req
-     * @param {Object} h
      * @returns {Promise<Boom<unknown>|*>}
      */
     test: async (req, h) => {
@@ -22,8 +24,6 @@ const self = module.exports = {
 
     /**
      * Create a new entry (movie) into DB
-     * @param {Object} req
-     * @param {Object} h
      * @returns {Promise<Boom<Object>|| Object*>}
      */
     prepareMoviePage: async (req, h) => {
@@ -46,8 +46,6 @@ const self = module.exports = {
 
     /**
      * Add ability download movie to client
-     * @param {Object} req
-     * @param {Object} h
      * @returns {Promise<Boom || *>}
      */
     downloadMovie: async (req, h) => {
@@ -73,8 +71,6 @@ const self = module.exports = {
 
     /**
      * Create a new entry (movie) into DB
-     * @param {Object} req
-     * @param {Object} h
      * @returns {Promise<Boom<Object>|| Object*>}
      */
     addNewMovie: async (req, h) => {
@@ -88,8 +84,6 @@ const self = module.exports = {
 
     /**
      * Create a new entry (comment) into DB and attach to movie
-     * @param {Object} req
-     * @param {Object} h
      * @returns {Promise<Boom<unknown>|*>}
      */
     addNewCommentToMovie: async (req, h) => {
@@ -109,8 +103,6 @@ const self = module.exports = {
 
     /**
      * Get movies pagination list
-     * @param {Object} req
-     * @param {Object} h
      * @returns {Promise<Boom<unknown>|*>}
      */
     moviePagination: async (req, h) => {
@@ -124,8 +116,6 @@ const self = module.exports = {
 
     /**
      * All logic related to watching movie (real-time stream, etc)
-     * @param {Object} req
-     * @param {Object} h
      * @returns {Promise<*>}
      */
     watchMovie: async (req, h) => {
@@ -158,6 +148,10 @@ const self = module.exports = {
         }
     },
 
+    /**
+     * Return search page with needed information
+     * @returns {Promise<Boom<unknown>|*>}
+     */
     searchMovie: async (req, h) => {
         try {
             const filter = req.params.filter;
