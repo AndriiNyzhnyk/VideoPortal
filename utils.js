@@ -17,7 +17,7 @@ const self = module.exports = {
         const SM = req.server.methods;
 
         const decryptedUserId = await SM.decrypt(decoded.userId);
-        const user = await User.findUserById(decryptedUserId );
+        const user = await User.findUserById(decryptedUserId, true);
 
         if(!user || decoded.type !== 'access') {
             return { isValid: false };
@@ -30,7 +30,7 @@ const self = module.exports = {
             return { isValid: false };
         }
 
-        req.info.userClient = _.omit(user._doc, ['password', 'token', '__v']);
+        req.info.userClient = _.omit(user, ['password', 'token', '__v']);
         return { isValid: true };
     },
 

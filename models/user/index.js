@@ -5,10 +5,11 @@ const self = module.exports = {
     /**
      * Find user by '_id'
      * @param {Object || Number || String} userId
-     * @returns {Promise<*>}
+     * @param {Boolean} lean
+     * @returns {Promise<Object || Null>}
      */
-    findUserById: (userId) => {
-        return User.findById(userId);
+    findUserById: (userId, lean= false) => {
+        return User.findById(userId).lean(lean);;
     },
 
     /**
