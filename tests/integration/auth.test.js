@@ -28,7 +28,7 @@ afterAll(async (done) => {
 });
 
 
-describe('Create new user into DB', () => {
+describe('Sign up process', () => {
 
     test('Check if localStorage for user is empty', () => {
         expect(localStorage.size).toEqual(0);
@@ -47,7 +47,7 @@ describe('Create new user into DB', () => {
         expect(localStorage.size).toEqual(1);
     });
 
-    test('Sign up user', async () => {
+    test('Sign up user request', async () => {
         const user = localStorage.get('user');
 
         const options = {
@@ -107,6 +107,54 @@ describe('Activate user', () => {
         const dbUser = await User.findUserById(user._id);
         expect(dbUser).toBeTruthy();
         expect(dbUser.active).toBeTruthy();
+    });
+});
+
+describe('Sign in process', () => {
+    test('Sign in by user name', async () => {
+        const user = localStorage.get('user');
+
+        const credentials = {
+            userName: user.userName,
+            password: user.password
+        };
+
+        const options = {
+            method: 'POST',
+            url: '/login',
+            payload: JSON.stringify(credentials)
+        };
+
+        // Make request
+        const response = await server.inject(options);
+        const result = JSON.parse(JSON.stringify(response.result));
+
+        expect(response.statusCode).toBe(200);
+        expect(result['accessToken']).toBeDefined();
+        expect(result['refreshToken']).toBeDefined();
+    });
+
+    test('Sign in by email', async () => {
+        const user = localStorage.get('user');
+
+        const credentials = {
+            userName: user.email,
+            password: user.password
+        };
+
+        const options = {
+            method: 'POST',
+            url: '/login',
+            payload: JSON.stringify(credentials)
+        };
+
+        // Make request
+        const response = await server.inject(options);
+        const result = JSON.parse(JSON.stringify(response.result));
+
+        expect(response.statusCode).toBe(200);
+        expect(result['accessToken']).toBeDefined();
+        expect(result['refreshToken']).toBeDefined();
     });
 });
 
