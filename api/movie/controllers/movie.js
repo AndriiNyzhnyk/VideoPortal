@@ -50,6 +50,7 @@ const self = module.exports = {
      */
     downloadMovie: async (req, h) => {
         try {
+            const { createPathToMovie } = req.server.methods;
             const movieId = req.params.movieId;
             const movieIdError = await Helpers.validateMovieId(movieId);
 
@@ -57,7 +58,7 @@ const self = module.exports = {
                 return movieIdError;
             }
 
-            const pathToMovie = Path.resolve(__dirname, '../../../uploads/movies/it.mp4');
+            const pathToMovie = await createPathToMovie(movieId);
 
             return h.file(pathToMovie, {
                 confine: false,
