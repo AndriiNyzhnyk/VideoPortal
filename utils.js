@@ -14,9 +14,9 @@ const self = module.exports = {
      * @returns {Promise<{isValid: boolean}>}
      */
     validate: async (decoded, req, h) => {
-        const SM = req.server.methods;
+        const { decrypt } = req.server.methods;
 
-        const decryptedUserId = await SM.decrypt(decoded.userId);
+        const decryptedUserId = await decrypt(decoded.userId);
         const user = await User.findUserById(decryptedUserId, true);
 
         if(!user || decoded.type !== 'access') {
@@ -24,7 +24,7 @@ const self = module.exports = {
         }
 
         const encodedRefreshTokenData = user.token.split('.')[1];
-        const refreshTokenData = JSON.parse(Buffer.from(encodedRefreshTokenData, "base64"));
+        const refreshTokenData = JSON.parse(Buffer.from(encodedRefreshTokenData, 'base64'));
 
         if (refreshTokenData.tokenId !== decoded.tokenId) {
             return { isValid: false };
