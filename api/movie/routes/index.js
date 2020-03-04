@@ -58,20 +58,15 @@ module.exports = [
                     qualityVideo: Joi.number().integer().min(144).max(4320).required(),
                     translation: Joi.string().min(1).max(100).required(),
                     motto: Joi.string().min(1).max(100).required(),
-                    year: Joi.number().integer().min(1).max(3000).required(), // number
-                    // year: Joi.string().min(1).max(4).required(), // test
+                    year: Joi.number().integer().min(1).max(3000).required(),
                     country: Joi.string().min(1).max(100).required(),
                     genre: Joi.array().items(Joi.string()),
-                    //category: Joi.array().items(Joi.string()),
                     producer: Joi.string().min(1).max(100).required(),
                     duration: Joi.number().integer().min(1).max(1000).required(),
                     age: Joi.number().integer().min(1).max(100).required(),
-                    // // duration: Joi.string().min(1).max(1000).required(), // test
-                    // // age: Joi.string().min(1).max(100).required(), // test
                     firstRun: Joi.date().required(),
                     artists: Joi.string().min(1).max(3000).required(),
-                    description: Joi.string().min(1).max(3000).required(),
-                    comments: Joi.array().items(Joi.string()).required()
+                    description: Joi.string().min(1).max(3000).required()
                 }),
                 options: {
                     allowUnknown: false

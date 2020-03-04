@@ -32,9 +32,6 @@ afterAll(async (done) => {
 
 describe('Tests for movie', () => {
     test('Should add new movie to DB', async  () => {
-        const now = Date.now();
-        const oneMinute = 60 * 1000; // Count milliseconds into 1 minute
-
         const fakeMovie = {
             nameUa: 'Титанік',
             nameEn: 'Deep',
@@ -43,19 +40,15 @@ describe('Tests for movie', () => {
             qualityVideo: 1080,
             translation: 'Any',
             motto: 'Horror',
-            year: 2020, // number
-            // year: '2020', // string
+            year: 2020,
             country: 'USA',
             genre: ['Pop', 'Roc'],
             producer: 'Andrii Nyzhnyk',
             duration: 134,
             age: 18,
-            // duration: Joi.string().min(1).max(1000).required(), // test
-            // age: Joi.string().min(1).max(100).required(), // test
             firstRun: new Date().toISOString(),
             artists: 'Білл Скарсгард, Метт Деймон, ТіДжей Міллер, Террі Крюс',
-            description: 'Переживши майже смертельну вірусну діаре',
-            comments: []
+            description: 'Переживши майже смертельну вірусну діаре'
         };
 
         const options = {
@@ -67,7 +60,13 @@ describe('Tests for movie', () => {
         // Make request
         const response = await server.inject(options);
         const result = JSON.parse(JSON.stringify(response.result));
+
+        // Omit MongoDD internal fields
         const bodyComment = _.omit(result, ['_id', '__v']);
+
+        // Extend fake movie object according to Mongoose default values
+        fakeMovie.comments = [];
+        fakeMovie.views = 0;
 
         expect(response.statusCode).toBe(200);
         expect(typeof result).toMatch('object');
