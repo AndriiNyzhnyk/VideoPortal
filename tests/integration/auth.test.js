@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 const { User, PendingUser } = require('../../models');
 
-const localStorage = new Map();
+const localState = new Map();
 
 // Start application before running the test case
 beforeAll(async (done) => {
@@ -30,25 +30,25 @@ afterAll(async (done) => {
 
 describe('Sign up process', () => {
 
-    test('Check if localStorage for user is empty', () => {
-        expect(localStorage.size).toEqual(0);
+    test('Check if localState for user is empty', () => {
+        expect(localState.size).toEqual(0);
     });
 
-    test('Should create new user(MAP js) into localStorage', () => {
+    test('Should create new user(MAP js) into localState', () => {
         const user = {
             userName: 'TestUser1',
             email: 'limoto19@gmail.com',
             password: 'TempPass123!'
         };
 
-        localStorage.set('user', user);
+        localState.set('user', user);
 
-        expect(localStorage.has('user')).toEqual(true);
-        expect(localStorage.size).toEqual(1);
+        expect(localState.has('user')).toEqual(true);
+        expect(localState.size).toEqual(1);
     });
 
     test('Sign up user request', async () => {
-        const user = localStorage.get('user');
+        const user = localState.get('user');
 
         const options = {
             method: 'POST',
@@ -63,11 +63,11 @@ describe('Sign up process', () => {
     });
 
     test('Check if user is saved into DB', async () => {
-        const user = localStorage.get('user');
+        const user = localState.get('user');
 
         // Add user from DB to cache
         const dbUser = await User.fetchUserByNameOrEmail(user.userName);
-        localStorage.set('dbUser', dbUser);
+        localState.set('dbUser', dbUser);
 
         expect(dbUser).toBeTruthy();
     });
@@ -77,12 +77,12 @@ describe('Sign up process', () => {
 describe('Activate user', () => {
 
     test('Check if user is not active', () => {
-        const user = localStorage.get('dbUser');
+        const user = localState.get('dbUser');
         expect(user.active).toBeFalsy();
     });
 
     test('Activate user', async () => {
-        const user = localStorage.get('dbUser');
+        const user = localState.get('dbUser');
 
         const pendingUser = await PendingUser.fetchOne({ userId: user._id });
         expect(pendingUser).toBeTruthy();
@@ -101,7 +101,7 @@ describe('Activate user', () => {
     });
 
     test('Check if use is active', async () => {
-        const user = localStorage.get('dbUser');
+        const user = localState.get('dbUser');
         expect(user).toBeTruthy();
 
         const dbUser = await User.findUserById(user._id);
@@ -112,7 +112,7 @@ describe('Activate user', () => {
 
 describe('Sign in process', () => {
     test('Sign in by user name', async () => {
-        const user = localStorage.get('user');
+        const user = localState.get('user');
 
         const credentials = {
             userName: user.userName,
@@ -135,7 +135,7 @@ describe('Sign in process', () => {
     });
 
     test('Sign in by email', async () => {
-        const user = localStorage.get('user');
+        const user = localState.get('user');
 
         const credentials = {
             userName: user.email,
@@ -163,7 +163,7 @@ describe('Clear state after tests', () => {
 
     test('Clear DB', async () => {
         // Check if the user still exists into cache
-        const user = localStorage.get('dbUser');
+        const user = localState.get('dbUser');
         expect(user).toBeTruthy();
 
         // Check if the user still exists into DB
@@ -179,10 +179,9 @@ describe('Clear state after tests', () => {
         expect(nonExistentUser).toBeFalsy();
     });
 
-
     test('Clear cache', () => {
-        // Clear localStorage
-        localStorage.clear();
-        expect(localStorage.size).toEqual(0);
+        // Clear localState
+        localState.clear();
+        expect(localState.size).toEqual(0);
     });
 });
