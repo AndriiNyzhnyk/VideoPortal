@@ -2,10 +2,11 @@
 
 const { server, launch } = require('../../server.js'); // Import Server/Application
 const Mongoose = require('mongoose');
-const _ = require('lodash');
 
+// Import DB models
 const { User, PendingUser } = require('../../models');
 
+// Create temp local sate for saving data
 const localState = new Map();
 
 // Start application before running the test case
@@ -41,6 +42,7 @@ describe('Sign up process', () => {
             password: 'TempPass123!'
         };
 
+        // Save user credential to local stare
         localState.set('user', user);
 
         expect(localState.has('user')).toEqual(true);
@@ -63,13 +65,14 @@ describe('Sign up process', () => {
     });
 
     test('Check if user is saved into DB', async () => {
-        const user = localState.get('user');
+        const { userName } = localState.get('user');
+
+        const user = await User.fetchUserByNameOrEmail(userName);
 
         // Add user from DB to cache
-        const dbUser = await User.fetchUserByNameOrEmail(user.userName);
-        localState.set('dbUser', dbUser);
+        localState.set('dbUser', user);
 
-        expect(dbUser).toBeTruthy();
+        expect(user).toBeTruthy();
     });
 });
 
@@ -110,14 +113,11 @@ describe('Activate user', () => {
     });
 });
 
+
 describe('Sign in process', () => {
     test('Sign in by user name', async () => {
-        const user = localState.get('user');
-
-        const credentials = {
-            userName: user.userName,
-            password: user.password
-        };
+        const { userName, password } = localState.get('user');
+        const credentials = { userName,  password };
 
         const options = {
             method: 'POST',
@@ -127,7 +127,7 @@ describe('Sign in process', () => {
 
         // Make request
         const response = await server.inject(options);
-        const result = JSON.parse(JSON.stringify(response.result));
+        const result = response.result;
 
         expect(response.statusCode).toBe(200);
         expect(result['accessToken']).toBeDefined();
@@ -135,11 +135,10 @@ describe('Sign in process', () => {
     });
 
     test('Sign in by email', async () => {
-        const user = localState.get('user');
-
+        const { email, password } = localState.get('user');
         const credentials = {
-            userName: user.email,
-            password: user.password
+            userName: email,
+            password: password
         };
 
         const options = {
@@ -150,7 +149,7 @@ describe('Sign in process', () => {
 
         // Make request
         const response = await server.inject(options);
-        const result = JSON.parse(JSON.stringify(response.result));
+        const result = response.result;
 
         expect(response.statusCode).toBe(200);
         expect(result['accessToken']).toBeDefined();
