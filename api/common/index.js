@@ -5,9 +5,7 @@ module.exports = [
         method: 'GET',
         path: '/token-test',
         handler: (req, h) => {
-
-            console.log(req.info);
-            return 'Well Done';
+            return h.response();
         },
         options: { auth: 'jwt' }
     },

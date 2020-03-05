@@ -127,11 +127,18 @@ describe('Sign in process', () => {
 
         // Make request
         const response = await server.inject(options);
-        const result = response.result;
-
         expect(response.statusCode).toBe(200);
-        expect(result['accessToken']).toBeDefined();
-        expect(result['refreshToken']).toBeDefined();
+
+        const result = response.result;
+        const accessToken = result['accessToken'];
+        const refreshToken = result['refreshToken'];
+
+        expect(accessToken).toBeDefined();
+        expect(refreshToken).toBeDefined();
+
+        // Save tokens to DB
+        localState.set('accessToken', accessToken);
+        localState.set('refreshToken', refreshToken);
     });
 
     test('Sign in by email', async () => {
@@ -149,11 +156,53 @@ describe('Sign in process', () => {
 
         // Make request
         const response = await server.inject(options);
-        const result = response.result;
-
         expect(response.statusCode).toBe(200);
-        expect(result['accessToken']).toBeDefined();
-        expect(result['refreshToken']).toBeDefined();
+
+        const result = response.result;
+        const accessToken = result['accessToken'];
+        const refreshToken = result['refreshToken'];
+
+        expect(accessToken).toBeDefined();
+        expect(refreshToken).toBeDefined();
+
+        // Save tokens to DB
+        localState.set('accessToken', accessToken);
+        localState.set('refreshToken', refreshToken);
+    });
+});
+
+
+describe('Check auth permission', () => {
+    test('Check valid JWT token', async () => {
+        const accessToken = localState.get('accessToken');
+
+        const options = {
+            method: 'GET',
+            url: '/token-test',
+            headers: {
+                Authorization: accessToken
+            }
+        };
+
+        // Make request
+        const response = await server.inject(options);
+
+        expect(response.statusCode).toBe(204);
+    });
+
+    test('Check invalid JWT token', async () => {
+        const options = {
+            method: 'GET',
+            url: '/token-test',
+            headers: {
+                Authorization: ''
+            }
+        };
+
+        // Make request
+        const response = await server.inject(options);
+
+        expect(response.statusCode).toBe(401);
     });
 });
 
