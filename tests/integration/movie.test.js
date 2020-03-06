@@ -2,13 +2,13 @@
 
 const { server, launch } = require('../../server.js'); // Import Server/Application
 const Mongoose = require('mongoose');
+const Chance = require('chance');
 const _ = require('lodash');
 
+const { Movie, Comment } = require('../../models');
 
-const Movie = require('../../models/movie');
-const Comment = require('../../models/comment');
-
-const localStorage = new Map();
+const localState = new Map();
+const chance = new Chance();
 
 // Start application before running the test case
 beforeAll(async (done) => {
@@ -33,22 +33,22 @@ afterAll(async (done) => {
 describe('Tests for movie', () => {
     test('Should add new movie to DB', async  () => {
         const fakeMovie = {
-            nameUa: 'Титанік',
-            nameEn: 'Deep',
-            sourceImg: '/img/pick',
-            sourceVideo: '/movie/pick',
-            qualityVideo: 1080,
-            translation: 'Any',
-            motto: 'Horror',
-            year: 2020,
-            country: 'USA',
-            genre: ['Pop', 'Roc'],
-            producer: 'Andrii Nyzhnyk',
-            duration: 134,
-            age: 18,
-            firstRun: new Date().toISOString(),
-            artists: 'Білл Скарсгард, Метт Деймон, ТіДжей Міллер, Террі Крюс',
-            description: 'Переживши майже смертельну вірусну діаре'
+            nameUa: chance.word(),
+            nameEn: chance.word(),
+            sourceImg: `/${chance.word()}/${chance.word()}.jpg`,
+            sourceVideo: `/${chance.word()}/${chance.word()}.mp4`,
+            qualityVideo: chance.integer({min: 144, max: 4320}),
+            translation: chance.word(),
+            motto: chance.word(),
+            year: Number.parseInt(chance.year({min: 2000, max: 2100})),
+            country: chance.word(),
+            genre: [chance.word(), chance.word(), chance.word()],
+            producer: chance.name(),
+            duration: chance.integer({ min: 15, max: 1000 }),
+            age: chance.integer({ min: 8, max: 100 }),
+            firstRun: new Date(chance.date()).toISOString(),
+            artists: `${chance.name()}, ${chance.name()}, ${chance.name()}, ${chance.name()}, ${chance.name()}`,
+            description: chance.paragraph()
         };
 
         const options = {
@@ -72,7 +72,7 @@ describe('Tests for movie', () => {
         expect(typeof result).toMatch('object');
         expect(bodyComment).toEqual(fakeMovie);
 
-        localStorage.set('movieId', result._id.toString());
+        localState.set('movieId', result._id.toString());
     });
 });
 
@@ -83,7 +83,7 @@ describe('Tests for comments', () => {
 
         const fakeComment = {
             author: "5e089aa46d8f4523d64f5215",
-            movie: localStorage.get('movieId'),
+            movie: localState.get('movieId'),
             text: "TEst test test 888888888888888888888888"
         };
 
@@ -108,13 +108,13 @@ describe('Tests for comments', () => {
         expect( new Date(result.posted).getTime() ).toBeGreaterThanOrEqual(oneMinuteAgo);
         expect( new Date(result.posted).getTime() ).toBeLessThanOrEqual(afterOneMinute);
 
-        localStorage.set('commentId', result._id);
+        localState.set('commentId', result._id);
     });
 });
 
 describe('Remove all related data', () => {
     test('Should remove previously created movie into DB', async  () => {
-        const movieId = localStorage.get('movieId');
+        const movieId = localState.get('movieId');
 
         // Remove movie
         const removedMovie = await Movie.removeMovieById(movieId);
@@ -126,7 +126,7 @@ describe('Remove all related data', () => {
     });
 
     test('Should remove previously created comment into DB', async  () => {
-        const commentId = localStorage.get('commentId');
+        const commentId = localState.get('commentId');
 
         // Remove movie
         const removedComment = await Comment.removeCommentById(commentId);
