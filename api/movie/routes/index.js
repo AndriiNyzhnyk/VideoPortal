@@ -119,14 +119,23 @@ module.exports = [
                     allowUnknown: false
                 }
             },
-            // response: {
-            //     schema: Joi.array().items().min(0).max(1000).required()
-            // },
-
-            // response: Joi.object({
-            //     total: Joi.number().integer().min(0).max(1000).required(),
-            //     data: Joi.array().items().min(0).max(1000).required()
-            // }),
+            response: {
+                schema: Joi.object({
+                    total: Joi.number().integer().min(0).max(1000).required(),
+                    data: Joi.array().items(
+                        // Joi.object({
+                        //     _id: Joi.string().min(1).max(24).required(),
+                        //     views: Joi.number().integer().min(0).max(10000),
+                        //     nameUa: Joi.string().min(1).max(100).required(),
+                        //     nameEn: Joi.string().min(1).max(100).required(),
+                        //     sourceImg: Joi.string().min(1).max(100).required(),
+                        //     producer: Joi.string().min(1).max(100).required(),
+                        //     artist: Joi.string().min(1).max(10000).required(),
+                        // })
+                    ).max(Joi.ref('total')).required()
+                }),
+                failAction: 'error'
+            }
         }
     },
     {
