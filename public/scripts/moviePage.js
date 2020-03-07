@@ -93,3 +93,18 @@ function renderNewComment(comment) {
 
     comments.append(father);
 }
+
+const buttonAddMovieToFavourites = document.getElementById('addMovieToFavourites');
+buttonAddMovieToFavourites.addEventListener('click', addNewMovieToFavourites);
+
+function addNewMovieToFavourites() {
+    const currentMovie = document.getElementById('movieId').textContent;
+    const allOldValues = JSON.parse(window.localStorage.getItem('FavouriteMovies')) || [];
+    const sameMovie = allOldValues.find((movie) => movie === currentMovie);
+
+    if (!sameMovie) {
+        allOldValues.push(currentMovie);
+
+        window.localStorage.setItem('FavouriteMovies', JSON.stringify(allOldValues));
+    }
+}
