@@ -78,7 +78,29 @@ module.exports = [
         method: 'POST',
         path: '/comment',
         handler: controllers.addNewCommentToMovie,
-        options: { auth: 'jwt' },
+        options: {
+            auth: 'jwt',
+            validate: {
+                payload: Joi.object({
+                    movieId: Joi.string().min(1).max(24).required(),
+                    comment: Joi.string().min(1).max(3000).required(),
+                }),
+                options: {
+                    allowUnknown: false
+                }
+            },
+            response: {
+                schema: Joi.object({
+                    _id: Joi.string().min(1).max(24).required(),
+                    posted: Joi.date().required(),
+                    author: Joi.string().min(1).max(100).required(),
+                    movie: Joi.string().min(1).max(24).required(),
+                    text: Joi.string().min(1).max(3000).required(),
+                    __v: Joi.number().integer().min(0).max(1000).required(),
+                }),
+                failAction: 'error'
+            },
+        },
     },
     {
         method: 'GET',

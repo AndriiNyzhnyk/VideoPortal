@@ -72,7 +72,7 @@ const self = module.exports = {
     createNewCommentAndAttachToMovie: async (commentPayload) => {
         const comment = await Comment.addNewComment(commentPayload);
         await Movie.attachNewCommentToMovie(comment.movie, comment._id);
-        return comment;
+        return JSON.parse(JSON.stringify(comment));
     },
 
     /**
@@ -158,14 +158,16 @@ const self = module.exports = {
      * Set all needed headers for web browser
      * @param {Object} response
      * @param {Array} headers
-     * @returns {*}
+     * @returns {Promise<Object>}
      */
     setHeaders: (response, headers) => {
-        for(let header of headers) {
-            response.header(header[0], header[1]);
-        }
+        return new Promise((resolve) => {
+            for(let header of headers) {
+                response.header(header[0], header[1]);
+            }
 
-        return response;
+            resolve(response);
+        });
     },
 
     /**

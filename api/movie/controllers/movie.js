@@ -89,10 +89,13 @@ const self = module.exports = {
      */
     addNewCommentToMovie: async (req, h) => {
         try {
+            const { movieId, comment } = req.payload;
+            const authorOfComment = req.info.userClient._id.toString();
+
             const data = {
-                author: req.info.userClient._id.toString(),
-                movie: req.payload.movieId,
-                text: req.payload.comment
+                author: authorOfComment,
+                movie: movieId,
+                text: comment
             };
 
             return await Helpers.createNewCommentAndAttachToMovie(data);
