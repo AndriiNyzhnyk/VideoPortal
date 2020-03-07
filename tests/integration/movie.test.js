@@ -2,6 +2,7 @@
 
 const { server, launch } = require('../../server.js'); // Import Server/Application
 const Mongoose = require('mongoose');
+const Services = require('../services');
 const Chance = require('chance');
 const _ = require('lodash');
 
@@ -31,25 +32,30 @@ afterAll(async (done) => {
 
 
 describe('Tests for movie', () => {
+    test('Import tokens', async () => {
+        const requestOptions = Services.getAuthRequestOptions();
+
+        // Make request
+        const response = await server.inject(requestOptions);
+        expect(response.statusCode).toBe(200);
+
+        const result = response.result;
+        const accessToken = result['accessToken'];
+        const refreshToken = result['refreshToken'];
+
+        expect(accessToken).toBeDefined();
+        expect(refreshToken).toBeDefined();
+
+        // Save tokens to cache
+        localState.set('accessToken', accessToken);
+        localState.set('refreshToken', refreshToken);
+    });
+});
+
+
+describe('Tests for movie', () => {
     test('Should add new movie to DB', async  () => {
-        const fakeMovie = {
-            nameUa: chance.word(),
-            nameEn: chance.word(),
-            sourceImg: `/${chance.word()}/${chance.word()}.jpg`,
-            sourceVideo: `/${chance.word()}/${chance.word()}.mp4`,
-            qualityVideo: chance.integer({min: 144, max: 4320}),
-            translation: chance.word(),
-            motto: chance.word(),
-            year: Number.parseInt(chance.year({min: 2000, max: 2100})),
-            country: chance.word(),
-            genre: [chance.word(), chance.word(), chance.word()],
-            producer: chance.name(),
-            duration: chance.integer({ min: 15, max: 1000 }),
-            age: chance.integer({ min: 8, max: 100 }),
-            firstRun: new Date(chance.date()).toISOString(),
-            artists: `${chance.name()}, ${chance.name()}, ${chance.name()}, ${chance.name()}, ${chance.name()}`,
-            description: chance.paragraph()
-        };
+        const fakeMovie = Services.createFakeDataForMovie();
 
         const options = {
             method: 'POST',
@@ -76,41 +82,38 @@ describe('Tests for movie', () => {
     });
 });
 
-describe('Tests for comments', () => {
-    test('Should add new comment to DB', async  () => {
-        const now = Date.now();
-        const oneMinute = 60 * 1000; // Count milliseconds into 1 minute
-
-        const fakeComment = {
-            author: "5e089aa46d8f4523d64f5215",
-            movie: localState.get('movieId'),
-            text: "TEst test test 888888888888888888888888"
-        };
-
-        const options = {
-            method: 'POST',
-            url: '/comment',
-            payload: JSON.stringify(fakeComment)
-        };
-
-        // Make request
-        const response = await server.inject(options);
-        const result = JSON.parse(JSON.stringify(response.result));
-        const bodyComment = _.omit(result, ['_id', '__v', 'posted']);
-
-        expect(response.statusCode).toBe(200);
-        expect(typeof result).toMatch('object');
-        expect(bodyComment).toEqual(fakeComment);
-
-        // Check if posted time is correct
-        const afterOneMinute = now + oneMinute;
-        const oneMinuteAgo = now - oneMinute;
-        expect( new Date(result.posted).getTime() ).toBeGreaterThanOrEqual(oneMinuteAgo);
-        expect( new Date(result.posted).getTime() ).toBeLessThanOrEqual(afterOneMinute);
-
-        localState.set('commentId', result._id);
-    });
-});
+// describe('Tests for comments', () => {
+//     test('Should add new comment to DB', async  () => {
+//         const accessToken = localState.get('accessToken');
+//
+//         const fakeComment = {
+//             author: "5e56bdcf2ab14332e5b33357",
+//             movie: localState.get('movieId'),
+//             text: chance.paragraph()
+//         };
+//
+//         const options = {
+//             method: 'POST',
+//             url: '/comment',
+//             payload: JSON.stringify(fakeComment),
+//             headers: {
+//                 Authorization: accessToken
+//             }
+//
+//         };
+//
+//         // Make request
+//         const response = await server.inject(options);
+//         const result = JSON.parse(JSON.stringify(response.result));
+//         const bodyComment = _.omit(result, ['_id', '__v', 'posted']);
+//
+//         expect(response.statusCode).toBe(200);
+//         expect(typeof result).toMatch('object');
+//         expect(bodyComment).toEqual(fakeComment);
+//
+//         localState.set('commentId', result._id);
+//     });
+// });
 
 describe('Remove all related data', () => {
     test('Should remove previously created movie into DB', async  () => {
