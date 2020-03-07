@@ -31,7 +31,8 @@ const user = new Schema({
     token: {
         type: String,
         default: ''
-    }
+    },
+    favourites: [ {type: Schema.Types.ObjectId, ref: 'Movie'} ]
 });
 
 module.exports = Mongoose.model('User', user);

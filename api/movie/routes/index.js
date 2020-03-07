@@ -174,4 +174,20 @@ module.exports = [
             }
         }
     },
+    {
+        method: 'POST',
+        path: '/movie/favourite',
+        handler: controllers.addNewMovieToFavourites,
+        options: {
+            auth: 'jwt',
+            validate: {
+                payload: Joi.object({
+                    movieId: Joi.string().length(24).required(),
+                }),
+                options: {
+                    allowUnknown: false
+                }
+            },
+        }
+    },
 ];

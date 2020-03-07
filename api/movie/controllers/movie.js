@@ -1,6 +1,5 @@
 'use strict';
 
-const Path = require('path');
 const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/movie');
 
@@ -161,6 +160,18 @@ const self = module.exports = {
             const filter = req.params.filter;
 
             return h.view('searchPage', {filter});
+        } catch (err) {
+            console.error(err);
+            return Boom.badImplementation('Internal server error!');
+        }
+    },
+
+    addNewMovieToFavourites: async (req, h) => {
+        try {
+            const userWhoMakeRequest = req.info.userClient._id.toString();
+            const { movieId } = req.payload;
+
+            return Helpers.addThisMovieToFavourites(userWhoMakeRequest, movieId)
         } catch (err) {
             console.error(err);
             return Boom.badImplementation('Internal server error!');

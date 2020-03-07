@@ -6,7 +6,7 @@ const statAsync = Promisify(FS.stat);
 
 const Mongoose = require('mongoose');
 const ObjectId = Mongoose.Types.ObjectId;
-const { Movie, Comment } = require('../../../models');
+const { Movie, Comment, User } = require('../../../models');
 
 const self = module.exports = {
     /**
@@ -201,5 +201,9 @@ const self = module.exports = {
                 ['Content-Type', 'video/mp4']
             ]);
         });
+    },
+
+    addThisMovieToFavourites: (userId, movieId) => {
+        return User.addMovieToFavourites(userId, movieId);
     }
 };

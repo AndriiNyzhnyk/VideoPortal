@@ -17,7 +17,7 @@ const self = module.exports = {
      * @param {string} name User name
      * @param {string} email User email
      * @param {string} password Hashed user password
-     * @returns {Promise<*>} New user
+     * @returns {Promise<Object>} New user
      */
     createNewUser: ({ name, email, password }) => {
         return User.create({
@@ -31,7 +31,7 @@ const self = module.exports = {
      * Find document into DB and update his
      * @param {string || objectId} id Have to equal '_id' any document into DB
      * @param {object} params Params which should be updated
-     * @returns {Promise<*>} Updated document
+     * @returns {Promise<Object>} Updated document
      */
     findByIdAndUpdate: (id, params) => {
         return User.findByIdAndUpdate(id, params);
@@ -40,7 +40,7 @@ const self = module.exports = {
     /**
      * Fetch user by name or email
      * @param {string} nameOrEmail User name or email
-     * @returns {Promise<*>}
+     * @returns {Promise<Object>}
      */
     fetchUserByNameOrEmail: (nameOrEmail) => {
         return User.findOne({
@@ -54,9 +54,19 @@ const self = module.exports = {
     /**
      * Remove user by '_id'
      * @param {Object || Number || String} userId
-     * @returns {*}
+     * @returns {Promise<Object>}
      */
     removeUserById: (userId) => {
         return User.findByIdAndRemove(userId);
+    },
+
+    /**
+     *
+     * @param {String} userId
+     * @param {String} movieId
+     * @returns {Promise<Object>}
+     */
+    addMovieToFavourites: (userId, movieId) => {
+        return User.findByIdAndUpdate(userId, { $addToSet: { favourites: movieId } });
     }
 };
