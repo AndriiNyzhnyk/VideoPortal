@@ -20,7 +20,7 @@ const comment = new Schema({
     },
     posted: {
         type: Date,
-        default: new Date()
+        default: new Date
     }
 });
 

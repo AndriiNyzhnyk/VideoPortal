@@ -18,7 +18,7 @@ const forgotPassword = new Schema({
     },
     createdAt: {
         type: Date,
-        default: new Date()
+        default: new Date
     }
 });
 

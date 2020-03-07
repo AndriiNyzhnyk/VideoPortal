@@ -22,7 +22,7 @@ const user = new Schema({
     },
     registrationDate: {
         type: Date,
-        default: new Date()
+        default: new Date
     },
     lastLogin: {
         type: String,
