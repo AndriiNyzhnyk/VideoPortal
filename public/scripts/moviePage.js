@@ -5,6 +5,9 @@ window.onload = function () {
     const buttonAddMovieToFavourites = document.getElementById('addMovieToFavourites');
     buttonAddMovieToFavourites.addEventListener('click', addNewMovieToFavourites);
 
+    /**
+     * Add new movie to favourites
+     */
     function addNewMovieToFavourites() {
         const currentMovieId = document.getElementById('movieId').textContent;
         const currentImageSrc = document.getElementById('imgFilm').firstElementChild.currentSrc;
@@ -32,6 +35,10 @@ window.onload = function () {
         }
     }
 
+    /**
+     * Create HTML markup using js
+     * @param {Object} movie
+     */
     function createFavouriteMovie(movie) {
         // <div class="itemFavouriteMovies">
         //     <img src="" alt="" class="imageFavouriteMovies">
@@ -69,6 +76,9 @@ window.onload = function () {
         return father;
     }
 
+    /**
+     * Render old favourites movies
+     */
     function renderFavouritesMovies() {
         const allFavouriteMovies = JSON.parse(window.localStorage.getItem('FavouriteMovies')) || [];
         const listFavouriteMovies = document.getElementById('listFavouriteMovies');
@@ -81,6 +91,10 @@ window.onload = function () {
     }
     renderFavouritesMovies();
 
+    /**
+     * Redirect on favourite movie page
+     * @param e
+     */
     function onClickFavouriteMovie(e) {
         const parentElement = e.target.parentElement;
         const movieId = parentElement.id.split('_')[2];
@@ -92,6 +106,11 @@ window.onload = function () {
     const form = document.getElementById('newCommentForm');
     form.addEventListener('submit', submitForm);
 
+    /**
+     * Submit HTML Form
+     * @param e
+     * @returns {Promise<void>}
+     */
     async function submitForm(e) {
         try {
             e.preventDefault();
@@ -142,15 +161,27 @@ window.onload = function () {
         return fetch(url, options);
     }
 
+    /**
+     * Get access token from localStorage
+     * @returns {string}
+     */
     function getAccessToken() {
         return window.localStorage.getItem('accessToken');
     }
 
+    /**
+     * Add current page to localStorage
+     */
     function rememberCurrentPage() {
         window.localStorage.setItem('moviePage', window.location.href);
     }
 
+    /**
+     * Create HTML markup using js
+     * @param {Object} comment
+     */
     function renderNewComment(comment) {
+        // Example
         // <div class="comment" id="content_{{this._id}}">
         //     <div class="comment__header"><span>Posted: {{this.posted}}</span></div>
         //     <div class="comment__text">{{this.text}}</div>
@@ -182,5 +213,4 @@ window.onload = function () {
 
         comments.append(father);
     }
-
 };
