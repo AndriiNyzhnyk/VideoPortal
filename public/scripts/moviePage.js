@@ -10,6 +10,7 @@ window.onload = function () {
         const currentImageSrc = document.getElementById('imgFilm').firstElementChild.currentSrc;
         const currentMovieNameEn = document.getElementById('filmName').lastElementChild.textContent;
         const currentMovieNameUa = document.getElementById('filmName').firstElementChild.textContent;
+        const listFavouriteMovies = document.getElementById('listFavouriteMovies');
 
         const allOldValues = JSON.parse(window.localStorage.getItem('FavouriteMovies')) || [];
         const sameMovie = allOldValues.find((movie) => movie['movieId'] === currentMovieId);
@@ -25,7 +26,9 @@ window.onload = function () {
             allOldValues.push(data);
 
             window.localStorage.setItem('FavouriteMovies', JSON.stringify(allOldValues));
-            renderFavouritesMovies();
+
+            const viewMovie = createFavouriteMovie(data);
+            listFavouriteMovies.append(viewMovie);
         }
     }
 
@@ -71,12 +74,19 @@ window.onload = function () {
         const listFavouriteMovies = document.getElementById('listFavouriteMovies');
 
         for (let movie of allFavouriteMovies) {
-            listFavouriteMovies.append(createFavouriteMovie(movie))
+            const viewMovie = createFavouriteMovie(movie);
+            viewMovie.addEventListener('click', onClickFavouriteMovie);
+            listFavouriteMovies.append(viewMovie);
         }
     }
     renderFavouritesMovies();
 
+    function onClickFavouriteMovie(e) {
+        const parentElement = e.target.parentElement;
+        const movieId = parentElement.id.split('_')[2];
 
+        window.location.replace(`${window.location.origin}/movie/page/${movieId}`);
+    }
 
 
     const form = document.getElementById('newCommentForm');
