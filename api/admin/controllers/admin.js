@@ -53,7 +53,7 @@ const self = module.exports = {
 
             await Helpers.handleStreamFileUpload(path, file);
 
-            return { success: true };
+            return h.response();
         } catch (err) {
             console.error(err);
         }
