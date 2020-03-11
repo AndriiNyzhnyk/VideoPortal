@@ -10,7 +10,6 @@ const Vision = require('@hapi/vision');
 const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
 const Jwt2 = require('hapi-auth-jwt2');
-const Qs = require('qs');
 const {HTTP_PORT, HTTP_HOST} = process.env;
 
 const credentials = require('./credentials');
@@ -42,9 +41,6 @@ const server = Hapi.server({
         files: {
             relativeTo: Path.join(__dirname, 'public')
         }
-    },
-    query: {
-        parser: (query) => Qs.parse(query)
     }
 });
 
