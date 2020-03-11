@@ -40,7 +40,7 @@ const self = module.exports = {
 
         } catch (e) {
             console.log(e);
-            h.response('Internal server error!');
+            return Boom.badImplementation();
         }
     },
 
@@ -56,6 +56,7 @@ const self = module.exports = {
             return h.response();
         } catch (err) {
             console.error(err);
+            return Boom.badImplementation();
         }
     },
     imageFileUpload: async (req, h) => {
@@ -70,6 +71,7 @@ const self = module.exports = {
             return { success: true };
         } catch (err) {
             console.error(err);
+            return Boom.badImplementation();
         }
     }
 };
