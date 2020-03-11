@@ -1202,11 +1202,15 @@ footer ul {
     padding: 5px;
 }
 
+.favouriteControls {
+    margin: 10px;
+}
+
 #addMovieToFavourites {
     cursor: pointer;
 }
 
-#addMovieToFavourites:hover {
+.favouriteControls:hover {
     background-color: green;
     color: white;
 }

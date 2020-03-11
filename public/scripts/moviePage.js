@@ -2,6 +2,31 @@
 
 window.onload = function () {
 
+    const buttonRemoveAllFavouriteMovies = document.getElementById('removeAllFavouriteMovies');
+    buttonRemoveAllFavouriteMovies.addEventListener('click', removeAllFavouriteMovies);
+
+    function removeAllFavouriteMovies() {
+        window.localStorage.setItem('FavouriteMovies', JSON.stringify([]));
+
+        const father = document.getElementById("listFavouriteMovies");
+        while (father.firstChild) {
+            father.removeChild(father.firstChild);
+        }
+    }
+
+
+    const buttonRemoveCurrentFavouriteMovie = document.getElementById('removeCurrentFavouriteMovie');
+    buttonRemoveCurrentFavouriteMovie.addEventListener('click', removeCurrentFavouriteMovie);
+
+    function removeCurrentFavouriteMovie() {
+        const currentMovieId = document.getElementById('movieId').textContent;
+        const allOldMovies = JSON.parse(window.localStorage.getItem('FavouriteMovies')) || [];
+        const filteredMovies = allOldMovies.filter((movie) => movie.movieId !== currentMovieId);
+
+        document.getElementById(`favourite_movie_${currentMovieId}`).remove();
+        window.localStorage.setItem('FavouriteMovies', JSON.stringify(filteredMovies));
+    }
+
     const buttonAddMovieToFavourites = document.getElementById('addMovieToFavourites');
     buttonAddMovieToFavourites.addEventListener('click', addNewMovieToFavourites);
 
