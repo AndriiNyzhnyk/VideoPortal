@@ -63,12 +63,16 @@ const self = module.exports = {
         try {
             const {file, newFileName} = req.payload;
 
+            if (typeof file !== 'object') {
+                return Boom.badRequest();
+            }
+
             const filename = newFileName || file.hapi.filename;
             const path = Path.join(directoryForUploadedImages, filename);
 
             await Helpers.handleStreamFileUpload(path, file._data);
 
-            return { success: true };
+            return h.response();
         } catch (err) {
             console.error(err);
             return Boom.badImplementation();
