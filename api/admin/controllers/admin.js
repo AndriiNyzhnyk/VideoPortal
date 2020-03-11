@@ -1,7 +1,7 @@
 'use strict';
 
 const Path = require('path');
-const { User, Movie } = require('../../../models');
+const { User } = require('../../../models');
 const Boom = require('@hapi/boom');
 const Helpers = require('../helpers/admin');
 
@@ -59,6 +59,7 @@ const self = module.exports = {
             return Boom.badImplementation();
         }
     },
+
     imageFileUpload: async (req, h) => {
         try {
             const {file, newFileName} = req.payload;
@@ -70,7 +71,7 @@ const self = module.exports = {
             const filename = newFileName || file.hapi.filename;
             const path = Path.join(directoryForUploadedImages, filename);
 
-            await Helpers.handleStreamFileUpload(path, file._data);
+            await Helpers.handleStreamFileUpload(path, file);
 
             return h.response();
         } catch (err) {
