@@ -45,6 +45,7 @@ module.exports = [
             auth: false,
             payload: {
                 output: 'stream',
+                multipart: true,
                 maxBytes: 10737418240 // 10 Gb
             }
         }
