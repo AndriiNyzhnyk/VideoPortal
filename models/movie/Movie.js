@@ -58,7 +58,8 @@ const movie = new Schema({
         minlength: 1,
         maxlength: 100
     },
-    genre: [String],
+    genres: [String],
+    artists: [String],
     producer: {
         type: String,
         required: true,
@@ -80,12 +81,6 @@ const movie = new Schema({
     firstRun: {
         type: Date,
         required: true
-    },
-    artists: {
-        type: String,
-        required: true,
-        minlength: 1,
-        maxlength: 3000
     },
     description: {
         type: String,

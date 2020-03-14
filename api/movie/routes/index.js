@@ -60,12 +60,12 @@ module.exports = [
                     motto: Joi.string().min(1).max(100).required(),
                     year: Joi.number().integer().min(1).max(3000).required(),
                     country: Joi.string().min(1).max(100).required(),
-                    genre: Joi.array().items(Joi.string()),
+                    genres: Joi.array().items(Joi.string()).required(),
+                    artists: Joi.array().items(Joi.string()).required(),
                     producer: Joi.string().min(1).max(100).required(),
                     duration: Joi.number().integer().min(1).max(1000).required(),
                     age: Joi.number().integer().min(1).max(100).required(),
-                    firstRun: Joi.date().required(),
-                    artists: Joi.string().min(1).max(3000).required(),
+                    firstRun: Joi.date().iso().required(),
                     description: Joi.string().min(1).max(3000).required()
                 }),
                 options: {

@@ -31,12 +31,12 @@ const self = module.exports = {
             motto: chance.word(),
             year: Number.parseInt(chance.year({min: 2000, max: 2100})),
             country: chance.word(),
-            genre: [chance.word(), chance.word(), chance.word()],
+            genres: [chance.word(), chance.word(), chance.word()],
+            artists: [chance.word(), chance.word(), chance.word()],
             producer: chance.name(),
             duration: chance.integer({ min: 15, max: 1000 }),
             age: chance.integer({ min: 8, max: 100 }),
             firstRun: new Date(chance.date()).toISOString(),
-            artists: `${chance.name()}, ${chance.name()}, ${chance.name()}, ${chance.name()}, ${chance.name()}`,
             description: chance.paragraph()
         };
     }
