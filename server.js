@@ -2,23 +2,37 @@
 
 require('dotenv').config({path: `${__dirname}/.env`});
 
-const Hapi = require('@hapi/hapi');
+// Internal Node.js modules
 const FS = require('fs');
 const Http2 = require('http2');
 const Path = require('path');
+const Os = require('os');
+
+
+// Hapi.js modules
+const Hapi = require('@hapi/hapi');
 const Vision = require('@hapi/vision');
-const Handlebars = require('handlebars');
 const Inert = require('@hapi/inert');
+
+
+// Third party dependencies
+const Handlebars = require('handlebars');
 const Jwt2 = require('hapi-auth-jwt2');
+
+
+// Get process environments
 const {HTTP_PORT, HTTP_HOST} = process.env;
 
+
+// Custom dependencies
 const credentials = require('./credentials');
 const utils = require('./utils');
-const cpuNums = require('os').cpus().length;
+const cpuNums = Os.cpus().length;
 const routes = require('./api/router');
 const createConnectionToDB = require('./db');
 
-// tuning the UV_THREADPOOL_SIZE
+
+// Tuning the UV_THREADPOOL_SIZE
 process.env.UV_THREADPOOL_SIZE = cpuNums;
 
 // read certificate and private key
@@ -28,7 +42,7 @@ const serverOptions = {
     allowHTTP1: true
 };
 
-// create http2 secure server listener
+// Create http2 secure server listener
 const listener = Http2.createSecureServer(serverOptions);
 
 // Settings web server
