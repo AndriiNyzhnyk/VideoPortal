@@ -51,8 +51,13 @@ const self = module.exports = {
 
         const firstRun = new Date(movie.firstRun);
 
-        editedMovie.artist = movie.artist.split(',');
+        // Back compatibility. When 'artist' was a string not an array of string('artists)
+        editedMovie.artists = Array.isArray(movie.artists) ?
+            movie.artists:
+            movie.artist.split(',').map(item => item.trim()).filter(item => item !== '');
+
         editedMovie.firstRun = `${firstRun.getDate()}-${firstRun.getMonth()}-${firstRun.getFullYear()}`;
+
         editedMovie.comments = movie.comments.map((comment) => {
             comment.posted = new Date(comment.posted).toISOString();
             return comment;
