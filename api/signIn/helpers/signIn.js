@@ -1,8 +1,10 @@
 'use strict';
 
+// Get process environments
+const { JSON_WEB_TOKEN_KEY } = process.env;
+
 const Crypto = require('crypto');
 const JWT = require('jsonwebtoken');
-const jsonWebToken = require('../../../credentials').jsonwebtoken;
 
 const self = module.exports = {
     // Check the password hash
@@ -70,7 +72,7 @@ const self = module.exports = {
             };
 
             const token = JWT.sign(dataForToken,
-                jsonWebToken.key,
+                JSON_WEB_TOKEN_KEY,
                 {
                     expiresIn: '1h',
                     algorithm: 'HS256'
@@ -89,7 +91,7 @@ const self = module.exports = {
             };
 
             const token = JWT.sign(dataForToken,
-                jsonWebToken.key,
+                JSON_WEB_TOKEN_KEY,
                 {
                     expiresIn: '72h',
                     algorithm: 'HS256'

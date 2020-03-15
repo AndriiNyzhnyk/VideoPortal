@@ -21,11 +21,10 @@ const Jwt2 = require('hapi-auth-jwt2');
 
 
 // Get process environments
-const {HTTP_PORT, HTTP_HOST} = process.env;
+const { HTTP_PORT, HTTP_HOST, JWT2_PLUGIN_KEY } = process.env;
 
 
 // Custom dependencies
-const credentials = require('./credentials');
 const utils = require('./utils');
 const cpuNums = Os.cpus().length;
 const routes = require('./api/router');
@@ -69,7 +68,7 @@ const launch = async () => {
 
     // Setting default auth strategy
     server.auth.strategy('jwt', 'jwt', {
-        key: credentials.jwt2.key,
+        key: JWT2_PLUGIN_KEY,
         validate: utils.validate,
         verifyOptions: { algorithms: ['HS256'] }
     });
