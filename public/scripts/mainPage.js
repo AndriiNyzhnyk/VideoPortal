@@ -15,7 +15,7 @@ window.onload = function () {
         frame[0].style.width = someWidth1;
 
         // set style for images in slider
-        const someWidth2 = frame[0].offsetWidth * 0.19 + 'px';
+        const someWidth2 = frame[0].offsetWidth * 0.195 + 'px';
         // console.log(someWidth2);
         let slide = document.querySelectorAll('.js_slide');
         // console.log(slide);
