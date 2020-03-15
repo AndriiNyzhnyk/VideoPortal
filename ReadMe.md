@@ -41,7 +41,7 @@ npm test
 After completed all test, you can check video portal without any additional settings(without adding manually thousand 
 the movies and after upload the theme directly to the server)
 
-Use this [link](https://drive.google.com/drive/folders/1uLXyeMwRmRv4dS6egnlpsFjfFBd7qQy0?usp=sharing) and download all 
+Use this [link](https://drive.google.com/drive/folders/1Ib0iPCO8dsq_ZSxDStSdN6sR8HJm93Kj?usp=sharing) and download all 
 needed posters and movies for the test.
 
 ## Contributing
