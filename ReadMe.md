@@ -58,6 +58,12 @@ the movies and after upload the theme directly to the server)
 Use this [link](https://drive.google.com/drive/folders/1Ib0iPCO8dsq_ZSxDStSdN6sR8HJm93Kj?usp=sharing) and download all 
 needed posters and movies for the test.
 
+Also, you will find the file "moviesForImport.json" in the root project directory. Please run the command above.
+
+```bash
+mongoimport --db video-portal --collection movies --file moviesForImport.json --jsonArray
+```
+
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
