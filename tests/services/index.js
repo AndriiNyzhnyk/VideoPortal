@@ -63,11 +63,18 @@ const self = module.exports = {
         }
     },
 
-    createSignUpOptions: (user) => {
+    createSignUpRequestOptions: (user) => {
         return  {
             method: 'POST',
             url: '/registration',
             payload: JSON.stringify(user)
+        };
+    },
+
+    createActivateUserRequestOptions: (activateCode) => {
+        return  {
+            method: 'GET',
+            url: `/activate-user/${activateCode}`
         };
     }
 };

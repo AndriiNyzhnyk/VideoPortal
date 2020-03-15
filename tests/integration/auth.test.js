@@ -48,7 +48,7 @@ describe('Sign up process', () => {
 
     test('Sign up user request', async () => {
         const user = localState.get('user');
-        const requestSignUpOptions = Services.createSignUpOptions(user);
+        const requestSignUpOptions = Services.createSignUpRequestOptions(user);
 
         // Make request
         const response = await server.inject(requestSignUpOptions);
@@ -69,7 +69,7 @@ describe('Sign up process', () => {
 
     test('Sign up user request with the same credentials', async () => {
         const user = localState.get('user');
-        const requestSignUpOptions = Services.createSignUpOptions(user);
+        const requestSignUpOptions = Services.createSignUpRequestOptions(user);
 
         // Make request
         const response = await server.inject(requestSignUpOptions);
@@ -81,9 +81,24 @@ describe('Sign up process', () => {
 
 describe('Activate user', () => {
 
-    test('Check if user is not active', () => {
+    test('Check if user is not activated', () => {
         const user = localState.get('dbUser');
         expect(user.active).toBeFalsy();
+    });
+
+    test('Try to sign in when user is not activated', async () => {
+        const { userName, password } = localState.get('user');
+        const credentials = { userName,  password };
+
+        const options = {
+            method: 'POST',
+            url: '/login',
+            payload: JSON.stringify(credentials)
+        };
+
+        // Make request
+        const response = await server.inject(options);
+        expect(response.statusCode).toBe(302);
     });
 
     test('Activate user', async () => {
@@ -95,13 +110,10 @@ describe('Activate user', () => {
         const { activateCode } = pendingUser;
         expect(activateCode).toBeTruthy();
 
-        const options = {
-            method: 'GET',
-            url: `/activate-user/${activateCode}`
-        };
+        const requestOptions = Services.createActivateUserRequestOptions(activateCode);
 
         // Make request
-        const response = await server.inject(options);
+        const response = await server.inject(requestOptions);
         expect(response.statusCode).toBe(200);
     });
 
