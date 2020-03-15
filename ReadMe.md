@@ -13,16 +13,30 @@ npm i
 ## Create .env file
 In the root project directory please create a `.env` file.
 ```dotenv
-# URI mongoDB and DB name
+# MongoDB settings
 DB_URL = 'mongodb://localhost:27017'
 DB_NAME = 'video-portal'
 
+# Server settings
 HTTP_PORT = '8080'
 HTTP_HOST = 'localhost'
 HTTP_ADDRESS = '0.0.0.0'
 
+# Path to uploaded movies and posters
 PATH_TO_IMAGE_DIRECTORY = 'uploads/images'
 PATH_TO_MOVIE_DIRECTORY = 'uploads/movies'
+
+# Credentials
+POSTMAN_EMAIL = 'test123@gmail.com'
+POSTMAN_PASSWORD = 'TempPass123!'
+
+# Other
+JWT2_PLUGIN_KEY = 'NeverShareYourSecret'
+JSON_WEB_TOKEN_KEY = 'NeverShareYourSecret'
+SERVER_ENCRYPTION_KEY = 'a184b630a935870144e75b7fffdb0701'
+SERVER_ENCRYPTION_KEY_IV_LENGTH = '16'
+ENCRYPT_DECRYPT_ALGORITHM = 'aes-256-cbc'
+
 ```
 
 ## Create directories for new movies
