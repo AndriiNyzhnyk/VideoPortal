@@ -2,6 +2,7 @@
 
 const { server, launch } = require('../../server.js'); // Import Server/Application
 const Mongoose = require('mongoose');
+const Services = require('../services');
 
 // Import DB models
 const { User, PendingUser } = require('../../models');
@@ -36,11 +37,7 @@ describe('Sign up process', () => {
     });
 
     test('Should create new user(MAP js) into localState', () => {
-        const user = {
-            userName: 'TestUser1',
-            email: 'limoto19@gmail.com',
-            password: 'TempPass123!'
-        };
+        const user = Services.createFakeUserCredentials();
 
         // Save user credential to local stare
         localState.set('user', user);

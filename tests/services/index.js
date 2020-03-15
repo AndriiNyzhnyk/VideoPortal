@@ -1,7 +1,6 @@
 'use strict';
 
 const Chance = require('chance');
-
 const chance = new Chance();
 
 const self = module.exports = {
@@ -39,5 +38,28 @@ const self = module.exports = {
             firstRun: new Date(chance.date()).toISOString(),
             description: chance.paragraph()
         };
+    },
+
+    createFakeUserCredentials: () => {
+        const password = chance.string({
+            length: 4,
+            casing: 'upper',
+            alpha: true,
+            numeric: true,
+            symbols: true
+        }) + chance.string({
+            length: 8,
+            casing: 'lower',
+            alpha: true,
+            numeric: true,
+            symbols: true
+        });
+
+
+        return {
+            userName: chance.name(),
+            email: chance.email(),
+            password
+        }
     }
 };
