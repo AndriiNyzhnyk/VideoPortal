@@ -8,14 +8,14 @@ const self = module.exports = {
     sendEmailToUser: async (email) => {
         try {
             // Preparing params
-            const url = 'https://localhost:3000/reset-password/';
-            const verifyCode = await self.generateVerifyCode();
+            const url = 'https://localhost:8080/reset-password/';
+            const verifyCode = self.generateVerifyCode();
             const link = url + verifyCode;
 
             // Generate template
-            const template = await self.createTemplate();
+            const template = self.createTemplate();
             const source = Handlebars.compile(template);
-            const html = await self.addDataToTemplate(source, {link});
+            const html = source({link});
 
             // Send Email
             const options = {
@@ -23,8 +23,12 @@ const self = module.exports = {
                 subject: 'Reset Password',
                 html
             };
-            const mailOptions = await utils.createMailOptions(options);
-            const transporter = await utils.getTransporter();
+
+            const [mailOptions, transporter] = await Promise.all([
+                utils.createMailOptions(options),
+                utils.getTransporter()
+            ]);
+
             const result = await transporter.sendMail(mailOptions);
 
             return {result, verifyCode};
@@ -33,26 +37,11 @@ const self = module.exports = {
         }
     },
 
-    generateVerifyCode: async () => {
-        return new Promise((resolve) => {
-            const code = Crypto.randomBytes(20).toString('hex');
-
-            resolve(code);
-        });
+    generateVerifyCode: () => {
+        return Crypto.randomBytes(20).toString('hex');
     },
 
     createTemplate: () => {
-        return new Promise((resolve) => {
-            let source = "<p>To reset your password please follow the <a href={{link}}>link</a></p>";
-
-            resolve(source);
-        });
-    },
-
-    addDataToTemplate: (source, data) => {
-        return new Promise((resolve) => {
-
-            resolve(source(data));
-        });
+        return "<p>To reset your password please follow the <a href={{link}}>link</a></p>";
     }
 };
