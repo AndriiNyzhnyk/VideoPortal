@@ -52,6 +52,18 @@ const self = module.exports = {
     },
 
     /**
+     * Check if user name or email already exists
+     * @param {String} name
+     * @param {String} email
+     * @returns {Promise<Object || Null>}
+     */
+    checkIfUserNameOrEmailAlreadyExists: (name, email) => {
+        return User.findOne({
+            $or: [ {name}, {email} ]
+        });
+    },
+
+    /**
      * Remove user by '_id'
      * @param {Object || Number || String} userId
      * @returns {Promise<Object>}

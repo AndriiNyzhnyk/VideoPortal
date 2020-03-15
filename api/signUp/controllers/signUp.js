@@ -19,6 +19,13 @@ const self = module.exports = {
     registration: async (req, h) => {
         try {
             const { userName:name, email, password } = req.payload;
+
+            const isUserExists = await User.checkIfUserNameOrEmailAlreadyExists(name, email);
+
+            if (isUserExists) {
+                return Boom.badRequest('User with this name or email already exists.')
+            }
+
             const activateCode = Crypto.randomBytes(20).toString('hex');
             const hashedPassword = await Hashing.hashPassword(password);
 
@@ -34,6 +41,7 @@ const self = module.exports = {
             const data = await Service.sendEmail(email, link);
 
             if (data.error) {
+                console.error(data.error);
                 return Boom.badImplementation();
             }
 
