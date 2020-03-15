@@ -71,6 +71,21 @@ describe('Sign up process', () => {
 
         expect(user).toBeTruthy();
     });
+
+    test('Sign up user request with the same credentials', async () => {
+        const user = localState.get('user');
+
+        const options = {
+            method: 'POST',
+            url: '/registration',
+            payload: JSON.stringify(user)
+        };
+
+        // Make request
+        const response = await server.inject(options);
+
+        expect(response.statusCode).toBe(400);
+    });
 });
 
 
