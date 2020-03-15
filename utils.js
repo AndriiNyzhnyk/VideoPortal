@@ -1,7 +1,9 @@
 'use strict';
 
+// Get process environments
+const { POSTMAN_EMAIL, POSTMAN_PASSWORD } = process.env;
+
 const NodeMailer = require('nodemailer');
-const { email: emailCredetials}  = require('./credentials');
 const { User } = require('./models');
 const _ = require('lodash');
 
@@ -44,8 +46,8 @@ const self = module.exports = {
             const transporter = NodeMailer.createTransport({
                 service,
                 auth: {
-                    user: emailCredetials.user,
-                    pass: emailCredetials.pass
+                    user: POSTMAN_EMAIL,
+                    pass: POSTMAN_PASSWORD
                 }
             });
 
@@ -63,7 +65,7 @@ const self = module.exports = {
             const {email, subject, html} = options;
 
             const mailOptions = {
-                from: emailCredetials.user,
+                from: POSTMAN_EMAIL,
                 to: email,
                 subject,
                 html
