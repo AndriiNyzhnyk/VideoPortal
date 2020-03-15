@@ -61,5 +61,13 @@ const self = module.exports = {
             email: chance.email(),
             password
         }
+    },
+
+    createSignUpOptions: (user) => {
+        return  {
+            method: 'POST',
+            url: '/registration',
+            payload: JSON.stringify(user)
+        };
     }
 };

@@ -48,15 +48,10 @@ describe('Sign up process', () => {
 
     test('Sign up user request', async () => {
         const user = localState.get('user');
-
-        const options = {
-            method: 'POST',
-            url: '/registration',
-            payload: JSON.stringify(user)
-        };
+        const requestSignUpOptions = Services.createSignUpOptions(user);
 
         // Make request
-        const response = await server.inject(options);
+        const response = await server.inject(requestSignUpOptions);
 
         expect(response.statusCode).toBe(204);
     });
@@ -74,15 +69,10 @@ describe('Sign up process', () => {
 
     test('Sign up user request with the same credentials', async () => {
         const user = localState.get('user');
-
-        const options = {
-            method: 'POST',
-            url: '/registration',
-            payload: JSON.stringify(user)
-        };
+        const requestSignUpOptions = Services.createSignUpOptions(user);
 
         // Make request
-        const response = await server.inject(options);
+        const response = await server.inject(requestSignUpOptions);
 
         expect(response.statusCode).toBe(400);
     });
