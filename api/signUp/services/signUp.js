@@ -1,9 +1,9 @@
 'use strict';
 
-const NodeMailer = require('nodemailer');
-const credetials = require('../../../credentials').email;
-const emailTemplate = require('./emailTemplate');
+const { POSTMAN_EMAIL, POSTMAN_PASSWORD, HTTP_HOST, HTTP_PORT } = process.env;
 
+const NodeMailer = require('nodemailer');
+const emailTemplate = require('./emailTemplate');
 
 const self = module.exports = {
     sendEmail: async (email, link) => {
@@ -12,13 +12,13 @@ const self = module.exports = {
         const transporter = NodeMailer.createTransport({
             service: 'gmail',
             auth: {
-                user: credetials.user,
-                pass: credetials.pass
+                user: POSTMAN_EMAIL,
+                pass: POSTMAN_PASSWORD
             }
         });
 
         const mailOptions = {
-            from: credetials.user,
+            from: POSTMAN_EMAIL,
             to: email,
             subject: 'Activate User',
             html
@@ -35,8 +35,6 @@ const self = module.exports = {
 
     generateLinkForActivateUser: (activateCode) => {
         return new Promise((resolve) => {
-            const { HTTP_HOST, HTTP_PORT } = process.env;
-
             resolve(`https://${HTTP_HOST}:${HTTP_PORT}/activate-user/${activateCode}`)
         });
     },
