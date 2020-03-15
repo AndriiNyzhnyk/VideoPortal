@@ -18,7 +18,6 @@ const self = module.exports = {
         };
     },
 
-
     createFakeDataForMovie: () => {
         return {
             nameUa: chance.word(),
@@ -76,6 +75,16 @@ const self = module.exports = {
             method: 'POST',
             url: '/login',
             payload: JSON.stringify(credentials)
+        };
+    },
+
+    createTestTokenRequestOptions: (accessToken = '') => {
+        return  {
+            method: 'GET',
+            url: '/token-test',
+            headers: {
+                Authorization: accessToken
+            }
         };
     },
 

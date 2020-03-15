@@ -173,14 +173,7 @@ describe('Sign in process', () => {
 describe('Check auth permission', () => {
     test('Check valid JWT token', async () => {
         const accessToken = localState.get('accessToken');
-
-        const options = {
-            method: 'GET',
-            url: '/token-test',
-            headers: {
-                Authorization: accessToken
-            }
-        };
+        const options = Services.createTestTokenRequestOptions(accessToken);
 
         // Make request
         const response = await server.inject(options);
@@ -189,13 +182,7 @@ describe('Check auth permission', () => {
     });
 
     test('Check invalid JWT token', async () => {
-        const options = {
-            method: 'GET',
-            url: '/token-test',
-            headers: {
-                Authorization: ''
-            }
-        };
+        const options = Services.createTestTokenRequestOptions();
 
         // Make request
         const response = await server.inject(options);
