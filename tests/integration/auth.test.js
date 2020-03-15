@@ -88,13 +88,7 @@ describe('Activate user', () => {
 
     test('Try to sign in when user is not activated', async () => {
         const { userName, password } = localState.get('user');
-        const credentials = { userName,  password };
-
-        const options = {
-            method: 'POST',
-            url: '/login',
-            payload: JSON.stringify(credentials)
-        };
+        const options = Services.createSignInRequestOptions({ userName,  password });
 
         // Make request
         const response = await server.inject(options);
@@ -131,13 +125,7 @@ describe('Activate user', () => {
 describe('Sign in process', () => {
     test('Sign in by user name', async () => {
         const { userName, password } = localState.get('user');
-        const credentials = { userName,  password };
-
-        const options = {
-            method: 'POST',
-            url: '/login',
-            payload: JSON.stringify(credentials)
-        };
+        const options = Services.createSignInRequestOptions({ userName,  password });
 
         // Make request
         const response = await server.inject(options);
@@ -162,11 +150,7 @@ describe('Sign in process', () => {
             password: password
         };
 
-        const options = {
-            method: 'POST',
-            url: '/login',
-            payload: JSON.stringify(credentials)
-        };
+        const options = Services.createSignInRequestOptions(credentials);
 
         // Make request
         const response = await server.inject(options);

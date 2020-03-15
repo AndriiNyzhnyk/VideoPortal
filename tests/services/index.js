@@ -71,6 +71,14 @@ const self = module.exports = {
         };
     },
 
+    createSignInRequestOptions: (credentials) => {
+        return  {
+            method: 'POST',
+            url: '/login',
+            payload: JSON.stringify(credentials)
+        };
+    },
+
     createActivateUserRequestOptions: (activateCode) => {
         return  {
             method: 'GET',
