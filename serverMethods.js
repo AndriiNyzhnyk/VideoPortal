@@ -1,13 +1,16 @@
 'use strict';
 
-const { PATH_TO_MOVIE_DIRECTORY } = process.env;
+const {
+    ENCRYPT_DECRYPT_ALGORITHM,
+    SERVER_ENCRYPTION_KEY,
+    SERVER_ENCRYPTION_KEY_IV_LENGTH,
+    PATH_TO_MOVIE_DIRECTORY
+} = process.env;
 
 const Crypto = require('crypto');
 const Path = require('path');
 const Hoek = require('@hapi/hoek');
 
-const credentials = require('./credentials').crypto;
-const encryptDecryptAlgorithm = 'aes-256-cbc';
 const { Movie } = require('./models');
 
 module.exports = (server) => {
@@ -18,8 +21,8 @@ module.exports = (server) => {
      */
     const encrypt = (text) => {
         return new Promise( (resolve) => {
-            const iv = Crypto.randomBytes(credentials.ivLength);
-            let cipher = Crypto.createCipheriv(encryptDecryptAlgorithm, Buffer.from(credentials.encryptionKey), iv);
+            const iv = Crypto.randomBytes(Number.parseInt(SERVER_ENCRYPTION_KEY_IV_LENGTH, 10));
+            let cipher = Crypto.createCipheriv(ENCRYPT_DECRYPT_ALGORITHM, Buffer.from(SERVER_ENCRYPTION_KEY), iv);
             let encrypted = cipher.update(text);
 
             encrypted = Buffer.concat([encrypted, cipher.final()]);
@@ -41,7 +44,7 @@ module.exports = (server) => {
             const textParts = text.split(':');
             const iv = Buffer.from(textParts.shift(), 'hex');
             let encryptedText = Buffer.from(textParts.join(':'), 'hex');
-            let decipher = Crypto.createDecipheriv(encryptDecryptAlgorithm, Buffer.from(credentials.encryptionKey), iv);
+            let decipher = Crypto.createDecipheriv(ENCRYPT_DECRYPT_ALGORITHM, Buffer.from(SERVER_ENCRYPTION_KEY), iv);
             let decrypted = decipher.update(encryptedText);
 
             decrypted = Buffer.concat([decrypted, decipher.final()]);
