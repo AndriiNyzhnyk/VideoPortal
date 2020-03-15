@@ -50,12 +50,6 @@ const self = module.exports = {
         let editedMovie = Object.assign(Object.create(null), movie);
 
         const firstRun = new Date(movie.firstRun);
-
-        // Back compatibility. When 'artist' was a string not an array of string('artists)
-        editedMovie.artists = Array.isArray(movie.artists) ?
-            movie.artists:
-            movie.artist.split(',').map(item => item.trim()).filter(item => item !== '');
-
         editedMovie.firstRun = `${firstRun.getDate()}-${firstRun.getMonth()}-${firstRun.getFullYear()}`;
 
         editedMovie.comments = movie.comments.map((comment) => {
