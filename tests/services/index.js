@@ -40,26 +40,19 @@ const self = module.exports = {
     },
 
     createFakeUserCredentials: () => {
-        const password = chance.string({
-            length: 4,
-            casing: 'upper',
-            alpha: true,
-            numeric: true,
-            symbols: true
-        }) + chance.string({
-            length: 8,
-            casing: 'lower',
-            alpha: true,
-            numeric: true,
-            symbols: true
-        });
+        const password = chance.string({ length: 8, casing: 'lower', alpha: true, numeric: true, symbols: true}) +
+            chance.character({ alpha: true }) +
+            chance.character({ numeric: true }) +
+            chance.character({ casing: 'lower' }) +
+            chance.character({ casing: 'upper' }) +
+            chance.character({ symbols: true });
 
 
         return {
             userName: chance.name(),
             email: chance.email(),
             password
-        }
+        };
     },
 
     createSignUpRequestOptions: (user) => {
