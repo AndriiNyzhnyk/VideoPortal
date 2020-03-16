@@ -1,6 +1,5 @@
 'use strict';
 
-const Hoek = require('@hapi/hoek');
 const Boom = require('@hapi/boom');
 const { User, ForgotPassword } = require('../../../models');
 const Service = require('../services/forgotPass');
@@ -26,10 +25,8 @@ const self = module.exports = {
      */
     forgotPassword: async (req, h) => {
         try {
-            const { securityParamsFilter } = req.server.methods;
-
-            const email = await securityParamsFilter(req.payload.email);
-            const user = await User.findOne({ email });
+            const { email } = req.payload;
+            const user = await User.fetchUserByNameOrEmail(email);
 
             if (!user) {
                 return Boom.notFound('This email not found');

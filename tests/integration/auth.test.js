@@ -191,6 +191,18 @@ describe('Check auth permission', () => {
     });
 });
 
+describe('Forgot password process', () => {
+    test('init Forgot Password Phrase', async () => {
+        const { email } = localState.get('dbUser');
+        const options = Services.initForgotPasswordPhrase(email);
+
+        // Make request
+        const response = await server.inject(options);
+        expect(response.statusCode).toBe(204);
+    });
+});
+
+
 
 describe('Clear state after tests', () => {
 

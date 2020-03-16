@@ -86,5 +86,13 @@ const self = module.exports = {
             method: 'GET',
             url: `/activate-user/${activateCode}`
         };
+    },
+
+    initForgotPasswordPhrase: (email) => {
+        return {
+            method: 'POST',
+            url: '/forgot-pass',
+            payload: JSON.stringify({email})
+        }
     }
 };
