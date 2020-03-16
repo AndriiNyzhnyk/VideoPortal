@@ -7,17 +7,28 @@ const Service = require('../services/forgotPass');
 const Hashing = require('../../signUp/services/hashing');
 
 const self = module.exports = {
+    /**
+     * Just render HTML template
+     * @returns {Promise<Boom<unknown>|*>}
+     */
     getForgotPage: async (req, h) => {
         try {
             return h.view('initForgotPass', {});
         } catch (err) {
             console.error(err);
+            return Boom.badImplementation();
         }
     },
 
+    /**
+     * Init reset password for user. Send email to user with verify code.
+     * @returns {Promise<Boom<unknown>|*>}
+     */
     forgotPassword: async (req, h) => {
         try {
-            const email = Hoek.escapeHtml(req.payload.email);
+            const { securityParamsFilter } = req.server.methods;
+
+            const email = await securityParamsFilter(req.payload.email);
             const user = await User.findOne({ email });
 
             if (!user) {
@@ -27,16 +38,22 @@ const self = module.exports = {
             const {result, verifyCode} = await Service.sendEmailToUser(email);
             await ForgotPassword.createForgotPasswordEntry(user._id.toString(), verifyCode);
 
-            return 'OK';
+            return h.response();
         } catch (e) {
             console.log(e);
-            h.response('Some Error');
+            return Boom.badImplementation();
         }
     },
 
+    /**
+     * Just render HTML template
+     * @returns {Promise<Boom<unknown>|*>}
+     */
     getResetPasswordPage: async (req, h) => {
         try {
-            const verifyCode = Hoek.escapeHtml(req.params.verifyCode);
+            const { securityParamsFilter } = req.server.methods;
+
+            const verifyCode = await securityParamsFilter(req.params.verifyCode);
             const forgotPasswordEntry = await ForgotPassword.findOne({ verifyCode });
 
             if (!forgotPasswordEntry) {
@@ -48,13 +65,20 @@ const self = module.exports = {
             });
         } catch (e) {
             console.log(e);
+            return Boom.badImplementation();
         }
     },
 
+    /**
+     * Reset user password
+     * @returns {Promise<Boom<unknown>|string>}
+     */
     resetPassword: async (req, h) => {
         try {
-            const password = Hoek.escapeHtml(req.payload.password);
-            const verifyCode = Hoek.escapeHtml(req.payload.verifyCode);
+            const { securityParamsFilter } = req.server.methods;
+
+            const password = await securityParamsFilter(req.payload.password);
+            const verifyCode = await securityParamsFilter(req.payload.verifyCode);
 
             // Find entry into DB
             const forgotPasswordEntry = await ForgotPassword.findOne({ verifyCode });
@@ -77,6 +101,7 @@ const self = module.exports = {
             return 'The password was successfully updated';
         } catch (err) {
             console.log(err);
+            return Boom.badImplementation();
         }
     }
 };
