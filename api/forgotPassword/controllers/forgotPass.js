@@ -92,7 +92,7 @@ const self = module.exports = {
 
             // Check if operations of update password was successful
             if (user) {
-                await ForgotPassword.findByIdAndRemove(forgotPasswordEntry._id);
+                await ForgotPassword.findForgotPasswordEntryByIdAndRemove(forgotPasswordEntry._id);
             }
 
             return 'The password was successfully updated';

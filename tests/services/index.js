@@ -40,19 +40,22 @@ const self = module.exports = {
     },
 
     createFakeUserCredentials: () => {
-        const password = chance.string({ length: 8, casing: 'lower', alpha: true, numeric: true, symbols: true}) +
-            chance.character({ alpha: true }) +
-            chance.character({ numeric: true }) +
-            chance.character({ casing: 'lower' }) +
-            chance.character({ casing: 'upper' }) +
-            chance.character({ symbols: true });
-
+        const password = self.generatePassword();
 
         return {
             userName: chance.name(),
             email: chance.email(),
             password
         };
+    },
+
+    generatePassword: () => {
+        return chance.string({ length: 8, casing: 'lower', alpha: true, numeric: true, symbols: true}) +
+            chance.character({ alpha: true }) +
+            chance.character({ numeric: true }) +
+            chance.character({ casing: 'lower' }) +
+            chance.character({ casing: 'upper' }) +
+            chance.character({ symbols: true });
     },
 
     createSignUpRequestOptions: (user) => {
@@ -93,6 +96,14 @@ const self = module.exports = {
             method: 'POST',
             url: '/forgot-pass',
             payload: JSON.stringify({email})
+        }
+    },
+
+    createResetPasswordRequestOptions: (password, verifyCode) => {
+        return {
+            method: 'POST',
+            url: '/reset-password',
+            payload: JSON.stringify({password, verifyCode})
         }
     }
 };

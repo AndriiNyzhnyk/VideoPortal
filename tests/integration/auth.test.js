@@ -8,7 +8,7 @@ const Services = require('../services');
 const chance = new Chance();
 
 // Import DB models
-const { User, PendingUser } = require('../../models');
+const { User, PendingUser, ForgotPassword } = require('../../models');
 
 // Create temp local sate for saving data
 const localState = new Map();
@@ -211,6 +211,18 @@ describe('Forgot password process', () => {
         // Make request
         const response = await server.inject(options);
         expect(response.statusCode).toBe(404);
+    });
+
+    test('reset password', async () => {
+        const user = localState.get('dbUser');
+        const newPassword = Services.generatePassword();
+        const { verifyCode } = await ForgotPassword.findOne({ userId: user._id.toString() });
+
+        const options = Services.createResetPasswordRequestOptions(newPassword, verifyCode);
+
+        // Make request
+        const response = await server.inject(options);
+        expect(response.statusCode).toBe(200);
     });
 });
 

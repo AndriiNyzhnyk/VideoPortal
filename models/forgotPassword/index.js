@@ -23,5 +23,14 @@ const self = module.exports = {
             userId,
             verifyCode,
         });
+    },
+
+    /**
+     * Get forgot password entry into DB
+     * @param {String} entryId
+     * @returns {*}
+     */
+    findForgotPasswordEntryByIdAndRemove: (entryId) => {
+        return ForgotPassword.findByIdAndRemove(entryId);
     }
 };
