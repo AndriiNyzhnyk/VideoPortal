@@ -88,7 +88,7 @@ const self = module.exports = {
         };
     },
 
-    initForgotPasswordPhrase: (email) => {
+    createForgotPasswordRequestOptions: (email) => {
         return {
             method: 'POST',
             url: '/forgot-pass',

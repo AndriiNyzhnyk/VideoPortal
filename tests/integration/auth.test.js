@@ -2,7 +2,10 @@
 
 const { server, launch } = require('../../server.js'); // Import Server/Application
 const Mongoose = require('mongoose');
+const Chance = require('chance');
 const Services = require('../services');
+
+const chance = new Chance();
 
 // Import DB models
 const { User, PendingUser } = require('../../models');
@@ -192,13 +195,22 @@ describe('Check auth permission', () => {
 });
 
 describe('Forgot password process', () => {
-    test('init Forgot Password Phrase', async () => {
+    test('init forgot password phrase for valid user', async () => {
         const { email } = localState.get('dbUser');
-        const options = Services.initForgotPasswordPhrase(email);
+        const options = Services.createForgotPasswordRequestOptions(email);
 
         // Make request
         const response = await server.inject(options);
         expect(response.statusCode).toBe(204);
+    });
+
+    test('init forgot password phrase for invalid user', async () => {
+        const email = chance.email();
+        const options = Services.createForgotPasswordRequestOptions(email);
+
+        // Make request
+        const response = await server.inject(options);
+        expect(response.statusCode).toBe(404);
     });
 });
 
