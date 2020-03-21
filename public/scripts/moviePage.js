@@ -19,7 +19,7 @@ window.onload = function () {
     buttonRemoveCurrentFavouriteMovie.addEventListener('click', removeCurrentFavouriteMovie);
 
     function removeCurrentFavouriteMovie() {
-        const currentMovieId = document.getElementById('movieId').textContent;
+        const currentMovieId = document.getElementById('movieId').value;
         const allOldMovies = JSON.parse(window.localStorage.getItem('FavouriteMovies')) || [];
         const filteredMovies = allOldMovies.filter((movie) => movie.movieId !== currentMovieId);
 
@@ -34,7 +34,7 @@ window.onload = function () {
      * Add new movie to favourites
      */
     function addNewMovieToFavourites() {
-        const currentMovieId = document.getElementById('movieId').textContent;
+        const currentMovieId = document.getElementById('movieId').value;
         const currentImageSrc = document.getElementById('imgFilm').firstElementChild.currentSrc;
         const currentMovieNameEn = document.getElementById('filmName').lastElementChild.textContent;
         const currentMovieNameUa = document.getElementById('filmName').firstElementChild.textContent;
