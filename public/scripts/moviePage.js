@@ -158,11 +158,11 @@ window.onload = function () {
                     rememberCurrentPage();
                     window.location.replace(`${window.location.origin}/sign-in`);
                 }
+            } else {
+                // Read response (comment) and then render new comment on the movie page
+                const body = await response.json();
+                renderNewComment(body);
             }
-
-            // Read response (comment) and then render new comment on the movie page
-            const body = await response.json();
-            renderNewComment(body);
 
             form.reset();
         } catch (err) {
