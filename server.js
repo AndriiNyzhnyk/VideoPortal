@@ -18,6 +18,7 @@ const Inert = require('@hapi/inert');
 // Third party dependencies
 const Handlebars = require('handlebars');
 const Jwt2 = require('hapi-auth-jwt2');
+const Brok = require('brok');
 
 
 // Get process environments
@@ -65,6 +66,12 @@ const launch = async () => {
     await server.register(Jwt2);
     await server.register(Vision);
     await server.register(Inert);
+    await server.register({
+        plugin: Brok,
+        options: {
+            compress: { quality: 3 }
+        }
+    });
 
     // Setting default auth strategy
     server.auth.strategy('jwt', 'jwt', {
