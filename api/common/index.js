@@ -1,6 +1,16 @@
 'use strict';
 
+const Register = require('prom-client').register;
+
 module.exports = [
+    {
+        method: 'GET',
+        path: '/monitoring',
+        handler: (req, h) => {
+            return Register.metrics();
+        },
+        options: { auth: false }
+    },
     {
         method: 'GET',
         path: '/token-test',

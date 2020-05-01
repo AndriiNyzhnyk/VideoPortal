@@ -19,6 +19,7 @@ const Inert = require('@hapi/inert');
 const Handlebars = require('handlebars');
 const Jwt2 = require('hapi-auth-jwt2');
 const Brok = require('brok');
+const PromClient = require('prom-client');
 
 
 // Get process environments
@@ -101,6 +102,7 @@ const launch = async () => {
 
     // Start server
     await server.start();
+    PromClient.collectDefaultMetrics();
 
     // Place for log some info
     if (require.main === module) {
