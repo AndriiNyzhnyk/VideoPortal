@@ -1,7 +1,7 @@
 'use strict';
 
 const Register = require('prom-client').register;
-const Amqp = require('../../modules/AMQP');
+const Amqp = require('../../modules/amqp');
 
 module.exports = [
     {

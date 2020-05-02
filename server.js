@@ -27,7 +27,7 @@ const utils = require('./utils');
 const cpuNums = Os.cpus().length;
 const routes = require('./api/router');
 const createConnectionToDB = require('./db');
-const AMQP = require('./modules/AMQP');
+const AMQP = require('./modules/amqp');
 
 
 // Tuning the UV_THREADPOOL_SIZE
