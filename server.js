@@ -22,12 +22,14 @@ const Brok = require('brok');
 const PromClient = require('prom-client');
 
 
+// Custom modules
+const MongoDB = require('./modules/mongoDB');
+const Amqp = require('./modules/amqp');
+
 // Custom dependencies
 const utils = require('./utils');
 const cpuNums = Os.cpus().length;
 const routes = require('./api/router');
-const createConnectionToDB = require('./db');
-const AMQP = require('./modules/amqp');
 
 
 // Tuning the UV_THREADPOOL_SIZE
@@ -97,14 +99,14 @@ const launch = async () => {
     // Attach all routes
     server.route(routes);
 
-    // Set connection with DB
-    const db = await createConnectionToDB();
+    // Set connection with MongoDB and RabbitMQ
+    const {connection: db} = await MongoDB.getInstance();
+    await Amqp.getInstance();
 
     // Start server
     await server.start();
-    PromClient.collectDefaultMetrics();
 
-    await AMQP.getInstance();
+    PromClient.collectDefaultMetrics();
 
     // Place for log some info
     if (require.main === module) {
