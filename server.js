@@ -22,19 +22,19 @@ const Brok = require('brok');
 const PromClient = require('prom-client');
 
 
-// Get process environments
-const { HTTP_PORT, HTTP_HOST, JWT2_PLUGIN_KEY } = process.env;
-
-
 // Custom dependencies
 const utils = require('./utils');
 const cpuNums = Os.cpus().length;
 const routes = require('./api/router');
 const createConnectionToDB = require('./db');
+const AMQP = require('./modules/AMQP');
 
 
 // Tuning the UV_THREADPOOL_SIZE
 process.env.UV_THREADPOOL_SIZE = cpuNums;
+
+// Get process environments
+const { HTTP_PORT, HTTP_HOST, JWT2_PLUGIN_KEY } = process.env;
 
 // read certificate and private key
 const serverOptions = {
@@ -103,6 +103,8 @@ const launch = async () => {
     // Start server
     await server.start();
     PromClient.collectDefaultMetrics();
+
+    await AMQP.getInstance();
 
     // Place for log some info
     if (require.main === module) {

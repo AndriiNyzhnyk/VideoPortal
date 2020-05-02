@@ -21,6 +21,7 @@ DB_NAME = 'video-portal'
 HTTP_PORT = '8080'
 HTTP_HOST = 'localhost'
 HTTP_ADDRESS = '0.0.0.0'
+AMQP_URL = ''
 
 # Path to uploaded movies and posters
 PATH_TO_IMAGE_DIRECTORY = 'uploads/images'
